@@ -39,11 +39,18 @@ class User extends Authenticatable
 
     protected $table = 'users';
 
-    public function logs() {
+    public function logs()
+    {
         return $this->hasMany('App\Log');
     }
 
-    public function role() {
+    public function role()
+    {
         return $this->hasOne('App\Role');
+    }
+
+    public function bids()
+    {
+        return $this->hasMany('App\Bid');
     }
 }

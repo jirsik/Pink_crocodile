@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogsTable extends Migration
+class CreateBidsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('logs', function (Blueprint $table) {
+        Schema::create('bids', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('auction_items_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('event_id')->nullable();
-            $table->timestamp('logged_in_at');
+            $table->integer('price');
+            $table->timestamp('bidded_at');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('bids');
     }
 }
