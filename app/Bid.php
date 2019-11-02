@@ -8,8 +8,6 @@ class Bid extends Model
 {
     protected $table = 'bids';
 
-    public $timestamps = false;
-
     public function auction_item()
     {
         return $this->belongsTo('App\Auction_item');
