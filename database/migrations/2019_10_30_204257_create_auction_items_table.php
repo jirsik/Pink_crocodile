@@ -15,10 +15,10 @@ class CreateAuctionItemsTable extends Migration
     {
         Schema::create('auction_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('event_id')->nullable();
+            $table->unsignedBigInteger('event_id');
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
-            $table->integer('openning_price');
+            $table->integer('minimum_price');
         });
     }
 
