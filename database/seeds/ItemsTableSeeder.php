@@ -18,7 +18,7 @@ class ItemsTableSeeder extends Seeder
         $faker = Faker::create();
         for($i=0; $i<10; $i++){
             DB::table('items')->insert([
-                'title' => $faker->word,
+                'title' => 'Item'.($i+1),
                 'description' => $faker->sentence($nbWords = 7, $variableNbWords = true),
                 'estimated_price' => $faker->randomNumber(2),
                 'currency' => 'CZK',
