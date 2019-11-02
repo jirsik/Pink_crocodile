@@ -18,7 +18,7 @@ class CreateAuctionItemsTable extends Migration
             $table->unsignedBigInteger('event_id')->nullable();
             $table->timestamp('starts_at');
             $table->timestamp('ends_at');
-            $table->integer('openning_price');
+            $table->integer('opening_price');
         });
     }
 
