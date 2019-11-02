@@ -21,8 +21,8 @@ class CreateItemsTable extends Migration
             $table->string('currency');
             $table->string('doner');
             $table->string('photo_path');
-            $table->integer('itemable_id');
-            $table->string('itemable_type');
+            $table->integer('itemable_id')->nullable();
+            $table->string('itemable_type')->nullable();
         });
     }
 
