@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Item;
 use App\Doner;
 
-class DonerController extends Controller
+class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +25,8 @@ class DonerController extends Controller
      */
     public function create()
     {
-        return view('doners/form');
+        $doners = Doner::all();
+        return view('items/form', compact('doners'));
     }
 
     /**
@@ -34,14 +36,30 @@ class DonerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {     
-        $doner = Doner::create([
-            'name' => $request->input('name'),
-            'organisation' => $request->input('organisation'),
-            'about' => $request->input('about'),
+    {
+        if ($request->input('doner') === 'none' && $request->input('name') !=='') {
+            $doner = Doner::create([
+                'name' => $request->input('name'),
+                'organisation' => $request->input('organisation'),
+                'about' => $request->input('about'),
+            ]);
+            $doner_id = $doner->id;
+        } else if ($request->input('doner') !== 'none') {
+            $doner_id = $request->input('doner');
+        } else {
+            $doner_id = null;
+        }
+
+        $item = Item::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'estimated_price' => $request->input('estimated_price'),
+            'currency' => $request->input('currency'),
+            'doner_id' => $doner_id,
+            //missing photo_path
         ]);
 
-        return redirect('/admin')->with('success', 'Doner created!');
+        return redirect('/admin')->with('success', 'Item created!');
     }
 
     /**

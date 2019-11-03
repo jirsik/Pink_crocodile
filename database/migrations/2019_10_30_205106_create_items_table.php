@@ -16,11 +16,11 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title');
-            $table->text('description');
-            $table->integer('estimated_price');
-            $table->string('currency');
-            $table->unsignedBigInteger('doner_id');
-            $table->string('photo_path');
+            $table->text('description')->nullable();
+            $table->integer('estimated_price')->nullable();
+            $table->string('currency')->nullable();
+            $table->unsignedBigInteger('doner_id')->nullable();
+            $table->string('photo_path')->default('images/item_placeholder.png');
             $table->integer('itemable_id')->nullable();
             $table->string('itemable_type')->nullable();
         });
