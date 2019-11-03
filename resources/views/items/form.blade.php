@@ -69,6 +69,7 @@
                             </div>
 
                             <div id="old-doner">
+                                <hr>
                                 <div class="form-group row">
                                     <label for="doner" class="col-md-4 col-form-label text-md-right">Doner:</label>
                                     <div class="col-md-6">
@@ -94,18 +95,20 @@
                                         </button>
                                     </div>
                                 </div>
+                                <hr>
                             </div>
 
                             <div id="new-doner" class="d-none">
                                 <hr>
                                 @include('doners/inputs')
                                 <div class="form-group row">
-                                        <div class="col-md-6 offset-md-4">
-                                            <button id ="doner-buton-back" type="button" class="btn btn-secondary">
-                                                Back
-                                            </button>
-                                        </div>
+                                    <div class="col-md-6 offset-md-4">
+                                        <button id ="doner-buton-back" type="button" class="btn btn-secondary">
+                                            Back
+                                        </button>
                                     </div>
+                                </div>
+                                <hr>
                             </div>
 
                             {{-- photo still missing --}}

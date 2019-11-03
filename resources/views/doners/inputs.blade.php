@@ -30,7 +30,8 @@
     <label for="about" class="col-md-4 col-form-label text-md-right">About doner:</label>
 
     <div class="col-md-6">
-        <input id="about" type="text" class="form-control @error('about') is-invalid @enderror" name="about" value="{{ old('about') }}" autocomplete="about" autofocus>
+        <textarea name="about" id="about" rows="10" class="form-control @error('about') is-invalid @enderror" autofocus>{{ old('about') }}</textarea>
+        
 
         @error('about')
             <span class="invalid-feedback" role="alert">

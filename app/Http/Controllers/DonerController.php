@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Doner;
+use App\Http\Requests\DonerRequest;
 
 class DonerController extends Controller
 {
@@ -33,7 +34,7 @@ class DonerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DonerRequest $request)
     {     
         $doner = Doner::create([
             'name' => $request->input('name'),
