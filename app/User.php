@@ -16,8 +16,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'alias', 'email', 'password', 'address', 'phone',
+        'first_name', 'last_name', 'alias', 'email', 'password', 'phone', 'address_street_and_num', 'address_city', 'address_post_code', 'address_country',
     ];
+
 
     /**
      * The attributes that should be hidden for arrays.
@@ -46,7 +47,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne('App\Role');
+        return $this->hasOne('App\Role', 'user_id', 'id');
     }
 
     public function bids()

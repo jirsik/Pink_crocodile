@@ -14,4 +14,9 @@ class Item extends Model
     {
         return $this->morphTo();
     }
+
+    public function doner()
+    {
+        return $this->belongsTo('App\Doner');
+    }
 }

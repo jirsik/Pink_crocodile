@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->text('description');
             $table->integer('estimated_price');
             $table->string('currency');
-            $table->string('doner');
+            $table->unsignedBigInteger('doner_id');
             $table->string('photo_path');
             $table->integer('itemable_id')->nullable();
             $table->string('itemable_type')->nullable();
