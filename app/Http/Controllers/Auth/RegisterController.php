@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Role;
 
 class RegisterController extends Controller
 {
@@ -54,8 +55,11 @@ class RegisterController extends Controller
             'alias' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'address' => ['nullable', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:255'],
+            'address_street_and_num' => ['nullable', 'string', 'max:255'],
+            'address_city' => ['nullable', 'string', 'max:255'],
+            'address_post_code' => ['nullable', 'string', 'max:255'],
+            'address_country' => ['nullable', 'string', 'max:255'],
         ]);
     }
 
@@ -67,14 +71,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'alias' => $data['alias'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'address' => $data['address'],
             'phone' => $data['phone'],
+            'address_street_and_num' => $data['address_street_and_num'],
+            'address_city' => $data['address_city'],
+            'address_post_code' => $data['address_post_code'],
+            'address_country' => $data['address_country'],
         ]);
+
+        $role = Role::create(['user_id' => $user->id,]);
+
+        return $user;
     }
 }

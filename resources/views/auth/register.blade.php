@@ -102,14 +102,62 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
+                        <hr> <p class="col-md-6 offset-md-4">Address:</p>
+                       
                         <div class="form-group row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Adress:') }}</label>
+                            
+                            <label for="address_street_and_num" class="col-md-4 col-form-label text-md-right">{{ __('Street and number:') }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" autocomplete="address" autofocus>
+                                <input id="address_street_and_num" type="text" class="form-control @error('address_street_and_num') is-invalid @enderror" name="address_street_and_num" value="{{ old('address_street_and_num') }}" autocomplete="address_street_and_num" autofocus>
 
-                                @error('address')
+                                @error('address_street_and_num')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            
+                            <label for="address_city" class="col-md-4 col-form-label text-md-right">{{ __('City:') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address_city" type="text" class="form-control @error('address_city') is-invalid @enderror" name="address_city" value="{{ old('address_city') }}" autocomplete="address_city" autofocus>
+
+                                @error('address_city')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            
+                            <label for="address_post_code" class="col-md-4 col-form-label text-md-right">{{ __('Post code:') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address_post_code" type="text" class="form-control @error('address_post_code') is-invalid @enderror" name="address_post_code" value="{{ old('address_post_code') }}" autocomplete="address_post_code" autofocus>
+
+                                @error('address_post_code')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            
+                            <label for="address_country" class="col-md-4 col-form-label text-md-right">{{ __('Country:') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="address_country" type="text" class="form-control @error('address_country') is-invalid @enderror" name="address_country" value="{{ old('address_country') }}" autocomplete="address_country" autofocus>
+
+                                @error('address_country')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -124,6 +172,10 @@
                                 </button>
                             </div>
                         </div>
+                        <br>
+                        <p class="col-md-10 offset-md-1">* Only these fields are required for basic registration.</p>
+                        <br>
+                        <p class="col-md-10 offset-md-1">However, to be able to participate on auction, make sure that you finnish full registration with phone number and address.</p>
                     </form>
                 </div>
             </div>
