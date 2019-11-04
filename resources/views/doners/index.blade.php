@@ -11,7 +11,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Organisation</th>
+                                    <th scope="col">Contact Name</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -20,7 +20,7 @@
                                     @foreach ($doners as $doner)
                                         <tr>
                                             <td>{{$doner->name}}</td>
-                                            <td>{{$doner->organisation}}</td>
+                                            <td>{{$doner->contact_name}}</td>
                                             <td>
                                                 <div class="float-right">
                                                     <a href="{{action('DonerController@show', $doner->id)}}"><button class="btn btn-primary">Details</button></a>

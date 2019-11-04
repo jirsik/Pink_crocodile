@@ -22,6 +22,16 @@ if (isset($item)) {
     $action = action('ItemController@store');
     $button_title = 'Add New Item';
 }
+
+$doner_id = old('doner_id', $doner_id);
+
+$doner_columns = ['name', 'link', 'about', 'contact_name', 'phone', 'email', 'photo_path'];
+$doner_error = false;
+foreach ($doner_columns as $value) {
+    if ($errors->has($value)) {
+        $doner_error = true;
+    }
+}
 ?>
 
 @section('content')
@@ -36,6 +46,7 @@ if (isset($item)) {
                             @if (isset($item))
                                 <input name="_method" type="hidden" value="put">
                             @endif 
+                            <input name="form" type="hidden" value="item">
                             <div class="form-group row">
                                 <label for="title" class="col-md-4 col-form-label text-md-right">* Title:</label>
 
@@ -94,19 +105,19 @@ if (isset($item)) {
                                 </div>
                             </div>
 
-                            <div id="old-doner" class="@error('name') d-none @enderror">
+                            <div id="old-doner" class="@if($doner_error) d-none @endif">
                                 <hr>
                                 <div class="form-group row">
-                                    <label for="doner" class="col-md-4 col-form-label text-md-right">Doner:</label>
+                                    <label for="doner_id" class="col-md-4 col-form-label text-md-right">Doner:</label>
                                     <div class="col-md-6">
-                                        <select id="doner" class="form-control @error('doner') is-invalid @enderror" name="doner">
+                                        <select id="doner_id" class="form-control @error('doner_id') is-invalid @enderror" name="doner_id">
                                             <option value="none" {{($doner_id === 'none') ? 'Selected' : ''}}>not defined</option>
-                                            <option hidden value="new">new</option>
+                                            <option hidden value="new" {{($doner_id === 'new') ? 'Selected' : ''}}>new</option>
                                             @foreach ($doners as $doner_info) :
-                                                <option value="{{$doner_info->id}}"  {{($doner_info->id === $doner_id) ? 'Selected' : ''}}>{{$doner_info->name}}</option>
+                                                <option value="{{$doner_info->id}}"  {{($doner_id === $doner_info->id) ? 'Selected' : ''}}>{{$doner_info->name}}</option>
                                             @endforeach
                                             
-                                        @error('doner')
+                                        @error('doner_id')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -125,17 +136,18 @@ if (isset($item)) {
                                 <hr>
                             </div>
 
-                            <div id="new-doner" class="d-none @error('name') d-block @enderror">
-                                <hr>
-                                @include('doners/inputs')
-                                <div class="form-group row">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button id ="doner-buton-back" type="button" class="btn btn-secondary">
-                                            Do not add new doner
-                                        </button>
+                            <div id="new-doner" class="card d-none @if($doner_error) d-block @endif mb-2">
+                                    <div class="card-header">New Doner</div>        
+                                    <div class="card-body">
+                                        @include('doners/inputs')
+                                        <div class="form-group row">
+                                            <div class="col-md-6 offset-md-4">
+                                                <button id ="doner-buton-back" type="button" class="btn btn-light">
+                                                    Do not add new doner
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <hr>
                             </div>
 
                             {{-- photo still missing --}}
@@ -161,7 +173,7 @@ if (isset($item)) {
             let doner_button_back = document.querySelector('#doner-buton-back');
             let old_doner = document.querySelector('#old-doner');
             let new_doner = document.querySelector('#new-doner');
-            let doner = document.querySelector('#doner'); //select element
+            let doner = document.querySelector('#doner_id'); //select element
             let doner_name = document.querySelector('#name'); //doner name element
             let doner_last_value = '';
             
@@ -177,7 +189,7 @@ if (isset($item)) {
                 old_doner.classList.toggle('d-none');
                 new_doner.classList.toggle('d-block');
                 doner.value = doner_last_value;
-                doner_name.value = '';
+                //doner_name.value = '';
             };
         });
     </script>

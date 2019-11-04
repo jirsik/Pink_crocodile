@@ -27,9 +27,9 @@ class ItemRequest extends FormRequest
         return [
             'title' => 'required|string|max:35',
             'description' => 'nullable|string|max:500',
-            'estimated_price' => 'nullable|integer|max:35',
+            'estimated_price' => 'nullable|integer|min:0',
             'currency' => ['nullable', Rule::in(['CZK', 'EUR', 'USD'])],
-            'doner_id' => 'nullable|integer|max:35',
+            'doner_id' => 'nullable|max:35',
             'photo_path' => 'nullable|string|max:200',
         ];
     }

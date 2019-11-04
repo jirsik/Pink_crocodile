@@ -39,8 +39,12 @@ class DonerController extends Controller
     {     
         $doner = Doner::create([
             'name' => $request->input('name'),
-            'organisation' => $request->input('organisation'),
+            'link' => $request->input('link'),
             'about' => $request->input('about'),
+            'contact_name' => $request->input('contact_name'),
+            'phone' => $request->input('phone'),
+            'email' => $request->input('email'),
+            'photo_path' => $request->input('doner_photo_path'),
         ]);
 
         return redirect('/doner')->with('success', 'Doner created!');
@@ -81,8 +85,12 @@ class DonerController extends Controller
     {
         $doner = Doner::findOrFail($id); 
         $doner->name = $request->input('name');
-        $doner->organisation = $request->input('organisation');
+        $doner->link = $request->input('link');
         $doner->about = $request->input('about');
+        $doner->contact_name = $request->input('contact_name');
+        $doner->phone = $request->input('phone');
+        $doner->email = $request->input('email');
+        $doner->photo_path = $request->input('photo_path');
         $doner->save();
         
         return redirect('/doner')->with('success', 'Doner updated!');

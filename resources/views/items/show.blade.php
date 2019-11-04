@@ -7,9 +7,32 @@
                 <h4 class="card-header">Item</h4>
                 <div class="card-body">
                     @can('admin')
-                        <p>Title: {{$item->title}}</p>
-                        <p>About: {{$item->about}}</p>
-                        {{-- finish according to new structure of Doner --}}
+                    <table class="table table-borderless">
+                            <tbody>
+                                    {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
+                              <tr>
+                                <th scope="row">Title:</th>
+                                <td>{{$item->title}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Description:</th>
+                                <td>{{$item->description}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Estimated Price:</th>
+                                <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Doner's Name:</th>
+                                <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Photo:</th>
+                                {{-- need to be changed --}}
+                                <td>{{$item->photo_path}}</td> 
+                              </tr>
+                            </tbody>
+                          </table>
 
                         <a href="{{action('ItemController@index')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
 

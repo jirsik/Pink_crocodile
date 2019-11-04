@@ -3,12 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\ItemRequest;
+use App\Http\Requests\FinalRequest;
 use App\Item;
 use App\Doner;
 
 class ItemController extends Controller
 {
+    private function createDoner($request)
+    {
+        if ($request->input('doner_id') === 'new' ) {
+            $doner = Doner::create([
+                'name' => $request->input('name'),
+                'link' => $request->input('link'),
+                'about' => $request->input('about'),
+                'contact_name' => $request->input('contact_name'),
+                'phone' => $request->input('phone'),
+                'email' => $request->input('email'),
+                'photo_path' => $request->input('doner_photo_path'),
+            ]);
+            $doner_id = $doner->id;
+        } else if ($request->input('doner_id') !== 'none') {
+            $doner_id = $request->input('doner_id');
+        } else {
+            $doner_id = null;
+        }
+        return $doner_id;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,26 +58,10 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ItemRequest $request)
+    public function store(FinalRequest $request)
     {
-        if ($request->input('doner') === 'new' ) {
-            $request->validate([
-                'name' => 'required|string|max:35',
-                'organisation' => 'nullable|string|max:35',
-                'about' => 'nullable|string|max:500',
-                'photo_path' => 'nullable|string|max:200',
-            ]);
-            $doner = Doner::create([
-                'name' => $request->input('name'),
-                'organisation' => $request->input('organisation'),
-                'about' => $request->input('about'),
-            ]);
-            $doner_id = $doner->id;
-        } else if ($request->input('doner') !== 'none') {
-            $doner_id = $request->input('doner');
-        } else {
-            $doner_id = null;
-        }
+        // check if creating new doner
+        $doner_id = $this->createDoner($request);
 
         $item = Item::create([
             'title' => $request->input('title'),
@@ -103,27 +108,10 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ItemRequest $request, $id)
+    public function update(FinalRequest $request, $id)
     {
-        if ($request->input('doner') === 'new' ) {
-            $request->validate([
-                'name' => 'required|string|max:35',
-                'organisation' => 'nullable|string|max:35',
-                'about' => 'nullable|string|max:500',
-                'photo_path' => 'nullable|string|max:200',
-            ]);
-
-            $doner = Doner::create([
-                'name' => $request->input('name'),
-                'organisation' => $request->input('organisation'),
-                'about' => $request->input('about'),
-            ]);
-            $doner_id = $doner->id;
-        } else if ($request->input('doner') !== 'none') {
-            $doner_id = $request->input('doner');
-        } else {
-            $doner_id = null;
-        }
+        // check if creating new doner
+        $doner_id = $this->createDoner($request);
 
         $item = Item::findOrFail($id);
         $item->title = $request->input('title');
