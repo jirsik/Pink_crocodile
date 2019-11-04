@@ -15,7 +15,8 @@ class DonerController extends Controller
      */
     public function index()
     {
-        //
+        $doners = Doner::orderBy('name')->get();
+        return view ('doners/index', compact('doners'));
     }
 
     /**
@@ -42,7 +43,7 @@ class DonerController extends Controller
             'about' => $request->input('about'),
         ]);
 
-        return redirect('/admin')->with('success', 'Doner created!');
+        return redirect('/doner')->with('success', 'Doner created!');
     }
 
     /**
@@ -53,7 +54,8 @@ class DonerController extends Controller
      */
     public function show($id)
     {
-        //
+        $doner = Doner::findOrFail($id);
+        return view('doners/show', compact('doner'));
     }
 
     /**
@@ -64,7 +66,8 @@ class DonerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $doner = Doner::findOrFail($id);
+        return view('doners/form', compact('doner'));
     }
 
     /**
@@ -74,9 +77,15 @@ class DonerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DonerRequest $request, $id)
     {
-        //
+        $doner = Doner::findOrFail($id); 
+        $doner->name = $request->input('name');
+        $doner->organisation = $request->input('organisation');
+        $doner->about = $request->input('about');
+        $doner->save();
+        
+        return redirect('/doner')->with('success', 'Doner updated!');
     }
 
     /**
@@ -87,6 +96,9 @@ class DonerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $doner = Doner::findOrFail($id);
+        $doner->delete();
+
+        return redirect('/doner')->with('success', 'Doner deleted!');
     }
 }
