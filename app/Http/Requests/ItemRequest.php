@@ -22,7 +22,7 @@ class ItemRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules()
     {
         return [
             'title' => 'required|string|max:35',

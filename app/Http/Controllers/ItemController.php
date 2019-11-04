@@ -36,7 +36,7 @@ class ItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {        
         $items = Item::orderBy('title')->get();
         return view ('items/index', compact('items'));
     }

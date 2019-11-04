@@ -28,16 +28,15 @@ class FinalRequest extends FormRequest
     {        
         if ($request->input('form') === 'item') {
             if ($request->input('doner_id') === 'new' ) {
-                $result = array_merge(app(ItemRequest::class)->rules(), app(DonerRequest::class)->rules());
+                $result = array_merge(ItemRequest::rules(), DonerRequest::rules());
             } else {
-                $result = app(ItemRequest::class)->rules();
+                $result = ItemRequest::rules();
             }
         } elseif ($request->input('form') === 'doner') {
-            $result = app(DonerRequest::class)->rules();
+            $result = DonerRequest::rules();
         } else {
             $result = [];
         }
-
         return $result;
     }
 }
