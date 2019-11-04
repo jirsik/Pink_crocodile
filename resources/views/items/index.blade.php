@@ -14,6 +14,7 @@
                                     <th scope="col">Doner</th>
                                     <th scope="col">Estimated Price</th>
                                     <th scope="col">Assign to</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -21,8 +22,9 @@
                                     @foreach ($items as $item)
                                         <tr>
                                             <td>{{$item->title}}</td>
-                                            <td>{{$item->doner_id}}</td>
-                                            <td>{{$item->doner_id}}</td>
+                                            <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
+                                            <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
+                                            <td>x</td>
                                             <td>
                                                 <div class="float-right">
                                                     <a href="{{action('ItemController@show', $item->id)}}"><button class="btn btn-primary">Details</button></a>

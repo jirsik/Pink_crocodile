@@ -18,10 +18,12 @@ if (isset($doner)) {
                 <div class="card-body">
                     @can('admin')
                         <form method="POST" action={{$action}}>
+                            @csrf
+
                             @if (isset($doner))
                                 <input name="_method" type="hidden" value="put">
                             @endif 
-                            @csrf
+                            <input name="form" type="hidden" value="doner">
                             
                             @include('doners/inputs')
 

@@ -21,14 +21,17 @@ class DonerRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules()
     {
         // 'name', 'organisation', 'about', 'photo_path'
         return [
             'name' => 'required|string|max:35',
-            'organisation' => 'nullable|string|max:35',
+            'link' => 'nullable|url|max:35',
             'about' => 'nullable|string|max:500',
-            'photo_path' => 'nullable|string|max:200',
+            'contact_name' => 'nullable|string|max:50',
+            'phone' => 'nullable|string|max:35',
+            'email' => 'nullable|email|max:100',
+            'doner_photo_path' => 'nullable|string|max:200',
         ];
     }
 }

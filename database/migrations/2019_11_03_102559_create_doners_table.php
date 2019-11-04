@@ -15,9 +15,12 @@ class CreateDonersTable extends Migration
     {
         Schema::create('doners', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('organisation')->nullable();
+            $table->string('name')->unique();
+            $table->string('link')->nullable();
             $table->text('about')->nullable();
+            $table->string('contact_name')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->string('photo_path')->nullable();
         });
     }

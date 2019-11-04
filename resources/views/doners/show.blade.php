@@ -7,9 +7,40 @@
                 <h4 class="card-header">Doner</h4>
                 <div class="card-body">
                     @can('admin')
-                        <p>Name: {{$doner->name}}</p>
-                        <p>Organisation: {{$doner->organisation}}</p>
-                        <p>About: {{$doner->about}}</p>
+                        <table class="table table-borderless">
+                            <tbody>
+                                    {{-- 'name', 'link', 'about', 'contact_name', 'phone', 'email', 'photo_path' --}}
+                              <tr>
+                                <th scope="row">Name:</th>
+                                <td>{{$doner->name}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Link:</th>
+                                <td>{{$doner->link}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">About:</th>
+                                <td>{{$doner->about}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Contact Name:</th>
+                                <td>{{$doner->contact_name}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Phone:</th>
+                                <td>{{$doner->phone}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Email:</th>
+                                <td>{{$doner->email}}</td>
+                              </tr>
+                              <tr>
+                                <th scope="row">Photo:</th>
+                                {{-- need to be changed --}}
+                                <td>{{$doner->photo_path}}</td> 
+                              </tr>
+                            </tbody>
+                          </table>
                         <a href="{{action('DonerController@index')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
 
                         <div class="float-right">
