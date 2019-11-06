@@ -22,4 +22,10 @@ Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('admin')
 
 Route::resource('/doner', 'DonerController')->middleware('admin');
 Route::resource('/item', 'ItemController')->middleware('admin');
+Route::resource('/event', 'EventController')->middleware('admin');
+
+
+
+Route::get('/log', 'AdminController@logs')->middleware('admin');
+Route::get('/{id}/log', 'AdminController@log_show')->middleware('admin');
 

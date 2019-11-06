@@ -6,11 +6,12 @@ if (isset($item)) {
     $description = $item->description;
     $estimated_price = $item->estimated_price;
     $currency = $item->currency;
-    $doner_id = $item->doner->id;
+    $doner_id = $item->doner_id;
     $photo_path = $item->photo_path;
 
     $action = action('ItemController@update', $item->id);
     $button_title = 'Edit Item';
+    $back_link = action('ItemController@show', $item->id);
 } else {
     $title = '';
     $description = '';
@@ -21,6 +22,7 @@ if (isset($item)) {
 
     $action = action('ItemController@store');
     $button_title = 'Add New Item';
+    $back_link = route('admin');
 }
 
 $doner_id = old('doner_id', $doner_id);
@@ -114,7 +116,7 @@ foreach ($doner_columns as $value) {
                                             <option value="none" {{($doner_id === 'none') ? 'Selected' : ''}}>not defined</option>
                                             <option hidden value="new" {{($doner_id === 'new') ? 'Selected' : ''}}>new</option>
                                             @foreach ($doners as $doner_info) :
-                                                <option value="{{$doner_info->id}}"  {{($doner_id === $doner_info->id) ? 'Selected' : ''}}>{{$doner_info->name}}</option>
+                                                <option value="{{$doner_info->id}}"  {{($doner_id == $doner_info->id) ? 'Selected' : ''}}>{{$doner_info->name}}</option>
                                             @endforeach
                                             
                                         @error('doner_id')
@@ -128,7 +130,7 @@ foreach ($doner_columns as $value) {
     
                                 <div class="form-group row">
                                     <div class="col-md-6 offset-md-4">
-                                        <button id ="doner-buton" type="button" class="btn btn-secondary">
+                                        <button id ="doner-button" type="button" class="btn btn-secondary">
                                             New Doner
                                         </button>
                                     </div>
@@ -142,7 +144,7 @@ foreach ($doner_columns as $value) {
                                         @include('doners/inputs')
                                         <div class="form-group row">
                                             <div class="col-md-6 offset-md-4">
-                                                <button id ="doner-buton-back" type="button" class="btn btn-light">
+                                                <button id ="doner-button-back" type="button" class="btn btn-light">
                                                     Do not add new doner
                                                 </button>
                                             </div>
@@ -157,6 +159,7 @@ foreach ($doner_columns as $value) {
                                     <button type="submit" class="btn btn-primary">
                                         {{$button_title}}
                                     </button>
+                                    <a href={{$back_link}}><button type="button" class="btn btn-secondary">Go Back</button></a>
                                 </div>
                             </div>
                         </form>
@@ -167,15 +170,15 @@ foreach ($doner_columns as $value) {
             </div>
         </div>
     </div>
-    <script> // should be elsewhere
+    {{-- <script> // should be elsewhere
         document.addEventListener('DOMContentLoaded', () => {
-            let doner_button = document.querySelector('#doner-buton');
-            let doner_button_back = document.querySelector('#doner-buton-back');
+            let doner_button = document.querySelector('#doner-button');
+            let doner_button_back = document.querySelector('#doner-button-back');
             let old_doner = document.querySelector('#old-doner');
             let new_doner = document.querySelector('#new-doner');
             let doner = document.querySelector('#doner_id'); //select element
             let doner_name = document.querySelector('#name'); //doner name element
-            let doner_last_value = '';
+            let doner_last_value = 'none';
             
             doner_button.onclick = function () {
                 old_doner.classList.toggle('d-none');
@@ -192,5 +195,5 @@ foreach ($doner_columns as $value) {
                 //doner_name.value = '';
             };
         });
-    </script>
+    </script> --}}
 @endsection
