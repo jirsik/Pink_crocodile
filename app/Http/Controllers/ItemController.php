@@ -37,7 +37,7 @@ class ItemController extends Controller
      */
     public function index()
     {        
-        $items = Item::orderBy('title')->get();
+        $items = Item::orderBy('title')->paginate(5);
         return view ('items/index', compact('items'));
     }
 

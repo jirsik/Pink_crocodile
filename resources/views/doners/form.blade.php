@@ -4,9 +4,11 @@
 if (isset($doner)) {
     $action = action('DonerController@update', $doner->id);
     $button_title = 'Edit Doner';
+    $back_link = action('DonerController@show', $doner->id);
 } else {
     $action = action('DonerController@store');
     $button_title = 'Register New Doner';
+    $back_link = route('admin');
 }
 ?>
 
@@ -32,7 +34,7 @@ if (isset($doner)) {
                                     <button type="submit" class="btn btn-primary">
                                         {{$button_title}}
                                     </button>
-                                    <a href="{{url()->previous()}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
+                                    <a href={{$back_link}}><button type="button" class="btn btn-secondary">Go Back</button></a>
                                 </div>
                             </div>
                         </form>

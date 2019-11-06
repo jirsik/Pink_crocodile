@@ -5,49 +5,46 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card mb-2">
-                    <h4 class="card-header">Items List</h4>
+                    <h4 class="card-header">User's Logs</h4>
                     <div class="card-body">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Doner</th>
-                                    <th scope="col">Estimated Price</th>
-                                    <th scope="col">Assign to</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Last Login</th>
+                                    <th scope="col">Event</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @if (count($items) > 0)
-                                    @foreach ($items as $item)
+                                @if (count($logs) > 0)
+                                    @foreach ($logs as $log)
                                         <tr>
-                                            <td>{{$item->title}}</td>
-                                            <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
-                                            <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
-                                            <td>x</td>
+                                            <td>{{$log->user->first_name . " " . $log->user->last_name}}</td>
+                                            <td>{{$log->created_at}}</td>
+                                            <td>{{(($log->event_id !== null) ? $log->event->name : 'x')}}</td>
                                             <td>
                                                 <div class="float-right">
-                                                    <a href="{{action('ItemController@show', $item->id)}}"><button class="btn btn-primary">Details</button></a>
+                                                    <a href="{{action('AdminController@log_show', $log->id)}}"><button class="btn btn-primary">Details</button></a>
                                                 </div>
                                             </td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5">There are no doners at the moment</td>
+                                        <td>There are no logs at the moment</td>
                                     </tr>
                                 @endif
                             </tbody>
                         </table>
-                        {{ $items->links() }}
+                        {{ $logs->links() }}
                         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
-                        <a href="{{action('ItemController@create')}}"><button class="btn btn-primary">Add New Item</button></a>
                     </div>
                 </div>
             </div>
         </div>
     @else
-        <p>You are not authrized to see doners. Please contact admin.</p>
+        <p>You are not authrized to see logs. Please contact admin.</p>
         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
     @endcan
     

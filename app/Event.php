@@ -9,6 +9,11 @@ class Event extends Model
     protected $table = 'events';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'name', 'location', 'starts_at', 'ends_at', 'coordinator', 'code'
+    ];
+    
     
     public function logs()
     {
