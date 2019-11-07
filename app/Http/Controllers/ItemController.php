@@ -35,10 +35,20 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {        
-        $items = Item::orderBy('title')->paginate(5);
+    public function index($order = 'title')
+    {   
+        $desc = ($order == 'estimated_price')?'DESC':'ASC';
+        $items = Item::with('doner')
+            ->join('doners', 'doners.id', '=', 'items.doner_id')
+            ->orderBy($order, $desc)
+            ->orderBy('title')->paginate(5);
         return view ('items/index', compact('items'));
+
+    //     Product::with('validStock')
+    //      ->join('stocks', 'stocks.product_id', '=', 'products.id')
+    //      ->select('products.*') // Avoid selecting everything from the stocks table
+    //      ->orderBy('stocks.created_at', 'DESC')
+    //      ->get();
     }
 
     /**

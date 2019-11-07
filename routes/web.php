@@ -22,6 +22,7 @@ Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('admin')
 
 Route::resource('/doner', 'DonerController')->middleware('admin');
 Route::resource('/item', 'ItemController')->middleware('admin');
+Route::get('/item/orderby/{order}', 'ItemController@index')->middleware('admin');
 Route::resource('/event', 'EventController')->middleware('admin');
 
 

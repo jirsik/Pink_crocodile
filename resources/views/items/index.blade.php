@@ -10,10 +10,19 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Doner</th>
-                                    <th scope="col">Estimated Price</th>
-                                    <th scope="col">Assign to</th>
+                                        {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
+                                    <th scope="col">
+                                        <a href="{{action('ItemController@index', 'title')}}">Title</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="{{action('ItemController@index', 'doners.name')}}">Doner</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="{{action('ItemController@index', 'estimated_price')}}">Estimated Price</a>
+                                    </th>
+                                    <th scope="col">
+                                        Assign to
+                                    </th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
