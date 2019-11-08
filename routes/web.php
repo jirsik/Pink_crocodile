@@ -11,9 +11,13 @@
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('/', function () {
-    return view('welcome');
+    return view('react');
 });
+// Route::get('/', 'ReactController@show');
 
 Auth::routes();
 
