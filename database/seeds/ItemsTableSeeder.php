@@ -20,11 +20,17 @@ class ItemsTableSeeder extends Seeder
             DB::table('items')->insert([
                 'title' => 'Item'.($i+1),
                 'description' => $faker->sentence($nbWords = 7, $variableNbWords = true),
-                'estimated_price' => $faker->randomNumber(2),
+                'estimated_price' => $faker->randomDigit * 100,
                 'currency' => 'CZK',
-                'doner' => $faker->name,
-                'photo_path' => $faker->imageUrl($width = 640, $height = 480),
+                'doner_id' => ($i+1),
+                'photo_path' => $faker->imageUrl($width = 640, $height = 480, 'technics'),
+                'itemable_id' => ($i+1),
+                'itemable_type' => 'auction'
             ]);
         }
     }
+    // public function run()
+    // {
+    //     factory(App\Item::class, 10)->create();
+    // }
 }
