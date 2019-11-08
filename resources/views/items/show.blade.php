@@ -33,8 +33,8 @@
                               </tr>
                             </tbody>
                           </table>
-
-                        <a href="{{url()->previous()}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
+                        
+                        <a href="{{$back ?? action('ItemController@index')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
 
                         <div class="float-right">
                             <a href="{{action('ItemController@edit', $item->id)}}"><button class="btn btn-primary">Edit</button></a>

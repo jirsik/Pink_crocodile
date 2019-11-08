@@ -13,9 +13,24 @@ class DonerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $doners = Doner::orderBy('name')->get();
+        if ($order = $request->input('sort')) {
+            switch ($order) {
+                case 'contact':
+                    $order = 'contact_name';
+                    break;
+                default:
+                    $order = 'name';
+            }
+        } else {
+            $order = 'name';
+        }
+
+        
+
+
+        $doners = Doner::orderBy($order)->orderBy('name')->get();
         return view ('doners/index', compact('doners'));
     }
 

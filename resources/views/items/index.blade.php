@@ -10,15 +10,14 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                        {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
                                     <th scope="col">
-                                        <a href="{{action('ItemController@index', 'title')}}">Title</a>
+                                        <a href="{{url('/item?sort=title')}}">Title</a>
                                     </th>
                                     <th scope="col">
-                                        <a href="{{action('ItemController@index', 'doners.name')}}">Doner</a>
+                                        <a href="{{url('/item?sort=doner')}}">Doner</a>
                                     </th>
                                     <th scope="col">
-                                        <a href="{{action('ItemController@index', 'estimated_price')}}">Estimated Price</a>
+                                        <a href="{{url('/item?sort=price')}}">Estimated Price</a>
                                     </th>
                                     <th scope="col">
                                         Assign to
@@ -48,7 +47,8 @@
                                 @endif
                             </tbody>
                         </table>
-                        {{ $items->links() }}
+                        {{ $items->appends(Request::capture()->except('page'))->links() }} 
+
                         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
                         <a href="{{action('ItemController@create')}}"><button class="btn btn-primary">Add New Item</button></a>
                     </div>

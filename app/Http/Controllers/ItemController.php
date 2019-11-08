@@ -35,20 +35,33 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($order = 'title')
-    {   
-        $desc = ($order == 'estimated_price')?'DESC':'ASC';
+    public function index(Request $request)
+    {
+        $direction = 'ASC';
+        if ($order = $request->input('sort')) {
+            switch ($order) {
+                case 'doner':
+                    $order = 'name';
+                    break;
+                case 'price':
+                    $order = 'estimated_price';
+                    $direction = 'DESC';
+                    break;
+                default:
+                    $order = 'title';
+            }
+        } else {
+            $order = 'title';
+        }
+        // {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
+
         $items = Item::with('doner')
             ->join('doners', 'doners.id', '=', 'items.doner_id')
-            ->orderBy($order, $desc)
-            ->orderBy('title')->paginate(5);
+            ->select('items.*')
+            ->orderBy($order, $direction)
+            ->orderBy('title')
+            ->paginate(5);
         return view ('items/index', compact('items'));
-
-    //     Product::with('validStock')
-    //      ->join('stocks', 'stocks.product_id', '=', 'products.id')
-    //      ->select('products.*') // Avoid selecting everything from the stocks table
-    //      ->orderBy('stocks.created_at', 'DESC')
-    //      ->get();
     }
 
     /**

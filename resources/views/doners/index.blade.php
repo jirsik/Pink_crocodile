@@ -10,8 +10,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Contact Name</th>
+                                    <th scope="col">
+                                        <a href="{{url('/doner?sort=name')}}">Name</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="{{url('/doner?sort=contact')}}">Contact Name</a>
+                                    </th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>

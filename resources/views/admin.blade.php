@@ -34,7 +34,7 @@
                 <h5 class="card-header">Items</h5>
 
                 <div class="card-body">
-                    <a href="{{action('ItemController@index', 'title')}}"><button class="btn btn-primary">Show Items</button></a>
+                    <a href="{{action('ItemController@index')}}"><button class="btn btn-primary">Show Items</button></a>
                     <a href="{{action('ItemController@create')}}"><button class="btn btn-primary">Add New Item</button></a>
                 </div>
             </div>
