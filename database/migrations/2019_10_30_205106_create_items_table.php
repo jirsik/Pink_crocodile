@@ -20,7 +20,7 @@ class CreateItemsTable extends Migration
             $table->integer('estimated_price')->nullable();
             $table->string('currency')->nullable();
             $table->unsignedBigInteger('doner_id')->nullable();
-            $table->string('photo_path')->default('images/item_placeholder.png');
+            $table->string('item_photo_path')->nullable();
             $table->integer('itemable_id')->nullable();
             $table->string('itemable_type')->nullable();
         });

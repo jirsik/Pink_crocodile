@@ -7,9 +7,9 @@ use App\Http\Requests\FinalRequest;
 use App\Item;
 use App\Doner;
 
-class ItemController extends Controller
+class ItemController extends Controller 
 {
-    private function createDoner($request)
+    private function getDoner($request)
     {
         if ($request->input('doner_id') === 'new' ) {
             $doner = Doner::create([
@@ -19,8 +19,17 @@ class ItemController extends Controller
                 'contact_name' => $request->input('contact_name'),
                 'phone' => $request->input('phone'),
                 'email' => $request->input('email'),
-                'photo_path' => $request->input('doner_photo_path'),
             ]);
+
+            if($file = $request->file('doner_image')) {
+                $file_name =  'pink_doner'.$doner->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+                $file->storeAs('doners', $file_name, 'uploads');
+    
+                $doner->doner_photo_path = 'uploads/doners/' . $file_name;
+                //$file->getClientOriginalName(); 
+                $doner->save(); 
+            }
+
             $doner_id = $doner->id;
         } else if ($request->input('doner_id') !== 'none') {
             $doner_id = $request->input('doner_id');
@@ -53,7 +62,6 @@ class ItemController extends Controller
         } else {
             $order = 'title';
         }
-        // {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
 
         $items = Item::with('doner')
             ->join('doners', 'doners.id', '=', 'items.doner_id')
@@ -84,7 +92,7 @@ class ItemController extends Controller
     public function store(FinalRequest $request)
     {
         // check if creating new doner
-        $doner_id = $this->createDoner($request);
+        $doner_id = $this->getDoner($request);
 
         $item = Item::create([
             'title' => $request->input('title'),
@@ -92,7 +100,7 @@ class ItemController extends Controller
             'estimated_price' => $request->input('estimated_price'),
             'currency' => $request->input('currency'),
             'doner_id' => $doner_id,
-            //missing photo_path
+            //missing item_photo_path
         ]);
 
         return redirect('/item')->with('success', 'Item created!');
@@ -134,7 +142,7 @@ class ItemController extends Controller
     public function update(FinalRequest $request, $id)
     {
         // check if creating new doner
-        $doner_id = $this->createDoner($request);
+        $doner_id = $this->getDoner($request);
 
         $item = Item::findOrFail($id);
         $item->title = $request->input('title');

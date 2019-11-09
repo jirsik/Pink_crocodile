@@ -16,6 +16,6 @@ class Doner extends Model
     }
 
     protected $fillable = [
-        'name', 'link', 'about', 'contact_name', 'phone', 'email', 'photo_path'
+        'name', 'link', 'about', 'contact_name', 'phone', 'email', 'doner_photo_path'
     ];
 }

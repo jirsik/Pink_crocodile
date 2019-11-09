@@ -9,7 +9,6 @@
                     @can('admin')
                     <table class="table table-borderless">
                             <tbody>
-                                    {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
                               <tr>
                                 <th scope="row">Title:</th>
                                 <td>{{$item->title}}</td>
@@ -29,7 +28,7 @@
                               <tr>
                                 <th scope="row">Photo:</th>
                                 {{-- need to be changed --}}
-                                <td>{{$item->photo_path}}</td> 
+                                <td>{{$item->item_photo_path}}</td> 
                               </tr>
                             </tbody>
                           </table>

@@ -11,7 +11,7 @@ class Item extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path',
+        'title', 'description', 'estimated_price', 'currency', 'doner_id', 'item_photo_path',
     ];
 
     public function itemable()

@@ -19,7 +19,7 @@ if (isset($doner)) {
                 <div class="card-header">Register doner</div>
                 <div class="card-body">
                     @can('admin')
-                        <form method="POST" action={{$action}}>
+                        <form method="POST" action={{$action}} enctype="multipart/form-data">
                             @csrf
 
                             @if (isset($doner))

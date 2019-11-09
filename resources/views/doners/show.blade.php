@@ -37,7 +37,9 @@
                               <tr>
                                 <th scope="row">Photo:</th>
                                 {{-- need to be changed --}}
-                                <td>{{$doner->photo_path}}</td> 
+                                <td>
+                                  <img class="admin_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="doner">
+                                  </td> 
                               </tr>
                             </tbody>
                           </table>

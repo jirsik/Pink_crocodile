@@ -21,7 +21,7 @@ class CreateDonersTable extends Migration
             $table->string('contact_name')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('photo_path')->nullable();
+            $table->string('doner_photo_path')->nullable();
         });
     }
 

@@ -7,7 +7,7 @@ if (isset($item)) {
     $estimated_price = $item->estimated_price;
     $currency = $item->currency;
     $doner_id = $item->doner_id;
-    $photo_path = $item->photo_path;
+    $item_photo_path = $item->item_photo_path;
 
     $action = action('ItemController@update', $item->id);
     $button_title = 'Edit Item';
@@ -18,7 +18,7 @@ if (isset($item)) {
     $estimated_price = '';
     $currency = 'CZK';
     $doner_id = 'none';
-    $photo_path = '';
+    $item_photo_path = '';
 
     $action = action('ItemController@store');
     $button_title = 'Add New Item';
@@ -27,12 +27,10 @@ if (isset($item)) {
 
 $doner_id = old('doner_id', $doner_id);
 
-$doner_columns = ['name', 'link', 'about', 'contact_name', 'phone', 'email', 'photo_path'];
 $doner_error = false;
-foreach ($doner_columns as $value) {
-    if ($errors->has($value)) {
-        $doner_error = true;
-    }
+
+if (count($errors->all()) > 0 && $doner_id == 'new') {
+    $doner_error = true;
 }
 ?>
 
@@ -43,7 +41,7 @@ foreach ($doner_columns as $value) {
                 <div class="card-header">Add Item</div>
                 <div class="card-body">
                     @can('admin')
-                        <form method="POST" action={{$action}}>
+                        <form method="POST" action={{$action}} enctype="multipart/form-data">
                             @csrf
                             @if (isset($item))
                                 <input name="_method" type="hidden" value="put">

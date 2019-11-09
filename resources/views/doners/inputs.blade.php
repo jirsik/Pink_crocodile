@@ -6,7 +6,7 @@ if (isset($doner)) {
     $contact_name = $doner->contact_name;
     $phone = $doner->phone;
     $email = $doner->email;
-    $doner_photo_path = $doner->photo_path;
+    $doner_photo_path = $doner->doner_photo_path;
 } else {
     $name = '';
     $link = '';
@@ -55,6 +55,24 @@ if (isset($doner)) {
         
 
         @error('about')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
+    </div>
+</div>
+
+@if ($doner_photo_path !== '' && $doner_photo_path !== null)
+<hr>
+    <p class="ml-2" style="color: green;">Uploading new image will delete actual image!</p>
+@endif
+
+<div class="form-group row"> 
+    <label for="doner_image" class="col-md-4 col-form-label text-md-right">Upload Image:</label>
+    <div class="col-md-6">
+        <input type="file" id="doner_image" name="doner_image" class="form-control @error('doner_image') is-invalid @enderror">
+
+        @error('doner_image')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>
