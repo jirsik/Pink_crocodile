@@ -39,7 +39,7 @@ class ItemController extends Controller
     {   
         $desc = ($order == 'estimated_price')?'DESC':'ASC';
         $items = Item::with('doner')
-            ->join('doners', 'doners.id', '=', 'items.doner_id')
+            // ->join('doners', 'doners.id', '=', 'items.doner_id')
             ->orderBy($order, $desc)
             ->orderBy('title')->paginate(5);
         return view ('items/index', compact('items'));
