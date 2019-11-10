@@ -26,11 +26,17 @@ Route::get('/admin', 'HomeController@admin')->name('admin')->middleware('admin')
 
 Route::resource('/doner', 'DonerController')->middleware('admin');
 Route::resource('/item', 'ItemController')->middleware('admin');
-Route::get('/item/orderby/{order}', 'ItemController@index')->middleware('admin');
 Route::resource('/event', 'EventController')->middleware('admin');
 
 
 
 Route::get('/log', 'AdminController@logs')->middleware('admin');
 Route::get('/{id}/log', 'AdminController@log_show')->middleware('admin');
+
+
+//image placeholder
+Route::get('/uploads/doners/{file}', function() {
+    return response( file_get_contents('./uploads/doners/doner.png') )
+        ->header('Content-Type','image/png');
+});
 

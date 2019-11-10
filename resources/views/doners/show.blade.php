@@ -37,11 +37,13 @@
                               <tr>
                                 <th scope="row">Photo:</th>
                                 {{-- need to be changed --}}
-                                <td>{{$doner->photo_path}}</td> 
+                                <td>
+                                  <img class="show_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="doner">
+                                </td> 
                               </tr>
                             </tbody>
                           </table>
-                        <a href="{{url()->previous()}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
+                        <a href="{{$back ?? action('DonerController@index')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
 
                         <div class="float-right">
                             <a href="{{action('DonerController@edit', $doner->id)}}"><button class="btn btn-primary">Edit</button></a>

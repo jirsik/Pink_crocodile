@@ -25,13 +25,13 @@ class DonerRequest extends FormRequest
     {
         // 'name', 'organisation', 'about', 'photo_path'
         return [
-            'name' => 'required|string|max:35|unique:doners',
+            'name' => 'required|string|max:35|unique:doners,id',
             'link' => 'nullable|url|max:35',
             'about' => 'nullable|string|max:500',
             'contact_name' => 'nullable|string|max:50',
             'phone' => 'nullable|string|max:35',
             'email' => 'nullable|email|max:100',
-            'doner_photo_path' => 'nullable|string|max:200',
+            'doner_image' => 'nullable|image',
         ];
     }
 }

@@ -9,7 +9,6 @@
                     @can('admin')
                     <table class="table table-borderless">
                             <tbody>
-                                    {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
                               <tr>
                                 <th scope="row">Title:</th>
                                 <td>{{$item->title}}</td>
@@ -29,12 +28,14 @@
                               <tr>
                                 <th scope="row">Photo:</th>
                                 {{-- need to be changed --}}
-                                <td>{{$item->photo_path}}</td> 
+                                <td>
+                                    <img class="show_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                </td> 
                               </tr>
                             </tbody>
                           </table>
-
-                        <a href="{{url()->previous()}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
+                        
+                        <a href="{{$back ?? action('ItemController@index')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
 
                         <div class="float-right">
                             <a href="{{action('ItemController@edit', $item->id)}}"><button class="btn btn-primary">Edit</button></a>

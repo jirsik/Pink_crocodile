@@ -10,8 +10,15 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Contact Name</th>
+                                    <th scope="col">
+                                        <a href="{{url('/doner?sort=name')}}">Name</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="{{url('/doner?sort=contact')}}">Contact Name</a>
+                                    </th>
+                                    <th scope="col">
+                                        Image
+                                    </th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -21,6 +28,10 @@
                                         <tr>
                                             <td>{{$doner->name}}</td>
                                             <td>{{$doner->contact_name}}</td>
+                                            <td>
+                                                <img class="index_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="doner">
+
+                                            </td>
                                             <td>
                                                 <div class="float-right">
                                                     <a href="{{action('DonerController@show', $doner->id)}}"><button class="btn btn-primary">Details</button></a>
@@ -35,6 +46,8 @@
                                 @endif
                             </tbody>
                         </table>
+                        {{ $doners->appends(Request::capture()->except('page'))->links() }} 
+
                         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
                         <a href="{{action('DonerController@create')}}"><button class="btn btn-primary">Register New Doner</button></a>
                     </div>

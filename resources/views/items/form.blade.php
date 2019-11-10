@@ -7,7 +7,7 @@ if (isset($item)) {
     $estimated_price = $item->estimated_price;
     $currency = $item->currency;
     $doner_id = $item->doner_id;
-    $photo_path = $item->photo_path;
+    $item_photo_path = $item->item_photo_path;
 
     $action = action('ItemController@update', $item->id);
     $button_title = 'Edit Item';
@@ -18,7 +18,7 @@ if (isset($item)) {
     $estimated_price = '';
     $currency = 'CZK';
     $doner_id = 'none';
-    $photo_path = '';
+    $item_photo_path = '';
 
     $action = action('ItemController@store');
     $button_title = 'Add New Item';
@@ -27,10 +27,12 @@ if (isset($item)) {
 
 $doner_id = old('doner_id', $doner_id);
 
-$doner_columns = ['name', 'link', 'about', 'contact_name', 'phone', 'email', 'photo_path'];
+$any_error = false;
 $doner_error = false;
-foreach ($doner_columns as $value) {
-    if ($errors->has($value)) {
+
+if (count($errors->all()) > 0 ) {
+    $any_error = true;
+    if ($doner_id == 'new') {
         $doner_error = true;
     }
 }
@@ -43,7 +45,12 @@ foreach ($doner_columns as $value) {
                 <div class="card-header">Add Item</div>
                 <div class="card-body">
                     @can('admin')
-                        <form method="POST" action={{$action}}>
+                        @if ($any_error)
+                            <hr>
+                            <p class="ml-2" style="color: green;">This form did not pass the validation. If you uploaded an image which you want to add, you have to upload the image again.</p>
+                            <hr>
+                        @endif
+                        <form method="POST" action={{$action}} enctype="multipart/form-data">
                             @csrf
                             @if (isset($item))
                                 <input name="_method" type="hidden" value="put">
@@ -53,7 +60,7 @@ foreach ($doner_columns as $value) {
                                 <label for="title" class="col-md-4 col-form-label text-md-right">* Title:</label>
 
                                 <div class="col-md-6">
-                                    <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $title) }}">
+                                    <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title', $item->title ?? '') }}">
 
                                     @error('title')
                                         <span class="invalid-feedback" role="alert">
@@ -100,6 +107,24 @@ foreach ($doner_columns as $value) {
                                     <input id="estimated_price" type="text" class="form-control @error('estimated_price') is-invalid @enderror" name="estimated_price" value="{{ old('estimated_price', $estimated_price) }}">
 
                                     @error('estimated_price')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            @if ($item_photo_path !== '' && $item_photo_path !== null)
+                                <hr>
+                                <p class="ml-2" style="color: green;">Uploading new image will delete actual image!</p>
+                            @endif
+
+                            <div class="form-group row"> 
+                                <label for="item_image" class="col-md-4 col-form-label text-md-right">Upload Image:</label>
+                                <div class="col-md-6">
+                                    <input type="file" id="item_image" name="item_image" class="form-control @error('item_image') is-invalid @enderror">
+
+                                    @error('item_image')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

@@ -10175,3 +10175,48 @@ h3 {
   }
 }
 /*# sourceMappingURL=app.css.map*/
+
+.show_img {
+  width: 9rem;
+}
+
+@media (min-width: 480px) {
+  .show_img {
+    width: 12rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .show_img {
+    width: 16rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .show_img {
+    width: 20rem;
+  }
+}
+
+.index_img {
+  width: 3rem;
+}
+
+@media (min-width: 480px) {
+  .index_img {
+    width: 5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .index_img {
+    width: 7rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .index_img {
+    width: 9rem;
+  }
+}
+

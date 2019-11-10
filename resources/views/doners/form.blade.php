@@ -10,6 +10,9 @@ if (isset($doner)) {
     $button_title = 'Register New Doner';
     $back_link = route('admin');
 }
+
+$any_error = (count($errors->all()) > 0 ) ? true : false;
+
 ?>
 
 @section('content')
@@ -19,7 +22,12 @@ if (isset($doner)) {
                 <div class="card-header">Register doner</div>
                 <div class="card-body">
                     @can('admin')
-                        <form method="POST" action={{$action}}>
+                        @if ($any_error)
+                            <hr>
+                            <p class="ml-2" style="color: green;">This form did not pass the validation. If you uploaded an image which you want to add, you have to upload the image again.</p>
+                            <hr>
+                        @endif
+                        <form method="POST" action={{$action}} enctype="multipart/form-data">
                             @csrf
 
                             @if (isset($doner))

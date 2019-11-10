@@ -10,15 +10,17 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                        {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
                                     <th scope="col">
-                                        <a href="{{action('ItemController@index', 'title')}}">Title</a>
+                                        Image
                                     </th>
                                     <th scope="col">
-                                        <a href="{{action('ItemController@index', 'doners.name')}}">Doner</a>
+                                        <a href="{{url('/item?sort=title')}}">Title</a>
                                     </th>
                                     <th scope="col">
-                                        <a href="{{action('ItemController@index', 'estimated_price')}}">Estimated Price</a>
+                                        <a href="{{url('/item?sort=doner')}}">Doner</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="{{url('/item?sort=price')}}">Estimated Price</a>
                                     </th>
                                     <th scope="col">
                                         Assign to
@@ -30,6 +32,9 @@
                                 @if (count($items) > 0)
                                     @foreach ($items as $item)
                                         <tr>
+                                            <td>
+                                                <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                            </td>
                                             <td>{{$item->title}}</td>
                                             <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
                                             <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
@@ -48,7 +53,8 @@
                                 @endif
                             </tbody>
                         </table>
-                        {{ $items->links() }}
+                        {{ $items->appends(Request::capture()->except('page'))->links() }} 
+
                         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
                         <a href="{{action('ItemController@create')}}"><button class="btn btn-primary">Add New Item</button></a>
                     </div>

@@ -7,9 +7,9 @@ use App\Http\Requests\FinalRequest;
 use App\Item;
 use App\Doner;
 
-class ItemController extends Controller
+class ItemController extends Controller 
 {
-    private function createDoner($request)
+    private function getDoner($request)
     {
         if ($request->input('doner_id') === 'new' ) {
             $doner = Doner::create([
@@ -19,8 +19,17 @@ class ItemController extends Controller
                 'contact_name' => $request->input('contact_name'),
                 'phone' => $request->input('phone'),
                 'email' => $request->input('email'),
-                'photo_path' => $request->input('doner_photo_path'),
             ]);
+
+            if($file = $request->file('doner_image')) {
+                $file_name =  'pink_doner'.$doner->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+                $file->storeAs('doners', $file_name, 'uploads');
+    
+                $doner->doner_photo_path = 'uploads/doners/' . $file_name;
+                //$file->getClientOriginalName(); 
+                $doner->save(); 
+            }
+
             $doner_id = $doner->id;
         } else if ($request->input('doner_id') !== 'none') {
             $doner_id = $request->input('doner_id');
@@ -35,20 +44,32 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($order = 'title')
-    {   
-        $desc = ($order == 'estimated_price')?'DESC':'ASC';
+    public function index(Request $request)
+    {
+        $direction = 'ASC';
+        if ($order = $request->input('sort')) {
+            switch ($order) {
+                case 'doner':
+                    $order = 'name';
+                    break;
+                case 'price':
+                    $order = 'estimated_price';
+                    $direction = 'DESC';
+                    break;
+                default:
+                    $order = 'title';
+            }
+        } else {
+            $order = 'title';
+        }
+
         $items = Item::with('doner')
             ->join('doners', 'doners.id', '=', 'items.doner_id')
-            ->orderBy($order, $desc)
-            ->orderBy('title')->paginate(5);
+            ->select('items.*')
+            ->orderBy($order, $direction)
+            ->orderBy('title')
+            ->paginate(10);
         return view ('items/index', compact('items'));
-
-    //     Product::with('validStock')
-    //      ->join('stocks', 'stocks.product_id', '=', 'products.id')
-    //      ->select('products.*') // Avoid selecting everything from the stocks table
-    //      ->orderBy('stocks.created_at', 'DESC')
-    //      ->get();
     }
 
     /**
@@ -70,8 +91,8 @@ class ItemController extends Controller
      */
     public function store(FinalRequest $request)
     {
-        // check if creating new doner
-        $doner_id = $this->createDoner($request);
+        // check if creating new doner or getting existing one
+        $doner_id = $this->getDoner($request);
 
         $item = Item::create([
             'title' => $request->input('title'),
@@ -79,8 +100,16 @@ class ItemController extends Controller
             'estimated_price' => $request->input('estimated_price'),
             'currency' => $request->input('currency'),
             'doner_id' => $doner_id,
-            //missing photo_path
         ]);
+
+        if($file = $request->file('item_image')) {
+            $file_name =  'pink_item'.$item->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $file->storeAs('items', $file_name, 'uploads');
+
+            $item->item_photo_path = 'uploads/items/' . $file_name;
+            //$file->getClientOriginalName(); 
+            $item->save(); 
+        }
 
         return redirect('/item')->with('success', 'Item created!');
     }
@@ -121,7 +150,7 @@ class ItemController extends Controller
     public function update(FinalRequest $request, $id)
     {
         // check if creating new doner
-        $doner_id = $this->createDoner($request);
+        $doner_id = $this->getDoner($request);
 
         $item = Item::findOrFail($id);
         $item->title = $request->input('title');
@@ -130,6 +159,19 @@ class ItemController extends Controller
         $item->currency = $request->input('currency');
         $item->doner_id = $doner_id;
         $item->save();
+
+        if($file = $request->file('image_image')) {
+            if ($item->item_photo_path) {
+                if (file_exists(public_path($item->item_photo_path))) {
+                    unlink(public_path($item->item_photo_path)); // delete old file
+                }
+            }
+            $file_name =  'pink_item'.$item->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $file->storeAs('items', $file_name, 'uploads');
+
+            $item->item_photo_path = 'uploads/items/' . $file_name; //rewrite photo_path because of possible change of wxtention
+            $item->save(); 
+        }
 
         return redirect('/item')->with('success', 'Item edited!');
     }

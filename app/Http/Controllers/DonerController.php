@@ -13,9 +13,21 @@ class DonerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $doners = Doner::orderBy('name')->get();
+        if ($order = $request->input('sort')) {
+            switch ($order) {
+                case 'contact':
+                    $order = 'contact_name';
+                    break;
+                default:
+                    $order = 'name';
+            }
+        } else {
+            $order = 'name';
+        }
+
+        $doners = Doner::orderBy($order)->orderBy('name')->paginate(15);
         return view ('doners/index', compact('doners'));
     }
 
@@ -43,9 +55,17 @@ class DonerController extends Controller
             'about' => $request->input('about'),
             'contact_name' => $request->input('contact_name'),
             'phone' => $request->input('phone'),
-            'email' => $request->input('email'),
-            'photo_path' => $request->input('doner_photo_path'),
+            'email' => $request->input('email')
         ]);
+
+        if($file = $request->file('doner_image')) {
+            $file_name =  'pink_doner'.$doner->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $file->storeAs('doners', $file_name, 'uploads');
+
+            $doner->doner_photo_path = 'uploads/doners/' . $file_name;
+            //$file->getClientOriginalName(); 
+            $doner->save(); 
+        }
 
         return redirect('/doner')->with('success', 'Doner created!');
     }
@@ -90,8 +110,20 @@ class DonerController extends Controller
         $doner->contact_name = $request->input('contact_name');
         $doner->phone = $request->input('phone');
         $doner->email = $request->input('email');
-        $doner->photo_path = $request->input('photo_path');
         $doner->save();
+
+        if($file = $request->file('doner_image')) {
+            if ($doner->doner_photo_path) {
+                if (file_exists(public_path($doner->doner_photo_path))) {
+                    unlink(public_path($doner->doner_photo_path)); // delete old file
+                }
+            }
+            $file_name =  'pink_doner'.$doner->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $file->storeAs('doners', $file_name, 'uploads');
+
+            $doner->doner_photo_path = 'uploads/doners/' . $file_name; //rewrite photo_path because of possible change of wxtention
+            $doner->save(); 
+        }
         
         return redirect('/doner')->with('success', 'Doner updated!');
     }

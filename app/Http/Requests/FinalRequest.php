@@ -28,7 +28,7 @@ class FinalRequest extends FormRequest
     {        
         if ($request->input('form') === 'item') {
             if ($request->input('doner_id') === 'new' ) {
-                $result = array_merge(ItemRequest::rules(), DonerRequest::rules());
+                $result = array_merge(DonerRequest::rules(), ItemRequest::rules());
             } else {
                 $result = ItemRequest::rules();
             }
