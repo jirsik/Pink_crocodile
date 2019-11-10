@@ -28,7 +28,9 @@
                               <tr>
                                 <th scope="row">Photo:</th>
                                 {{-- need to be changed --}}
-                                <td>{{$item->item_photo_path}}</td> 
+                                <td>
+                                    <img class="show_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                </td> 
                               </tr>
                             </tbody>
                           </table>

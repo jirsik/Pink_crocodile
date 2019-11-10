@@ -68,7 +68,7 @@ class ItemController extends Controller
             ->select('items.*')
             ->orderBy($order, $direction)
             ->orderBy('title')
-            ->paginate(5);
+            ->paginate(10);
         return view ('items/index', compact('items'));
     }
 
@@ -91,7 +91,7 @@ class ItemController extends Controller
      */
     public function store(FinalRequest $request)
     {
-        // check if creating new doner
+        // check if creating new doner or getting existing one
         $doner_id = $this->getDoner($request);
 
         $item = Item::create([
@@ -100,8 +100,16 @@ class ItemController extends Controller
             'estimated_price' => $request->input('estimated_price'),
             'currency' => $request->input('currency'),
             'doner_id' => $doner_id,
-            //missing item_photo_path
         ]);
+
+        if($file = $request->file('item_image')) {
+            $file_name =  'pink_item'.$item->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $file->storeAs('items', $file_name, 'uploads');
+
+            $item->item_photo_path = 'uploads/items/' . $file_name;
+            //$file->getClientOriginalName(); 
+            $item->save(); 
+        }
 
         return redirect('/item')->with('success', 'Item created!');
     }
@@ -151,6 +159,19 @@ class ItemController extends Controller
         $item->currency = $request->input('currency');
         $item->doner_id = $doner_id;
         $item->save();
+
+        if($file = $request->file('image_image')) {
+            if ($item->item_photo_path) {
+                if (file_exists(public_path($item->item_photo_path))) {
+                    unlink(public_path($item->item_photo_path)); // delete old file
+                }
+            }
+            $file_name =  'pink_item'.$item->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $file->storeAs('items', $file_name, 'uploads');
+
+            $item->item_photo_path = 'uploads/items/' . $file_name; //rewrite photo_path because of possible change of wxtention
+            $item->save(); 
+        }
 
         return redirect('/item')->with('success', 'Item edited!');
     }

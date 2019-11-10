@@ -27,10 +27,7 @@ class DonerController extends Controller
             $order = 'name';
         }
 
-        
-
-
-        $doners = Doner::orderBy($order)->orderBy('name')->get();
+        $doners = Doner::orderBy($order)->orderBy('name')->paginate(15);
         return view ('doners/index', compact('doners'));
     }
 

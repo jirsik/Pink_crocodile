@@ -11,6 +11,9 @@
                             <thead>
                                 <tr>
                                     <th scope="col">
+                                        Image
+                                    </th>
+                                    <th scope="col">
                                         <a href="{{url('/item?sort=title')}}">Title</a>
                                     </th>
                                     <th scope="col">
@@ -29,6 +32,9 @@
                                 @if (count($items) > 0)
                                     @foreach ($items as $item)
                                         <tr>
+                                            <td>
+                                                <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                            </td>
                                             <td>{{$item->title}}</td>
                                             <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
                                             <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
