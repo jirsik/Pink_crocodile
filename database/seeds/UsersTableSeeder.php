@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
 
-class UserSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,9 +22,12 @@ class UserSeeder extends Seeder
                 'last_name' => $faker->lastName,
                 'alias' => $faker->userName,
                 'email' => $faker->email,
-                'password' => $faker->password,
-                'address' => $faker->address,
+                'password' => '1234',
                 'phone' => $faker->phoneNumber,
+                'address_street_and_num' => $faker->streetAddress,
+                'address_city' => $faker->city,
+                'address_post_code' => $faker->postcode,
+                'address_country' => $faker->country,
                 'photo_path' => $faker->imageUrl($width=640, $height=480, 'people')
 
             ]);
