@@ -15,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::orderBy('title')->paginate(5);
+        $events = Event::orderBy('name')->paginate(10);
         return view ('events/index', compact('events'));
     }
 
@@ -38,7 +38,18 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $event = Event::create([
+            'name' =>  $request->input('name'),
+            'location' =>  $request->input('location'),
+            'starts_at' =>  $request->input('starts_at'),
+            'ends_at' =>  $request->input('ends_at'),
+            'coordinator' =>  $request->input('coordinator'),
+            'code' =>  '..',
+        ]);
+        $event->code = 'event' . $event->id;
+        $event->save();
+
+        return redirect('/event')->with('success', 'Event created!');
     }
 
     /**

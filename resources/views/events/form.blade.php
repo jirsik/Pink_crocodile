@@ -49,6 +49,7 @@ if (isset($event)) {
 
                             {{-- this input tells FinelRequest what data it shoud validate --}}
                             <input name="form" type="hidden" value="event"> 
+
 {{-- 'name', 'location', 'starts_at', 'ends_at', 'coordinator', 'code' --}}
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">* Name:</label>
@@ -78,6 +79,48 @@ if (isset($event)) {
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="starts_at" class="col-md-4 col-form-label text-md-right">Starts at:</label>
+
+                                <div class="col-md-6">
+                                    <input id="starts_at" type="datetime" class="form-control @error('starts_at') is-invalid @enderror" name="starts_at" value="{{ old('starts_at', $starts_at) }}">
+
+                                    @error('starts_at')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="ends_at" class="col-md-4 col-form-label text-md-right">Ends at:</label>
+
+                                <div class="col-md-6">
+                                    <input id="ends_at" type="datetime" class="form-control @error('ends_at') is-invalid @enderror" name="ends_at" value="{{ old('ends_at', $ends_at) }}">
+
+                                    @error('ends_at')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="coordinator" class="col-md-4 col-form-label text-md-right">Coordinator:</label>
+
+                                <div class="col-md-6">
+                                    <input id="coordinator" type="text" class="form-control @error('coordinator') is-invalid @enderror" name="coordinator" value="{{ old('coordinator', $coordinator) }}">
+
+                                    @error('coordinator')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div id="add-items" class="@if($assigned_items) d-none @endif">
                                 <div class="form-group row">
                                     <div class="col-md-6 offset-md-4">
@@ -99,7 +142,7 @@ if (isset($event)) {
                                               <tr>
                                                 <th scope="col">Title</th>
                                                 <th scope="col">Doner</th>
-                                                <th scope="col">Picture</th>
+                                                <th scope="col">Image</th>
                                                 <th scope="col">Add</th>
                                               </tr>
                                             </thead>
@@ -112,7 +155,7 @@ if (isset($event)) {
                                                             <td>{{$item->title}}</td>
                                                             <td>{{$item->doner?$item->doner->name:'annonymus'}}</td>
                                                             <td>
-                                                                <img src={{$item->photo_path}} alt="item" />
+                                                                <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                                             </td>
                                                             <td>
                                                                 <input type="checkbox" name="vehicle1" value="true"> Add To Auction
@@ -129,7 +172,7 @@ if (isset($event)) {
                                         </table>
                                         {{ $items->links() }}
                                         <div class="form-group row">
-                                            <div class="col-md-6 offset-md-4">
+                                            <div class="col-md-6">
                                                 <button id ="item-button-back" type="button" class="btn btn-light">
                                                     Do not add items
                                                 </button>
