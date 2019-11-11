@@ -21,19 +21,16 @@
 </head>
 <body>
     @include('inc/navbar')
-    <div id="app">
-        
-
+    
         <main class="py-4">
             <div class="container">
                 @include('inc/messages')
                 @yield('content')
             </div>
         </main>
-    </div>
 
     
-    {{-- <script src="/js/index.js"></script>   --}}
+    <script src="/js/index.js"></script>  
 
 </body>
 </html>

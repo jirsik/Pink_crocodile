@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\js\blade-forms\index.js */"./resources/js/blade-forms/index.js");
+module.exports = __webpack_require__(/*! C:\dev\Pink_crocodile\resources\js\blade-forms\index.js */"./resources/js/blade-forms/index.js");
 
 
 /***/ })
