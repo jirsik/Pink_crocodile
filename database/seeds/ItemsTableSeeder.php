@@ -25,7 +25,7 @@ class ItemsTableSeeder extends Seeder
                 'doner_id' => ($i+1),
                 'photo_path' => $faker->imageUrl($width = 640, $height = 480, 'technics'),
                 'itemable_id' => ($i+1),
-                'itemable_type' => 'auction'
+                'itemable_type' => 'App\AuctionItem'
             ]);
         }
     }

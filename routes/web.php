@@ -11,12 +11,12 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/', function () {
-    return view('react');
+    return view('welcome');
 });
+// Route::get('/', function () {
+//     return view('react');
+// });
 // Route::get('/', 'ReactController@show');
 
 Auth::routes();
@@ -28,15 +28,13 @@ Route::resource('/doner', 'DonerController')->middleware('admin');
 Route::resource('/item', 'ItemController')->middleware('admin');
 Route::resource('/event', 'EventController')->middleware('admin');
 
-
-
 Route::get('/log', 'AdminController@logs')->middleware('admin');
 Route::get('/{id}/log', 'AdminController@log_show')->middleware('admin');
-
 
 //image placeholder
 Route::get('/uploads/doners/{file}', function() {
     return response( file_get_contents('./uploads/doners/doner.png') )
         ->header('Content-Type','image/png');
 });
+Route::get('api/landing', 'api\ItemController@landing');
 
