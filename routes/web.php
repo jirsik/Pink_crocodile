@@ -11,9 +11,9 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 // Route::get('/', function () {
 //     return view('react');
 // });
@@ -29,8 +29,8 @@ Route::resource('/item', 'ItemController')->middleware('admin');
 Route::get('/item/orderby/{order}', 'ItemController@index')->middleware('admin');
 Route::resource('/event', 'EventController')->middleware('admin');
 
-
-
 Route::get('/log', 'AdminController@logs')->middleware('admin');
 Route::get('/{id}/log', 'AdminController@log_show')->middleware('admin');
+
+Route::get('api/landing', 'api\ItemController@landing');
 
