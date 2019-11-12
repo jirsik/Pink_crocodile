@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use App\Item;
+use App\AuctionItem;
 
 class EventController extends Controller
 {
@@ -38,16 +39,32 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        //$item_ids = implode(",", $request->input('item'));
+        $item_ids = $request->input('item');
+
         $event = Event::create([
             'name' =>  $request->input('name'),
             'location' =>  $request->input('location'),
-            'starts_at' =>  $request->input('starts_at'),
-            'ends_at' =>  $request->input('ends_at'),
-            'coordinator' =>  $request->input('coordinator'),
+            'starts_at' => date("Y-m-d H:i:s", strtotime($request->input('starts_at'))),
+            'ends_at' => date("Y-m-d H:i:s", strtotime($request->input('ends_at'))),
+            'coordinator' => $request->input('coordinator'),
             'code' =>  '..',
         ]);
         $event->code = 'event' . $event->id;
         $event->save();
+
+        foreach ($item_ids as $item_id) {
+            $auction_item = AuctionItem::create([
+                'event_id' => $event->id,
+                'starts_at' => $event->starts_at,
+                'ends_at' => $event->ends_at,
+                'minimum_price' => 123,
+                // 'event_id', 'starts_at', 'ends_at', 'minimum_price',
+            ]);
+
+            $item = Item::FindOrFail($item_id);
+            $auction_item->item()->save($item);
+        }
 
         return redirect('/event')->with('success', 'Event created!');
     }

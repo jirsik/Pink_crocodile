@@ -24,4 +24,9 @@ class AuctionItem extends Model
     {
         return $this->hasMany('App\Bid');
     }
+
+    protected $fillable = [
+        'event_id', 'starts_at', 'ends_at', 'minimum_price',
+    ];
+        
 }
