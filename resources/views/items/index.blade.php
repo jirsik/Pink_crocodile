@@ -38,7 +38,13 @@
                                             <td>{{$item->title}}</td>
                                             <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
                                             <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
-                                            <td>x</td>
+                                            <td>
+                                                @if ($item->itemable_id)
+                                                    Yes
+                                                @else
+                                                    No
+                                                @endif
+                                            </td>
                                             <td>
                                                 <div class="float-right">
                                                     <a href="{{action('ItemController@show', $item->id)}}"><button class="btn btn-primary">Details</button></a>

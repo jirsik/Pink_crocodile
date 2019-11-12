@@ -80,10 +80,10 @@ if (isset($event)) {
                             </div>
 
                             <div class="form-group row">
-                                <label for="starts_at" class="col-md-4 col-form-label text-md-right">Starts at:</label>
+                                <label for="starts_at" class="col-md-4 col-form-label text-md-right">* Starts at:</label>
 
                                 <div class="col-md-6">
-                                    <input id="starts_at" type="datetime" class="form-control @error('starts_at') is-invalid @enderror" name="starts_at" value="{{ old('starts_at', $starts_at) }}">
+                                    <input id="starts_at" type="datetime-local" class="form-control @error('starts_at') is-invalid @enderror" name="starts_at" value="{{ old('starts_at', $starts_at) }}">
 
                                     @error('starts_at')
                                         <span class="invalid-feedback" role="alert">
@@ -94,10 +94,10 @@ if (isset($event)) {
                             </div>
 
                             <div class="form-group row">
-                                <label for="ends_at" class="col-md-4 col-form-label text-md-right">Ends at:</label>
+                                <label for="ends_at" class="col-md-4 col-form-label text-md-right">* Ends at:</label>
 
                                 <div class="col-md-6">
-                                    <input id="ends_at" type="datetime" class="form-control @error('ends_at') is-invalid @enderror" name="ends_at" value="{{ old('ends_at', $ends_at) }}">
+                                    <input id="ends_at" type="datetime-local" class="form-control @error('ends_at') is-invalid @enderror" name="ends_at" value="{{ old('ends_at', $ends_at) }}">
 
                                     @error('ends_at')
                                         <span class="invalid-feedback" role="alert">
@@ -158,7 +158,7 @@ if (isset($event)) {
                                                                 <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                                             </td>
                                                             <td>
-                                                                <input type="checkbox" name="vehicle1" value="true"> Add To Auction
+                                                                <input type="checkbox" name="item[]" value="{{$item->id}}"> Add To Auction
                                                             </td>
                                                         </tr>
                                                     @endforeach
