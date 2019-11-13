@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Event;
 use App\Item;
-use App\AuctionItem;
+use App\Auction_item;
 
 class EventController extends Controller
 {
@@ -16,7 +16,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::orderBy('name')->paginate(10);
+        $events = Event::orderBy('name')->get();
         return view ('events/index', compact('events'));
     }
 
@@ -27,7 +27,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        $items = Item::where('itemable_id', null)->paginate(10);
+        $items = Item::where('itemable_id', null)->get();
         return view('events.form', compact('items'));
     }
 
@@ -39,7 +39,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //$item_ids = implode(",", $request->input('item'));
         $item_ids = $request->input('item');
 
         $event = Event::create([
@@ -52,19 +51,22 @@ class EventController extends Controller
         ]);
         $event->code = 'event' . $event->id;
         $event->save();
-
-        foreach ($item_ids as $item_id) {
-            $auction_item = AuctionItem::create([
-                'event_id' => $event->id,
-                'starts_at' => $event->starts_at,
-                'ends_at' => $event->ends_at,
-                'minimum_price' => 123,
-                // 'event_id', 'starts_at', 'ends_at', 'minimum_price',
-            ]);
-
-            $item = Item::FindOrFail($item_id);
-            $auction_item->item()->save($item);
+        
+        if ($item_ids) {
+            foreach ($item_ids as $item_id) {
+                $auction_item = Auction_item::create([
+                    'event_id' => $event->id,
+                    'starts_at' => $event->starts_at,
+                    'ends_at' => $event->ends_at,
+                    'minimum_price' => 123,
+                    // 'event_id', 'starts_at', 'ends_at', 'minimum_price',
+                ]);
+    
+                $item = Item::FindOrFail($item_id);
+                $auction_item->item()->save($item);
+            }
         }
+        
 
         return redirect('/event')->with('success', 'Event created!');
     }
@@ -77,7 +79,9 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        //
+        $event = Event::with('auction_items')->findOrFail($id);
+        
+        return view('events/show', compact('event'));
     }
 
     /**
@@ -88,7 +92,10 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        //
+        $event = Event::findOrFail($id);
+        $auction_items = Auction_item::where('event_id', $id)->with('item')->get();
+        $items = Item::where('itemable_id', null)->get();
+        return view('events.form', compact('event', 'items', 'auction_items'));
     }
 
     /**
@@ -111,6 +118,19 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::with('auction_items')->findOrFail($id);
+        $auction_items = Auction_item::where('event_id', $event->id)->with('item')->get();
+
+        
+        foreach ($auction_items as $auction_item) {
+            $auction_item->item()->detach();
+        }
+
+
+
+        // $auction_items->each->delete();
+        // $event->delete();
+
+        return $auction_item->item(); //redirect('/event')->with('success', 'Event deleted!');
     }
 }

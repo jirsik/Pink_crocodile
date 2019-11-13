@@ -170,7 +170,6 @@ if (isset($event)) {
                                                 @endif
                                             </tbody>
                                         </table>
-                                        {{ $items->links() }}
                                         <div class="form-group row">
                                             <div class="col-md-6">
                                                 <button id ="item-button-back" type="button" class="btn btn-light">
