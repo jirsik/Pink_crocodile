@@ -13,31 +13,46 @@
 
                                 <tr>
                                     <th scope="row">Event:</th>
-                                    <td>{{$event->name}}</td>
+                                    <td colspan="2">{{$event->name}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Location:</th>
-                                    <td>{{$event->location}}</td>
+                                    <td colspan="2">{{$event->location}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Starts at:</th>
-                                    <td>{{$event->starts_at}}</td>
+                                    <td colspan="2">{{$event->starts_at}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Ends at:</th>
-                                    <td>{{$event->ends_at}}</td>
+                                    <td colspan="2">{{$event->ends_at}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row" colspan="2">Items:</th>
+                                    <th scope="row" colspan="3">Items: <hr></th>
                                 </tr>
-                                {{-- @foreach ($collection as $item)
-                                    
-                                @endforeach
-                                <tr>
-                                    <td>
-                                        <img class="show_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
-                                    </td> 
-                                </tr> --}}
+                                @if (count($event->auction_items) > 0)
+                                    @foreach ($event->auction_items as $auction_item)
+                                        <tr>
+                                            <th>{{$auction_item->item->title}}</th>
+                                            <td>
+                                                <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                            </td> 
+                                            <td>
+                                                {{-- buttons --}}
+                                                <div class="float-right">
+                                                    <a href="{{action('AuctionController@show', $auction_item->id)}}"><button class="btn btn-primary">Details of item</button></a>
+                                                </div>
+                                            </td> 
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="2">
+                                            <p>No Item assigned yet</p>
+                                        </td>
+                                    </tr>
+                                @endif
+                               
                             </tbody>
                           </table>
                         
@@ -45,7 +60,7 @@
                         
                         @if (strtotime($event->ends_at) > time())
                             <div class="float-right">
-                                <a href="{{action('EventController@edit', $event->id)}}"><button class="btn btn-primary">Edit</button></a>
+                                <a href="{{action('EventController@edit', $event->id)}}"><button class="btn btn-primary">Edit event</button></a>
                                 <form action="{{action('EventController@destroy', $event->id)}}" method="POST" class="d-inline"> 
                                     <input name="_method" type="hidden" value="delete">
                                     <button type="submit" class="btn btn-danger">Delte</button>

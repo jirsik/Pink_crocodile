@@ -27,8 +27,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        $items = Item::where('itemable_id', null)->get();
-        return view('events.form', compact('items'));
+        $available_items = Item::where('itemable_id', null)->get();
+        return view('events.form', compact('available_items'));
     }
 
     /**
@@ -41,34 +41,43 @@ class EventController extends Controller
     {
         $item_ids = $request->input('item');
 
-        $event = Event::create([
-            'name' =>  $request->input('name'),
-            'location' =>  $request->input('location'),
-            'starts_at' => date("Y-m-d H:i:s", strtotime($request->input('starts_at'))),
-            'ends_at' => date("Y-m-d H:i:s", strtotime($request->input('ends_at'))),
-            'coordinator' => $request->input('coordinator'),
-            'code' =>  '..',
-        ]);
-        $event->code = 'event' . $event->id;
-        $event->save();
-        
-        if ($item_ids) {
-            foreach ($item_ids as $item_id) {
-                $auction_item = Auction_item::create([
-                    'event_id' => $event->id,
-                    'starts_at' => $event->starts_at,
-                    'ends_at' => $event->ends_at,
-                    'minimum_price' => 123,
-                    // 'event_id', 'starts_at', 'ends_at', 'minimum_price',
-                ]);
-    
-                $item = Item::FindOrFail($item_id);
-                $auction_item->item()->save($item);
+       if ($item_ids) {
+            foreach ($item_ids as $i => $item_id) {
+                if ($request->input('item.'.$i) != 0) {
+                    $min[]= $request->input('min_price.'.$i);
+                }
+                
             }
         }
+
+        // $event = Event::create([
+        //     'name' =>  $request->input('name'),
+        //     'location' =>  $request->input('location'),
+        //     'starts_at' => date("Y-m-d H:i:s", strtotime($request->input('starts_at'))),
+        //     'ends_at' => date("Y-m-d H:i:s", strtotime($request->input('ends_at'))),
+        //     'coordinator' => $request->input('coordinator'),
+        //     'code' =>  '..',
+        // ]);
+        // $event->code = 'event' . $event->id;
+        // $event->save();
+        
+        // if ($item_ids) {
+        //     foreach ($item_ids as $item_id) {
+        //         $auction_item = Auction_item::create([
+        //             'event_id' => $event->id,
+        //             'starts_at' => $event->starts_at,
+        //             'ends_at' => $event->ends_at,
+        //             'minimum_price' => 123,
+        //             // 'event_id', 'starts_at', 'ends_at', 'minimum_price',
+        //         ]);
+    
+        //         $item = Item::FindOrFail($item_id);
+        //         $auction_item->item()->save($item);
+        //     }
+        // }
         
 
-        return redirect('/event')->with('success', 'Event created!');
+        return $min; //redirect('/event')->with('success', 'Event created!');
     }
 
     /**
@@ -79,7 +88,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::with('auction_items')->findOrFail($id);
+        $event = Event::with('auction_items', 'auction_items.item')->findOrFail($id);
         
         return view('events/show', compact('event'));
     }
@@ -92,10 +101,9 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::findOrFail($id);
-        $auction_items = Auction_item::where('event_id', $id)->with('item')->get();
-        $items = Item::where('itemable_id', null)->get();
-        return view('events.form', compact('event', 'items', 'auction_items'));
+        $event = Event::with('auction_items', 'auction_items.item')->findOrFail($id);
+        $available_items = Item::where('itemable_id', null)->get();
+        return view('events.form', compact('event', 'available_items'));
     }
 
     /**
@@ -118,19 +126,19 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::with('auction_items')->findOrFail($id);
-        $auction_items = Auction_item::where('event_id', $event->id)->with('item')->get();
+        $event = Event::with('auction_items', 'auction_items.item')->findOrFail($id);
 
-        
-        foreach ($auction_items as $auction_item) {
-            $auction_item->item()->detach();
+        if (count($event->auction_items) > 0) {
+            foreach ($event->auction_items as $auction_item) {
+                $auction_item->item->itemable_id = null;
+                $auction_item->item->itemable_type = null;
+                $auction_item->item->save();      
+            }
         }
 
+        $event->auction_items->each->delete();
+        $event->delete();
 
-
-        // $auction_items->each->delete();
-        // $event->delete();
-
-        return $auction_item->item(); //redirect('/event')->with('success', 'Event deleted!');
+        return redirect('/event')->with('success', 'Event deleted!');
     }
 }

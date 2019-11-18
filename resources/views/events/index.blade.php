@@ -103,7 +103,6 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
-                                                    {{-- 'name', 'location', 'starts_at', 'ends_at', 'coordinator', 'code' --}}
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Location</th>
                                                 <th scope="col">Starts at</th>

@@ -3,9 +3,9 @@
 <?php
 if (isset($event)) {
     $name = $event->name;
-    $location = $event->location;
-    $starts_at = $event->starts_at;
-    $ends_at = $event->ends_at;
+    $location = $event->location; //2009-11-13T20:00
+    $starts_at = date("Y-m-d\TH:i", strtotime($event->starts_at)); //date("Y-m-d H:i", strtotime($event->starts_at));
+    $ends_at = date("Y-m-d\TH:i", strtotime($event->ends_at));
     $coordinator = $event->coordinator;
     $code = $event->code;
 
@@ -38,7 +38,7 @@ if (isset($event)) {
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Add Event</div>
+                <div class="card-header">{{$button_title}}</div>
                 <div class="card-body">
                     @can('admin')
                         <form method="POST" action={{$action}}>
@@ -47,10 +47,8 @@ if (isset($event)) {
                                 <input name="_method" type="hidden" value="put">
                             @endif 
 
-                            {{-- this input tells FinelRequest what data it shoud validate --}}
                             <input name="form" type="hidden" value="event"> 
 
-{{-- 'name', 'location', 'starts_at', 'ends_at', 'coordinator', 'code' --}}
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">* Name:</label>
 
@@ -121,7 +119,49 @@ if (isset($event)) {
                                 </div>
                             </div>
 
-                            <div id="add-items" class="@if($assigned_items) d-none @endif">
+                            @if (isset($event) && count($event->auction_items)>0)
+                                
+                                <div id="assigned-items" class="card d-none d-block mb-2">
+                                    <div class="card-header">Assigned Items</div>        
+                                    <div class="card-body">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Title</th>
+                                                    <th scope="col">Est. Price</th>
+                                                    <th scope="col">Image</th>
+                                                    <th scope="col">Remove</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                
+                                                @if (count($event->auction_items)>0)
+                                                @foreach ($event->auction_items as $auction_item)
+                                                <tr>
+                                                            <td>{{$auction_item->item->title}}</td>
+                                                            <td>{{$auction_item->item->estimated_price ?? '??'}}</td>
+                                                            <td>
+                                                                <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="assigned_item[]" checked value="{{$auction_item->id}}"> uncheck to remove
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                        
+                                                @else
+                                                <tr>
+                                                    <td colspan="4">There are no available items at the moment.</td>
+                                                </tr>
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            @endif
+                                    
+                            <div id="add-items">
                                 <div class="form-group row">
                                     <div class="col-md-6 offset-md-4">
                                         <button id ="item-button" type="button" class="btn btn-secondary">
@@ -130,8 +170,8 @@ if (isset($event)) {
                                     </div>
                                 </div>
                             </div>
-
-                            <div id="available-items" class="card d-none @if($assigned_items) d-block @endif mb-2">
+    
+                            <div id="available-items" class="card d-none mb-2">
                                     <div class="card-header">Available Items</div>        
                                     <div class="card-body">
 
@@ -141,24 +181,65 @@ if (isset($event)) {
                                             <thead>
                                               <tr>
                                                 <th scope="col">Title</th>
-                                                <th scope="col">Doner</th>
+                                                <th scope="col">Est. Price</th>
                                                 <th scope="col">Image</th>
                                                 <th scope="col">Add</th>
                                               </tr>
                                             </thead>
                                             <tbody>
-
                                               
-                                                @if (count($items)>0)
-                                                    @foreach ($items as $item)
+                                                @if (count($available_items)>0)
+                                                    @foreach ($available_items as $i=>$item)
                                                         <tr>
                                                             <td>{{$item->title}}</td>
-                                                            <td>{{$item->doner?$item->doner->name:'annonymus'}}</td>
+                                                            <td>{{$item->estimated_price ?? '??'}}</td>
                                                             <td>
                                                                 <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                                             </td>
                                                             <td>
-                                                                <input type="checkbox" name="item[]" value="{{$item->id}}"> Add To Auction
+                                                                <div>
+                                                                    <input type="hidden" name="item[{{$i}}][checked]" value="0">
+                                                                	<input type="checkbox" name="item[{{$i}}]" value="{{$item->id}}" class="text-md-left"> Add To Auction
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="min_price[{{$i}}]" class="col-md-4 col-form-label text-md-right">Min. Price:</label>
+                                    
+                                                                    <div class="col-md-8">
+                                                                        <input id="min_price[{{$i}}]" type="number" class="form-control @error('min_price[{{$i}}]') is-invalid @enderror" name="min_price[{{$i}}]" value="{{ old('min_price['.$i.']') }}">
+                                    
+                                                                        @error('min_price[{{$i}}]')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="starts[{{$i}}]" class="col-md-4 col-form-label text-md-right">Starts:</label>
+                                    
+                                                                    <div class="col-md-8">
+                                                                        <input id="starts[{{$i}}]" type="datetime-local" class="form-control @error('starts[{{$i}}]') is-invalid @enderror" name="starts[{{$i}}]" value="{{ old('starts['.$i.']') }}">
+                                    
+                                                                        @error('starts[{{$i}}]')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                        <label for="ends[{{$i}}]" class="col-md-4 col-form-label text-md-right">Ends:</label>
+                                        
+                                                                        <div class="col-md-8">
+                                                                            <input id="ends[{{$i}}]" type="datetime-local" class="form-control @error('ends[{{$i}}]') is-invalid @enderror" name="ends[{{$i}}]" value="{{ old('ends['.$i.']') }}">
+                                        
+                                                                            @error('ends[{{$i}}]')
+                                                                                <span class="invalid-feedback" role="alert">
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </span>
+                                                                            @enderror
+                                                                        </div>
+                                                                    </div>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -172,7 +253,7 @@ if (isset($event)) {
                                         </table>
                                         <div class="form-group row">
                                             <div class="col-md-6">
-                                                <button id ="item-button-back" type="button" class="btn btn-light">
+                                                <button id ="item-button-back" type="button" class="btn btn-secondary">
                                                     Do not add items
                                                 </button>
                                             </div>
