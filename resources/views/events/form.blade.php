@@ -134,27 +134,19 @@ if (isset($event)) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
-                                                
-                                                @if (count($event->auction_items)>0)
-                                                @foreach ($event->auction_items as $auction_item)
-                                                <tr>
-                                                            <td>{{$auction_item->item->title}}</td>
-                                                            <td>{{$auction_item->item->estimated_price ?? '??'}}</td>
-                                                            <td>
-                                                                <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" name="assigned_item[]" checked value="{{$auction_item->id}}"> uncheck to remove
-                                                            </td>
-                                                        </tr>
-                                                        @endforeach
-                                                        
-                                                @else
-                                                <tr>
-                                                    <td colspan="4">There are no available items at the moment.</td>
-                                                </tr>
-                                                @endif
+                                                @foreach ($event->auction_items as $i => $auction_item)
+                                                    <tr>
+                                                        <td>{{$auction_item->item->title}}</td>
+                                                        <td>{{$auction_item->item->estimated_price ?? '??'}}</td>
+                                                        <td>
+                                                            <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="item_to_unconnect[{{$i}}]" value="{{$auction_item->id}}">
+                                                            <input type="checkbox" name="item_to_unconnect[{{$i}}]" checked value="0"> uncheck to unconnect
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -174,8 +166,6 @@ if (isset($event)) {
                             <div id="available-items" class="card d-none mb-2">
                                     <div class="card-header">Available Items</div>        
                                     <div class="card-body">
-
-                                            {{-- 'title', 'description', 'estimated_price', 'currency', 'doner_id', 'photo_path', --}}
 
                                         <table class="table">
                                             <thead>
@@ -198,16 +188,16 @@ if (isset($event)) {
                                                             </td>
                                                             <td>
                                                                 <div>
-                                                                    <input type="hidden" name="item[{{$i}}][checked]" value="0">
-                                                                	<input type="checkbox" name="item[{{$i}}]" value="{{$item->id}}" class="text-md-left"> Add To Auction
+                                                                    <input type="hidden" name="item[{{$i}}][id]" value="0">
+                                                                	<input type="checkbox" name="item[{{$i}}][id]" value="{{$item->id}}" class="text-md-left"> Add To Auction
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label for="min_price[{{$i}}]" class="col-md-4 col-form-label text-md-right">Min. Price:</label>
+                                                                    <label for="item[{{$i}}][min_price]" class="col-md-4 col-form-label text-md-right">Min. Price:</label>
                                     
                                                                     <div class="col-md-8">
-                                                                        <input id="min_price[{{$i}}]" type="number" class="form-control @error('min_price[{{$i}}]') is-invalid @enderror" name="min_price[{{$i}}]" value="{{ old('min_price['.$i.']') }}">
+                                                                        <input id="item[{{$i}}][min_price]" type="number" class="form-control @error('item[{{$i}}][min_price]') is-invalid @enderror" name="item[{{$i}}][min_price]" value="{{ old('item['.$i.'][min_price]') }}">
                                     
-                                                                        @error('min_price[{{$i}}]')
+                                                                        @error('item[{{$i}}][min_price]')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>
@@ -215,12 +205,12 @@ if (isset($event)) {
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label for="starts[{{$i}}]" class="col-md-4 col-form-label text-md-right">Starts:</label>
+                                                                    <label for="item[{{$i}}][starts_at]" class="col-md-4 col-form-label text-md-right">Starts:</label>
                                     
                                                                     <div class="col-md-8">
-                                                                        <input id="starts[{{$i}}]" type="datetime-local" class="form-control @error('starts[{{$i}}]') is-invalid @enderror" name="starts[{{$i}}]" value="{{ old('starts['.$i.']') }}">
+                                                                        <input id="item[{{$i}}][starts_at]" type="datetime-local" class="form-control @error('item[{{$i}}][starts_at]') is-invalid @enderror" name="item[{{$i}}][starts_at]" value="{{ old('item['.$i.'][starts_at]') }}">
                                     
-                                                                        @error('starts[{{$i}}]')
+                                                                        @error('item[{{$i}}][starts_at]')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>
@@ -228,12 +218,12 @@ if (isset($event)) {
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                        <label for="ends[{{$i}}]" class="col-md-4 col-form-label text-md-right">Ends:</label>
+                                                                        <label for="item[{{$i}}][ends_at]" class="col-md-4 col-form-label text-md-right">Ends:</label>
                                         
                                                                         <div class="col-md-8">
-                                                                            <input id="ends[{{$i}}]" type="datetime-local" class="form-control @error('ends[{{$i}}]') is-invalid @enderror" name="ends[{{$i}}]" value="{{ old('ends['.$i.']') }}">
+                                                                            <input id="item[{{$i}}][ends_at]" type="datetime-local" class="form-control @error('item[{{$i}}][ends_at]') is-invalid @enderror" name="item[{{$i}}][ends_at]" value="{{ old('item['.$i.'][ends_at]') }}">
                                         
-                                                                            @error('ends[{{$i}}]')
+                                                                            @error('item[{{$i}}][ends_at]')
                                                                                 <span class="invalid-feedback" role="alert">
                                                                                     <strong>{{ $message }}</strong>
                                                                                 </span>

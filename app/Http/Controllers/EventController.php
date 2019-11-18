@@ -39,45 +39,36 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $item_ids = $request->input('item');
+        $items = $request->input('item');
 
-       if ($item_ids) {
-            foreach ($item_ids as $i => $item_id) {
-                if ($request->input('item.'.$i) != 0) {
-                    $min[]= $request->input('min_price.'.$i);
+        $event = Event::create([
+            'name' =>  $request->input('name'),
+            'location' =>  $request->input('location'),
+            'starts_at' => date("Y-m-d H:i:s", strtotime($request->input('starts_at'))),
+            'ends_at' => date("Y-m-d H:i:s", strtotime($request->input('ends_at'))),
+            'coordinator' => $request->input('coordinator'),
+            'code' =>  '..',
+        ]);
+        $event->code = 'event' . $event->id;
+        $event->save();
+        
+        if ($items) {
+            foreach ($items as $item_info) {
+                if ($item_info['id'] != 0) {
+                    $auction_item = Auction_item::create([
+                        'event_id' => $event->id,
+                        'starts_at' => $item_info['starts_at'] ?? $event->starts_at,
+                        'ends_at' => $item_info['ends_at'] ?? $event->ends_at,
+                        'minimum_price' => $item_info['min_price'] ?? 1,
+                    ]);
+        
+                    $item = Item::FindOrFail($item_info['id']);
+                    $auction_item->item()->save($item);       
                 }
-                
             }
         }
 
-        // $event = Event::create([
-        //     'name' =>  $request->input('name'),
-        //     'location' =>  $request->input('location'),
-        //     'starts_at' => date("Y-m-d H:i:s", strtotime($request->input('starts_at'))),
-        //     'ends_at' => date("Y-m-d H:i:s", strtotime($request->input('ends_at'))),
-        //     'coordinator' => $request->input('coordinator'),
-        //     'code' =>  '..',
-        // ]);
-        // $event->code = 'event' . $event->id;
-        // $event->save();
-        
-        // if ($item_ids) {
-        //     foreach ($item_ids as $item_id) {
-        //         $auction_item = Auction_item::create([
-        //             'event_id' => $event->id,
-        //             'starts_at' => $event->starts_at,
-        //             'ends_at' => $event->ends_at,
-        //             'minimum_price' => 123,
-        //             // 'event_id', 'starts_at', 'ends_at', 'minimum_price',
-        //         ]);
-    
-        //         $item = Item::FindOrFail($item_id);
-        //         $auction_item->item()->save($item);
-        //     }
-        // }
-        
-
-        return $min; //redirect('/event')->with('success', 'Event created!');
+        return redirect('/event')->with('success', 'Event created!');
     }
 
     /**
@@ -115,7 +106,51 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $event = Event::findOrFail($id);
+        $event->name = $request->input('name');
+        $event->location = $request->input('location');
+        $event->starts_at = date("Y-m-d H:i:s", strtotime($request->input('starts_at')));
+        $event->ends_at = date("Y-m-d H:i:s", strtotime($request->input('ends_at')));
+        $event->coordinator = $request->input('coordinator');
+        $event->save();
+        
+        //adding new items
+        $items = $request->input('item');
+        if ($items) {
+            foreach ($items as $item_info) {
+                if ($item_info['id'] != 0) {
+                    $auction_item = Auction_item::create([
+                        'event_id' => $event->id,
+                        'starts_at' => $item_info['starts_at'] ?? $event->starts_at,
+                        'ends_at' => $item_info['ends_at'] ?? $event->ends_at,
+                        'minimum_price' => $item_info['min_price'] ?? 1,
+                    ]);
+        
+                    $item = Item::FindOrFail($item_info['id']);
+                    $auction_item->item()->save($item);       
+                }
+            }
+        }
+
+        //removing items
+        $items_to_unconnect = $request->input('item_to_unconnect');
+        if ($items_to_unconnect) {
+            foreach ($items_to_unconnect as $auction_item_id) {
+                if ($auction_item_id != 0) {
+
+
+                    $auction_item_to_unconnect = Auction_item::with('item')->findOrFail($auction_item_id);
+                    $auction_item_to_unconnect->item->itemable_id = null;
+                    $auction_item_to_unconnect->item->itemable_type = null;
+                    $auction_item_to_unconnect->item->save();
+
+                    $auction_item_to_unconnect->delete();
+
+                }
+            }
+        }
+
+        return redirect('/event')->with('success', 'Event updated!');
     }
 
     /**
@@ -132,7 +167,7 @@ class EventController extends Controller
             foreach ($event->auction_items as $auction_item) {
                 $auction_item->item->itemable_id = null;
                 $auction_item->item->itemable_type = null;
-                $auction_item->item->save();      
+                $auction_item->item->save();
             }
         }
 
