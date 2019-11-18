@@ -25,6 +25,14 @@ if (isset($item)) {
     $back_link = route('admin');
 }
 
+//for editing auction
+if (isset($auction_item)) {
+    $action = action('AuctionController@update', $auction_item->id);
+    $button_title = 'Edit Item for auction';
+    $back_link = action('AuctionController@show', $auction_item->id);
+}
+
+
 $doner_id = old('doner_id', $doner_id);
 
 $any_error = false;
@@ -42,7 +50,7 @@ if (count($errors->all()) > 0 ) {
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Add Item</div>
+                <div class="card-header">{{$button_title}}</div>
                 <div class="card-body">
                     @can('admin')
                         @if ($any_error)
@@ -113,6 +121,8 @@ if (count($errors->all()) > 0 ) {
                                     @enderror
                                 </div>
                             </div>
+                            {{-- using this form even for updating auction_item --}}
+                            @yield('auction')
 
                             @if ($item_photo_path !== '' && $item_photo_path !== null)
                                 <hr>
@@ -133,7 +143,9 @@ if (count($errors->all()) > 0 ) {
                             </div>
 
                             <div id="old-doner" class="@if($doner_error) d-none @endif">
-                                <hr>
+                                @if (!isset($item))
+                                    <hr>
+                                @endif
                                 <div class="form-group row">
                                     <label for="doner_id" class="col-md-4 col-form-label text-md-right">Doner:</label>
                                     <div class="col-md-6">
@@ -152,15 +164,17 @@ if (count($errors->all()) > 0 ) {
                                         </select>
                                     </div>
                                 </div>
-    
-                                <div class="form-group row">
-                                    <div class="col-md-6 offset-md-4">
-                                        <button id ="doner-button" type="button" class="btn btn-secondary">
-                                            New Doner
-                                        </button>
+                                
+                                @if (!isset($item))
+                                    <div class="form-group row">
+                                        <div class="col-md-6 offset-md-4">
+                                            <button id ="doner-button" type="button" class="btn btn-secondary">
+                                                New Doner
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                                <hr>
+                                    <hr>
+                                @endif
                             </div>
 
                             <div id="new-doner" class="card d-none @if($doner_error) d-block @endif mb-2">

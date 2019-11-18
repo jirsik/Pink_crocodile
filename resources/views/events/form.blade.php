@@ -35,6 +35,7 @@ if (isset($event)) {
 ?>
 
 @section('content')
+    <input name="form" type="hidden" value="item"> {{-- tels to FinalRequest.php how to valitade data --}}
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -218,18 +219,17 @@ if (isset($event)) {
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                        <label for="item[{{$i}}][ends_at]" class="col-md-4 col-form-label text-md-right">Ends:</label>
+                                                                    <label for="item[{{$i}}][ends_at]" class="col-md-4 col-form-label text-md-right">Ends:</label>
+                                                                    <div class="col-md-8">
+                                                                        <input id="item[{{$i}}][ends_at]" type="datetime-local" class="form-control @error('item[{{$i}}][ends_at]') is-invalid @enderror" name="item[{{$i}}][ends_at]" value="{{ old('item['.$i.'][ends_at]') }}">
                                         
-                                                                        <div class="col-md-8">
-                                                                            <input id="item[{{$i}}][ends_at]" type="datetime-local" class="form-control @error('item[{{$i}}][ends_at]') is-invalid @enderror" name="item[{{$i}}][ends_at]" value="{{ old('item['.$i.'][ends_at]') }}">
-                                        
-                                                                            @error('item[{{$i}}][ends_at]')
-                                                                                <span class="invalid-feedback" role="alert">
-                                                                                    <strong>{{ $message }}</strong>
-                                                                                </span>
-                                                                            @enderror
-                                                                        </div>
+                                                                        @error('item[{{$i}}][ends_at]')
+                                                                            <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                                                        @enderror
                                                                     </div>
+                                                                </div>
                                                             </td>
                                                         </tr>
                                                     @endforeach

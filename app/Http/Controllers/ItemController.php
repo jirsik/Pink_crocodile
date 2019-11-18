@@ -173,7 +173,7 @@ class ItemController extends Controller
             $item->save(); 
         }
 
-        return redirect('/item')->with('success', 'Item edited!');
+        return redirect('/item/'.$id)->with('success', 'Item edited!');
     }
 
     /**
