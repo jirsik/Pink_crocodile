@@ -24,4 +24,9 @@ class Event extends Model
     {
         return $this->hasMany('App\Auction_item');
     }
+
+    // public function items()
+    // {
+    //     return $this->hasMany('App\Item')->using('App\Auction_item');
+    // }
 }

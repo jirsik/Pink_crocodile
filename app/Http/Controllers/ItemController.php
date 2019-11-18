@@ -64,7 +64,7 @@ class ItemController extends Controller
         }
 
         $items = Item::with('doner')
-            ->join('doners', 'doners.id', '=', 'items.doner_id')
+            ->leftjoin('doners', 'doners.id', '=', 'items.doner_id')
             ->select('items.*')
             ->orderBy($order, $direction)
             ->orderBy('title')
