@@ -16,6 +16,11 @@ const Bid = props => {
         console.log('PRICE: ', price)
     }
 
+    const handlePriceChange = (e) => {
+        setPrice(e.target.value)
+        console.log('SET PRICE: ', price)
+    }
+
     const submitBid = () => {
         console.log('SUBMIT BID: ')
         fetch(`/api/auth/bid`, {
@@ -53,7 +58,7 @@ const Bid = props => {
         <div className="info">
             <div className="info-row bid-row">
                 <button className="btn btn-pink operator-btn"><i id="minus" className="fas fa-minus-circle" onClick={handleOperator}></i></button>
-                <input className="bid-amount" type="number" placeholder={price} />
+                <input className="bid-amount" type="number" placeholder={price} onChange={handlePriceChange}/>
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">

@@ -17,22 +17,4 @@ class ItemController extends Controller
 
         return $items;
     }
-
-    public function submitBid(Request $request)
-    {   
-        $this->validate($request, [
-            'auction_items_id' => 'required',
-            'user_id' => 'required',
-            'price' => 'required'
-        ]);
-        $bid = Bid::create([
-            'auction_items_id' => $request->auction_items_id,
-            'user_id' => $request->user_id,
-            'price' => $request->price
-        ]);
-        
-        return([
-            'submit' => true
-        ]);
-    }
 }

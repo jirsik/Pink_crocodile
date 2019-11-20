@@ -2,6 +2,11 @@
 /public/hot
 /public/storage
 /public
+!/public/.htaccess
+!/public/favicon.ico
+!/public/index.php
+!/public/robots.txt
+!/public/web.config
 /storage/*.key
 /vendor
 .env
