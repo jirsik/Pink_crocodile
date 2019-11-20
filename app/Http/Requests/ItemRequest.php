@@ -30,7 +30,6 @@ class ItemRequest extends FormRequest
             'estimated_price' => 'nullable|integer|min:0',
             'currency' => ['nullable', Rule::in(['CZK', 'EUR', 'USD'])],
             'doner_id' => 'nullable|max:35',
-            'item_photo_path' => 'nullable|string|max:200',
             'item_image' => 'nullable|image',
 
         ];
