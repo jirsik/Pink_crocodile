@@ -75,7 +75,7 @@ class AuctionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FinalRequest $request, $id)
     {
         $auction_item = Auction_item::with('item')->findOrFail($id);
         $item = $auction_item->item;
@@ -97,7 +97,7 @@ class AuctionController extends Controller
         $item->doner_id = $doner_id;
         $item->save();
 
-        if($file = $request->file('image_image')) {
+        if($file = $request->file('item_image')) {
             if ($item->item_photo_path) {
                 if (file_exists(public_path($item->item_photo_path))) {
                     unlink(public_path($item->item_photo_path)); // delete old file

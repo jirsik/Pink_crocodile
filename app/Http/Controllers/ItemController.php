@@ -160,7 +160,7 @@ class ItemController extends Controller
         $item->doner_id = $doner_id;
         $item->save();
 
-        if($file = $request->file('image_image')) {
+        if($file = $request->file('item_image')) {
             if ($item->item_photo_path) {
                 if (file_exists(public_path($item->item_photo_path))) {
                     unlink(public_path($item->item_photo_path)); // delete old file
@@ -169,7 +169,7 @@ class ItemController extends Controller
             $file_name =  'pink_item'.$item->id . '.' . pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
             $file->storeAs('items', $file_name, 'uploads');
 
-            $item->item_photo_path = 'uploads/items/' . $file_name; //rewrite photo_path because of possible change of wxtention
+            $item->item_photo_path = 'uploads/items/' . $file_name; //rewrite photo_path because of possible change of extention
             $item->save(); 
         }
 
