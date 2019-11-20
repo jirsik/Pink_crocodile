@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bid extends Model
 {
     protected $table = 'bids';
+    protected $fillable = ['auction_items_id', 'user_id', 'price'];
 
     public function auction_item()
     {

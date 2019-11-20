@@ -1,0 +1,73 @@
+.info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    text-align: left;
+    color: black;
+    background-color: white;
+}
+.info-row{
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 25%;
+    padding: 1rem;
+    
+    i{
+        margin-right: 1rem;
+        font-size: 1.5rem;
+    }
+    p{
+        margin: 0;
+    }
+    .about-icon{
+        color: #1e1e1e;
+    }
+    .highest-bidder-icon{
+        color: #ff8800;
+    }
+    .bids-icon{
+        color: #00c851;
+    }
+    .donor-icon{
+        color: #ff4444;
+    }
+}
+.bid-info-row{
+    justify-content: center;
+}
+.bid-row{
+    display: flex;
+    justify-content: center;
+}
+.bid-amount{
+    text-align: center;
+    width: 50%;
+    /* height: 2rem; */
+    margin: 0 1rem 0 1rem;
+    padding: 0 1rem;
+}
+.operator-btn i{
+    font-size: 1rem;
+    margin: 0;
+}
+.submit-btns{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+.highest-bidder-icon, .donor-icon{
+    font-size: 1.5rem;
+}
+.highest-bidder-icon{
+    color: #ff8800;
+}
+.donor-icon{
+    color: #ff4444;
+}

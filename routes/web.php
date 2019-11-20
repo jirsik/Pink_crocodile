@@ -13,19 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/landing', function () {
-    return view('welcome');
-});
+
 // Route::get('/', function () {
 //     return view('home');
 // });
-// Route::get('/welcome', function () {
-//     return view('welcome');
-// });
+Route::get('/welcome', function () {
+    return view('welcome');
+});
 Route::get('/', function(Request $request) {
 
     $query = http_build_query([
-        'client_id' => 12,
+        'client_id' => 11,
         'redirect_uri' => 'http://www.pink-croc-auction.test/callback',
         'response_type' => 'code',
         'scope' => '',
@@ -40,26 +38,26 @@ Route::get('/callback', function(Request $request) {
 
     $http = new GuzzleHttp\Client;
 
+    // $response = $http->post('http://www.pink-croc-auction.test/oauth/token', [
+    //     'form_params' => [
+    //         'grant_type' => 'authorization_code',
+    //         'client_id' => 12,
+    //         'client_secret' => '0SecNkqNQWgDew1COi0LRQyOm42iwv6I2BurCjUr',
+    //         'redirect_uri' => 'http://www.pink-croc-auction.test/callback',
+    //         'code' => $request->code
+    //     ]
+    // ]);
+
     $response = $http->post('http://www.pink-croc-auction.test/oauth/token', [
         'form_params' => [
-            'grant_type' => 'authorization_code',
+            'grant_type' => 'password',
             'client_id' => 12,
             'client_secret' => '0SecNkqNQWgDew1COi0LRQyOm42iwv6I2BurCjUr',
-            'redirect_uri' => 'http://www.pink-croc-auction.test/callback',
-            'code' => $request->code
-        ]
+            'username' => 'Fiona@email.com',
+            'password' => '$2y$10$ugduT7B6s.o.AkiBCnf22eMiE98OT7HUhVtmqTqERbHQL5DwTOCtq',
+            'scope' => '',
+        ],
     ]);
-
-    // $response = $http->post('/oauth/token', [
-    //     'form_params' => [
-    //         'grant_type' => 'password',
-    //         'client_id' => 'client-id',
-    //         'client_secret' => 'B45U9pCF4MOk64Z6mEpzlt6nnpa6xcc5fkWdGbYE',
-    //         'username' => 'Fiona@email.com',
-    //         'password' => '$2y$10$ugduT7B6s.o.AkiBCnf22eMiE98OT7HUhVtmqTqERbHQL5DwTOCtq',
-    //         'scope' => '',
-    //     ],
-    // ]);
             
     return json_decode((string) $response->getBody(), true);
 });
