@@ -47,14 +47,21 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $direction = 'ASC';
+        $skip_null = '';
+
         if ($order = $request->input('sort')) {
             switch ($order) {
                 case 'doner':
                     $order = 'name';
+                    $skip_null = ' IS NULL';
                     break;
                 case 'price':
                     $order = 'estimated_price';
                     $direction = 'DESC';
+                    $skip_null = ' IS NULL';
+                    break;
+                case 'assigned':
+                    $order = 'itemable_id';
                     break;
                 default:
                     $order = 'title';
@@ -63,9 +70,20 @@ class ItemController extends Controller
             $order = 'title';
         }
 
-        $items = Item::with('doner')
+        $items = Item::with('doner', 'itemable', 'itemable.event')
+            //joining doners to provide the possibility to sort records by doners name
             ->leftjoin('doners', 'doners.id', '=', 'items.doner_id')
+            //joining auction_items to check if the item was allready sold by auction
+            ->leftJoin('auction_items', function($q) {
+                $q->on('items.itemable_id', '=', 'auction_items.id');
+                $q->where('items.itemable_type', '=', 'App\Auction_item');
+            })
             ->select('items.*')
+            //checking if the auction is done, not to display those items
+            ->where('ends_at', '>', date("Y-m-d H:i:s", time()) )
+            ->orWhere('ends_at', null)
+            //skipping items with no doner or assignment
+            ->orderByRaw($order . $skip_null)
             ->orderBy($order, $direction)
             ->orderBy('title')
             ->paginate(10);
@@ -122,7 +140,7 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        $item = Item::findOrFail($id);
+        $item = Item::with('itemable', 'itemable.event')->findOrFail($id);
         return view('items/show', compact('item'));
     }
 

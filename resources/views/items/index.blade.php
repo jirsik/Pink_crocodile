@@ -23,7 +23,7 @@
                                         <a href="{{url('/item?sort=price')}}">Estimated Price</a>
                                     </th>
                                     <th scope="col">
-                                        Assign to
+                                        <a href="{{url('/item?sort=assigned')}}">Assigned  / Available</a>
                                     </th>
                                     <th scope="col"></th>
                                 </tr>
@@ -40,9 +40,10 @@
                                             <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
                                             <td>
                                                 @if ($item->itemable_id)
-                                                    Yes
-                                                @else
-                                                    No
+                                                    <a href="{{action('EventController@show', $item->itemable->event->id)}}">
+                                                        {{$item->itemable->event->name}}
+                                                    </a>
+                                                    
                                                 @endif
                                             </td>
                                             <td>

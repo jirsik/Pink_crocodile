@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\FinalRequest;
+
 use App\Event;
 use App\Item;
 use App\Auction_item;

@@ -40,21 +40,7 @@ class FinalRequest extends FormRequest
                         break;
             default: $result = [];
         }
-        
-
-
-        // if ($request->input('form') === 'item') {
-        //     if ($request->input('doner_id') === 'new' ) {
-        //         $result = array_merge(DonerRequest::rules(), ItemRequest::rules());
-        //     } else {
-        //         $result = ItemRequest::rules();
-        //     }
-        // } elseif ($request->input('form') === 'doner') {
-        //     $result = DonerRequest::rules();
-        // } else {
-        //     $result = [];
-        // }
-        
+                
         return $result;
     }
 }
