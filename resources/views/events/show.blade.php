@@ -35,7 +35,7 @@
                                         <tr>
                                             <th>{{$auction_item->item->title}}</th>
                                             <td>
-                                                <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                                <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                             </td> 
                                             <td>
                                                 {{-- buttons --}}
