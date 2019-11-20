@@ -1,0 +1,46 @@
+.item-image-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40%;
+}
+.item-image{
+    width: 70%;
+    height: auto;
+}
+.item-title{
+    font-weight: 700;
+    letter-spacing: 0.2rem;
+}
+.item-time{
+    width: 70%;
+    text-align: center;
+    padding: 0.5rem;
+    letter-spacing: 0.5rem;
+    font-weight: 700;
+    background-color: white;
+    color: #5cb85c;
+}
+.info-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0,0,0,0.6)
+}
+.donor-logo-img{
+    width: 40%;
+    height:  auto;
+}
+.auction-icon{
+    font-size: 1.5rem;
+}
+.price-icon{
+    color: #007E33;
+}
+.time-icon{
+    color: #0099CC;
+}

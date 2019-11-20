@@ -1,0 +1,26 @@
+.logo-img{
+    height: 12rem;
+    width: 12rem;
+    margin-top: 2rem;
+    background-image: url('../img/logo.svg');
+    background-repeat: no-repeat;
+}
+.login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 60%;
+    width: 90%;
+}
+.login-form input,label{
+    font-size: 1.15rem;
+    padding: 0.25rem;
+}
+.form-btn-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.btn-register{
+    margin-left: 1rem;
+}

@@ -13,6 +13,30 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/login', function () {
+    return view('index');
+});
+// Route::post('/sign-in', 'api/LoginController@authenticate');
+Route::post('/sign-in', function () {
+    return ['Login'];
+});
+
+Route::get('/landing', 'api\ItemController@landing');
+
+Route::group([
+    'prefix' => 'auth'
+], function () {
+    Route::post('login', 'PassportController@login');
+    Route::post('register', 'PassportController@register');
+    Route::group([
+        'middleware' => 'auth:api'
+    ], function () {
+        Route::get('logout', 'PassportController@logout');
+        Route::get('user', 'PassportController@checkToken');
+        Route::post('bid', 'api\ItemController@submitBid');
+    });
 });

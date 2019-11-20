@@ -1,0 +1,67 @@
+
+.items-list{
+   overflow: scroll;
+   width: 100%;
+}
+.item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+    min-width: 95%;
+    margin: 3rem 0.5rem;
+    padding: 0.5rem;
+    background-color: white;
+    box-shadow: 1.5px 1.5px 1.5px 0px rgba(0,0,0,0.7);
+}
+.item-img{
+    width: 40%;
+    height: 80%;
+}
+.item-about{
+    display: flex;
+    flex-direction: column;
+    width:60%;
+    padding: 0.5rem;
+    justify-content: space-between;
+}
+.item-title{
+    font-size: 1.1rem;
+}
+.item-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+
+    p{  
+        font-size: 1.1rem;
+        margin: 0;
+    }
+}
+.item-time-list{
+    color: #5cb85c;
+    font-weight: 700;
+    letter-spacing: 0.25rem;
+}
+.price-popularity-row{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .bids-icon, .popularity-icon{
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+    }
+    .popularity-icon{
+        color: #00c851;
+    }
+    .bids-icon{
+        color: rgba(214, 0, 110, 1);
+    }
+    &--icons{
+        display: flex;
+        justify-content: space-between;
+    }
+
+}
