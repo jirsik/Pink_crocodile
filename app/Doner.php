@@ -10,7 +10,7 @@ class Doner extends Model
 
     public $timestamps = false;
     
-    public function item()
+    public function items()
     {
         return $this->hasMany('App\Item');
     }

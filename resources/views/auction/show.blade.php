@@ -52,12 +52,16 @@
                                     </th>
                                     <td>
                                         <div class="float-right">
-                                            <a href="{{action('AuctionController@edit', $auction_item->id)}}"><button class="btn btn-primary">Edit</button></a>
-                                            <form action="{{action('AuctionController@destroy', $auction_item->id)}}" method="POST" class="d-inline"> 
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <button type="submit" class="btn btn-danger">Delte</button>
-                                                @csrf     
-                                            </form> 
+                                            @if (strtotime($auction_item->event->ends_at) < time())   
+                                                This auction is gone
+                                            @else
+                                                <a href="{{action('AuctionController@edit', $auction_item->id)}}"><button class="btn btn-primary">Edit</button></a>
+                                                <form action="{{action('AuctionController@destroy', $auction_item->id)}}" method="POST" class="d-inline"> 
+                                                    <input name="_method" type="hidden" value="DELETE">
+                                                    <button type="submit" class="btn btn-danger">Delte</button>
+                                                    @csrf     
+                                                </form> 
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

@@ -138,7 +138,7 @@ if (isset($event)) {
                                                 @foreach ($event->auction_items as $i => $auction_item)
                                                     <tr>
                                                         <td>{{$auction_item->item->title}}</td>
-                                                        <td>{{$auction_item->item->estimated_price ?? '??'}}</td>
+                                                        <td>{{$auction_item->item->estimated_price ? $auction_item->item->estimated_price . ' ' . $auction_item->item->currency : '??'}}</td>
                                                         <td>
                                                             <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                                         </td>
@@ -183,7 +183,7 @@ if (isset($event)) {
                                                     @foreach ($available_items as $i=>$item)
                                                         <tr>
                                                             <td>{{$item->title}}</td>
-                                                            <td>{{$item->estimated_price ?? '??'}}</td>
+                                                            <td>{{$item->estimated_price ? $item->estimated_price . ' ' . $item->currency : '??'}}</td>
                                                             <td>
                                                                 <img class="index_img" src="{{asset($item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                                             </td>
@@ -193,7 +193,7 @@ if (isset($event)) {
                                                                 	<input type="checkbox" name="item[{{$i}}][id]" value="{{$item->id}}" class="text-md-left"> Add To Auction
                                                                 </div>
                                                                 <div class="form-group row">
-                                                                    <label for="item[{{$i}}][min_price]" class="col-md-4 col-form-label text-md-right">Min. Price:</label>
+                                                                    <label for="item[{{$i}}][min_price]" class="col-md-4 col-form-label text-md-right">Min. Price ({{$item->currency}}):</label>
                                     
                                                                     <div class="col-md-8">
                                                                         <input id="item[{{$i}}][min_price]" type="number" class="form-control @error('item[{{$i}}][min_price]') is-invalid @enderror" name="item[{{$i}}][min_price]" value="{{ old('item['.$i.'][min_price]') }}">

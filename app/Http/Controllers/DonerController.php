@@ -136,7 +136,12 @@ class DonerController extends Controller
      */
     public function destroy($id)
     {
-        $doner = Doner::findOrFail($id);
+        $doner = Doner::with('items')->findOrFail($id);
+        foreach ($doner->items as $item ) {
+            $item->doner_id = null;
+            $item->save();
+        }
+        
         $doner->delete();
 
         return redirect('/doner')->with('success', 'Doner deleted!');

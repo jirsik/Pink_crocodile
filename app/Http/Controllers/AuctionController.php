@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\FinalRequest;
 use App\Auction_item;
 use App\Item;
 use App\Doner;
@@ -75,7 +76,7 @@ class AuctionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FinalRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $auction_item = Auction_item::with('item')->findOrFail($id);
         $item = $auction_item->item;
@@ -121,6 +122,18 @@ class AuctionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Item::with('itemable')->findOrFail($id);
+        $auction_item = $item->itemable;
+
+        $auction_item->delete();
+
+        $item->itemable_id = null;
+        $item->itemable_type = null;
+        $item->save();
+
+
+        return redirect('/item/'.$id)->with('success', 'Item Unassigned!');
     }
+
+
 }
