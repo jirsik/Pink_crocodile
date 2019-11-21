@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('admin_layout')
 
 <?php
 if (isset($doner)) {
@@ -15,7 +15,7 @@ $any_error = (count($errors->all()) > 0 ) ? true : false;
 
 ?>
 
-@section('content')
+@section('admin')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

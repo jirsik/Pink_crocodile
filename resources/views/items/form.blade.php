@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('admin_layout')
 
 <?php
 if (isset($item)) {
@@ -8,7 +8,7 @@ if (isset($item)) {
     $currency = $item->currency;
     $doner_id = $item->doner_id;
     $item_photo_path = $item->item_photo_path;
-
+    
     $action = action('ItemController@update', $item->id);
     $button_title = 'Edit Item';
     $back_link = action('ItemController@show', $item->id);
@@ -19,7 +19,7 @@ if (isset($item)) {
     $currency = 'CZK';
     $doner_id = 'none';
     $item_photo_path = '';
-
+    
     $action = action('ItemController@store');
     $button_title = 'Add New Item';
     $back_link = route('admin');
@@ -46,7 +46,7 @@ if (count($errors->all()) > 0 ) {
 }
 ?>
 
-@section('content')
+@section('admin')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

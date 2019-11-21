@@ -17,22 +17,22 @@ use Illuminate\Http\Request;
 // Route::get('/', function () {
 //     return view('home');
 // });
-Route::get('/welcome', function () {
-    return view('welcome');
+Route::get('/', function () {
+    return view('index');
 });
-Route::get('/', function(Request $request) {
+// Route::get('/', function(Request $request) {
 
-    $query = http_build_query([
-        'client_id' => 11,
-        'redirect_uri' => 'http://www.pink-croc-auction.test/callback',
-        'response_type' => 'code',
-        'scope' => '',
-    ]);
+//     $query = http_build_query([
+//         'client_id' => 11,
+//         'redirect_uri' => 'http://www.pink-croc-auction.test/callback',
+//         'response_type' => 'code',
+//         'scope' => '',
+//     ]);
     
-    // var_dump(redirect('/oauth/authorize?'.$query));
+//     // var_dump(redirect('/oauth/authorize?'.$query));
     
-    return redirect('/oauth/authorize?'.$query);
-});
+//     return redirect('/oauth/authorize?'.$query);
+// });
 
 Route::get('/callback', function(Request $request) {
 

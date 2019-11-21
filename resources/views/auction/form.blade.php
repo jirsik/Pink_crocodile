@@ -1,6 +1,6 @@
-@extends('items/form')
+@extends('admin_layout')
 
-@section('auction')
+@section('admin')
     <div class="form-group row">
         <label for="min_price" class="col-md-4 col-form-label text-md-right">Min. Price:</label>
 
