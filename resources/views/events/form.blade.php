@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('admin_layout')
 
 <?php
 if (isset($event)) {
@@ -8,13 +8,13 @@ if (isset($event)) {
     $ends_at = date("Y-m-d\TH:i", strtotime($event->ends_at));
     $coordinator = $event->coordinator;
     $code = $event->code;
-
+    
     $action = action('EventController@update', $event->id);
     $button_title = 'Edit Event';
     $back_link = action('EventController@show', $event->id);
-
+    
     $assigned_items = true;
-
+    
 } else {
     $name = '';
     $location = '';
@@ -22,11 +22,11 @@ if (isset($event)) {
     $ends_at = '';
     $coordinator = '';
     $code = '';
-
+    
     $action = action('EventController@store');
     $button_title = 'Add New Event';
     $back_link = route('admin');
-
+    
     $assigned_items = false;
 }
 
@@ -34,7 +34,7 @@ if (isset($event)) {
 
 ?>
 
-@section('content')
+@section('admin')
     <input name="form" type="hidden" value="item"> {{-- tels to FinalRequest.php how to valitade data --}}
     <div class="row justify-content-center">
         <div class="col-md-8">
