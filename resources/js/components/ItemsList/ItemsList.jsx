@@ -19,25 +19,6 @@ const ItemsList = props => {
         <div className="items-list">
         {items.length && items.map((item) => (
 
-            // <div key={item.id} className="item">
-            //     <img src={item.info.photo_path} className="item-img"/>
-            //     <div className="item-about">
-            //         <div className="item-title">{item.info.title}</div>
-            //         <div className="item-info">
-            //             <p className="item-time-list">{calculateRemainingTime(item.starts_at, item.ends_at)}</p>
-            //             <p>{item.price} <strong>CZK</strong></p>
-            //         </div>
-            //         <div className="info-row">
-            //             <i className="fas fa-hand-holding-heart donor-icon"></i>
-            //             <div>
-            //                 <p>{item.info.doner.name}</p>
-            //                 <a href={item.info.doner.link}>donor.org</a>
-            //             </div>
-            //         </div>
-            //         <div id={item.id} className="item-show-btn btn-primary btn" onClick={handleShow}>See Item</div>
-            //     </div>
-            // </div>
-
             <div className="item">
                 <div className="item-title">{item.info.title}</div>
                 {/* <div>{item.info.description}</div> */}

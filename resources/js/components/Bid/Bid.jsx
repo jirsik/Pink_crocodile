@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
 
 const Bid = props => {
-    const [price, setPrice] = useState(props.increment)
-    const {increment, data, token, setInfoDisplay} = {...props}
-    const baseIncrement = props.increment
+
+    ////////PROPS////////////
+    const {bidData, token, setInfoDisplay, getItems} = {...props}
+    
+    ///////PRICING///////////
+    const baseIncrement = Math.ceil(bidData.current_price / 100) * 10
+
+    const [price, setPrice] = useState(bidData.current_price)
 
     const handleOperator = (e) => {
         if(e.target.id === 'plus'){
-            console.log('plus')
             setPrice(price + baseIncrement)
         }else if(e.target.id === 'minus'){
-            console.log('minus')
             price >= baseIncrement && setPrice(price - baseIncrement)
         }
         console.log('PRICE: ', price)
@@ -18,8 +21,12 @@ const Bid = props => {
 
     const handlePriceChange = (e) => {
         setPrice(e.target.value)
-        console.log('SET PRICE: ', price)
+        // console.log('SET PRICE: ', price)
     }
+
+     //////////////////////////////////////////////////////
+                    // SUBMIT BID //
+    ///////////////////////////////////////////////////////
 
     const submitBid = () => {
         console.log('SUBMIT BID: ')
@@ -32,27 +39,35 @@ const Bid = props => {
                 'Accept' : 'application/json'
             },
             body: JSON.stringify({
-                ...data,
+                ...bidData,
                 price
             })
         })
         .then((response) => response.json())
         .then((response) => {
             console.log('bid resonse ',response)
-            if(!response.error){
-                console.log('BID SUCCESS')
+            if(response.submit === true){
                 setInfoDisplay('bidSuccessMessage')
+            }else{
+                setInfoDisplay('bidFailedMessage')
             }
         })
         .catch((error) => {
             console.log(error)
         })
+        
+        //Refresh items
+        getItems('landing')
     }
 
     console.log('JSON STRINGIFY: ',JSON.stringify({
-        ...data,
-        price: price
+        ...bidData,
+        price
     }))
+
+    //////////////////////////////////////////////////////
+                        // RETURN //
+    ///////////////////////////////////////////////////////
 
     return (
         <div className="info">

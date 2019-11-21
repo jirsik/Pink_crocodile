@@ -16,6 +16,8 @@ const App = () => {
     const [currentItemId, setCurrentItemId] = useState()
     /////DISPLAY//////
     const [display, setDisplay] = useState(loggedIn ? 'show': null)
+    const [infoDisplay, setInfoDisplay] = useState('about')
+
 
 
     //////////////////////////////////////////////////////
@@ -102,6 +104,10 @@ const App = () => {
         }else if(e.target.id === 'next'){
             setCurrentItemId(i => ++i)
         }
+
+        console.log('index change')
+
+        setInfoDisplay('about')
     }
 
     const handleShow = (e) => {
@@ -126,7 +132,9 @@ const App = () => {
     // token && console.log('TOKEN ', token)
         // token && console.log('LOCAL STORAGE: ',window.localStorage.getItem('_token'))
     
-    console.log('USER_ID: ', userId)
+    // console.log('USER_ID: ', userId)
+
+    console.log('ITEMS: ', items)
 
     return (
         <>
@@ -144,7 +152,7 @@ const App = () => {
                 <div className="display">
                     {!loggedIn && <Login getToken={getToken} />}
                     {display === 'list' && <ItemsList items={items} handleShow={handleShow}/>}
-                    {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} userId={userId} token={token}/>}
+                    {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} userId={userId} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay}/>}
                 </div>
                 {
                     display === 'show' &&

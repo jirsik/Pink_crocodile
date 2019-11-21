@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class AuctionItem extends Model
 {
     protected $table = 'auction_items';
-
+    
+    protected $fillable = [
+        'event_id', 'starts_at', 'ends_at', 'minimum_price',
+    ];
+        
     public $timestamps = false;
 
     public function event()
@@ -25,8 +29,9 @@ class AuctionItem extends Model
         return $this->hasMany('App\Bid');
     }
 
-    protected $fillable = [
-        'event_id', 'starts_at', 'ends_at', 'minimum_price',
-    ];
-        
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }
