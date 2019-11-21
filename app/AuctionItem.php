@@ -4,10 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Auction_item extends Model
+class AuctionItem extends Model
 {
     protected $table = 'auction_items';
-
+    
+    protected $fillable = [
+        'event_id', 'starts_at', 'ends_at', 'minimum_price',
+    ];
+        
     public $timestamps = false;
 
     public function event()
@@ -25,8 +29,9 @@ class Auction_item extends Model
         return $this->hasMany('App\Bid');
     }
 
-    protected $fillable = [
-        'event_id', 'starts_at', 'ends_at', 'minimum_price',
-    ];
-        
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

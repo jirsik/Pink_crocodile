@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidsTable extends Migration
+class AddUserIdColumnToAuctionItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateBidsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bids', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('auction_item_id');
-            $table->integer('user_id');
-            $table->integer('price');
-            $table->timestamps();
+        Schema::table('auction_items', function (Blueprint $table) {
+            $table->bigInteger('user_id')->nullable();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateBidsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bids');
+        Schema::table('auction_items', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
     }
 }

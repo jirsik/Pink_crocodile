@@ -1,20 +1,32 @@
 import React, {useState} from 'react';
 
 const Bid = props => {
-    const [price, setPrice] = useState(props.increment)
-    const {increment, data, token, setInfoDisplay} = {...props}
-    const baseIncrement = props.increment
+
+    ////////PROPS////////////
+    const {bidData, token, setInfoDisplay, getItems} = {...props}
+    
+    ///////PRICING///////////
+    const baseIncrement = Math.ceil(bidData.current_price / 100) * 10
+
+    const [price, setPrice] = useState(bidData.current_price)
 
     const handleOperator = (e) => {
         if(e.target.id === 'plus'){
-            console.log('plus')
             setPrice(price + baseIncrement)
         }else if(e.target.id === 'minus'){
-            console.log('minus')
             price >= baseIncrement && setPrice(price - baseIncrement)
         }
         console.log('PRICE: ', price)
     }
+
+    const handlePriceChange = (e) => {
+        setPrice(e.target.value)
+        // console.log('SET PRICE: ', price)
+    }
+
+     //////////////////////////////////////////////////////
+                    // SUBMIT BID //
+    ///////////////////////////////////////////////////////
 
     const submitBid = () => {
         console.log('SUBMIT BID: ')
@@ -27,33 +39,41 @@ const Bid = props => {
                 'Accept' : 'application/json'
             },
             body: JSON.stringify({
-                ...data,
+                ...bidData,
                 price
             })
         })
         .then((response) => response.json())
         .then((response) => {
             console.log('bid resonse ',response)
-            if(!response.error){
-                console.log('BID SUCCESS')
+            if(response.submit === true){
                 setInfoDisplay('bidSuccessMessage')
+            }else{
+                setInfoDisplay('bidFailedMessage')
             }
         })
         .catch((error) => {
             console.log(error)
         })
+        
+        //Refresh items
+        getItems('landing')
     }
 
     console.log('JSON STRINGIFY: ',JSON.stringify({
-        ...data,
-        price: price
+        ...bidData,
+        price
     }))
+
+    //////////////////////////////////////////////////////
+                        // RETURN //
+    ///////////////////////////////////////////////////////
 
     return (
         <div className="info">
             <div className="info-row bid-row">
                 <button className="btn btn-pink operator-btn"><i id="minus" className="fas fa-minus-circle" onClick={handleOperator}></i></button>
-                <input className="bid-amount" type="number" placeholder={price} />
+                <input className="bid-amount" type="number" placeholder={price} onChange={handlePriceChange}/>
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">

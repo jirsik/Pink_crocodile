@@ -1,20 +1,42 @@
 import React, {useState} from 'react';
+import Countdown from 'react-countdown-now';
+
 import Info from '../Info/Info.jsx';
 import Bid from '../Bid/Bid.jsx';
 import calculateRemainingTime from '../../helpers/calculateRemainingTime.js'
 
 
 const Auction = props => {
+
+    ////////PROPS////////////
+    
     console.log('AUCTION PROPS: ',props)
-    const {item, userId, token} = {...props}
-    const [infoDisplay, setInfoDisplay] = useState('about')
+    const {item, userId, token, getItems, infoDisplay, setInfoDisplay} = {...props}
+    
+    let current_price
+    if(item.bids.length){
+        current_price = Math.max(...item.bids.map(bid => bid.price))
+    }else{
+        current_price = item.minimum_price
+    }
+    console.log(current_price)
     
     const bidData = {
-        auction_items_id: item.id,
-        user_id: userId
+        auction_item_id: item.id,
+        user_id: userId,
+        current_price: current_price
     }
 
-    // increment={item.minimum_price / 10} itemId={item.id} userId={userId}
+    let highestBidder
+    if(item.user){
+        highestBidder = item.user.first_name + ' ' + item.user.last_name
+    }else{
+        highestBidder = 'no bids'
+    }
+
+    //////////////////////////////////////////////////////
+                        // DISPLAY //
+    ///////////////////////////////////////////////////////
 
     const handleAboutBtn = () => {
         setInfoDisplay('about')
@@ -27,7 +49,7 @@ const Auction = props => {
         <>
         <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between'}}>
             <i className="fas fa-gavel highest-bidder-icon action-icon"></i>
-            <div>Isaac Sackler</div>
+            <div>{highestBidder}</div>
         </div>
         <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <div>
@@ -46,9 +68,22 @@ const Auction = props => {
             <h2>Success</h2>
         </div>
     )
+    
+    const bidFailedMessage = (
+        <div className='info'>
+            <h2>Failed</h2>
+        </div>
+    )
 
 
-    console.log('ITEM: ', item)
+    //////////////////////////////////////////////////////
+                        // RETURN //
+    ///////////////////////////////////////////////////////
+    
+    // console.log('ITEM: ', item)
+
+    console.log('END TIME DATE: ', new Date(item.ends_at))
+    console.log('END TIME: ', item.ends_at)
 
     return (
 
@@ -61,18 +96,19 @@ const Auction = props => {
             <ul className="list-group list-group-flush" >
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-hourglass-half auction-icon time-icon"></i>
-                    <div>{calculateRemainingTime(item.starts_at, item.ends_at)}</div>
+                    {/* <div>{calculateRemainingTime(item.starts_at, item.ends_at)}</div> */}
+                    <Countdown date={new Date(item.ends_at)}/>
                 </div>
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-dollar-sign auction-icon price-icon"></i>
-                    <div>{item.minimum_price} <strong>CZK</strong></div>
+                    <div>{current_price} <strong>CZK</strong></div>
                 </div>
                 
-                {infoDisplay === 'bid' ? <Bid increment={item.minimum_price / 10} data={bidData} token={token} setInfoDisplay={setInfoDisplay}/> : infoDisplay === 'about' ? about : bidSuccessMessage}
+                {infoDisplay === 'bid' ? <Bid bidData={bidData} token={token} setInfoDisplay={setInfoDisplay} getItems={getItems}/> : infoDisplay === 'about' ? about : infoDisplay === 'bidSuccessMessage' ? bidSuccessMessage : bidFailedMessage}
                 
             </ul>
 
-            {infoDisplay === 'bid' ? <a className="btn-primary btn" style={{color:'white'}} onClick={handleAboutBtn}>About</a> : <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>}
+            {infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? <a className="btn-primary btn" style={{color:'white'}} onClick={handleAboutBtn}>About</a> : <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>}
             
         </div>
     )

@@ -26,6 +26,7 @@ Route::post('/sign-in', function () {
 });
 
 Route::get('/landing', 'api\ItemController@landing');
+Route::get('/bid', 'api\BidController@bid');
 
 Route::group([
     'prefix' => 'auth'
@@ -37,6 +38,6 @@ Route::group([
     ], function () {
         Route::get('logout', 'PassportController@logout');
         Route::get('user', 'PassportController@checkToken');
-        Route::post('bid', 'api\ItemController@submitBid');
+        Route::post('bid', 'api\BidController@submitBid');
     });
 });
