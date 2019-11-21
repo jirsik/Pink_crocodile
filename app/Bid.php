@@ -11,7 +11,7 @@ class Bid extends Model
 
     public function auction_item()
     {
-        return $this->belongsTo('App\Auction_item');
+        return $this->belongsTo('App\AuctionItem');
     }
 
     public function user()
