@@ -9,9 +9,9 @@ class Bid extends Model
     protected $table = 'bids';
     protected $fillable = ['auction_item_id', 'user_id', 'price'];
 
-    public function auction_item()
+    public function auctionItem()
     {
-        return $this->belongsTo('App\Auction_item');
+        return $this->belongsTo('App\AuctionItem');
     }
 
     public function user()

@@ -15,36 +15,36 @@
                                 <tr>
                                     <th scope="row">Title:</th>
                                     <td>
-                                        <h3>{{$auction_item->item->title}}</h3>
+                                        <h3>{{$auctionItem->item->title}}</h3>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Image:</th>
-                                    <td><img class="show_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  </td>
+                                    <td><img class="show_img" src="{{asset($auctionItem->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Estimated price:</th>
-                                    <td>{{$auction_item->item->estimated_price? $auction_item->item->estimated_price . " " . $auction_item->item->currency : ''}}</td>
+                                    <td>{{$auctionItem->item->estimated_price? $auctionItem->item->estimated_price . " " . $auctionItem->item->currency : ''}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Minimum price:</th>
-                                    <td>{{$auction_item->minimum_price?  $auction_item->minimum_price . " " . $auction_item->item->currency : ''}}</td>
+                                    <td>{{$auctionItem->minimum_price?  $auctionItem->minimum_price . " " . $auctionItem->item->currency : ''}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Starts at:</th>
-                                    <td>{{$auction_item->starts_at}}</td>
+                                    <td>{{$auctionItem->starts_at}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">End at:</th>
-                                    <td>{{$auction_item->ends_at}}</td>
+                                    <td>{{$auctionItem->ends_at}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Doner:</th>
-                                    <td>{{$auction_item->item->doner->name}}</td>
+                                    <td>{{$auctionItem->item->doner->name}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">About Item:</th>
-                                    <td>{{$auction_item->item->about}}</td>
+                                    <td>{{$auctionItem->item->about}}</td>
                                 </tr>
                                 <tr>
                                     <th>
@@ -52,11 +52,11 @@
                                     </th>
                                     <td>
                                         <div class="float-right">
-                                            @if (strtotime($auction_item->event->ends_at) < time())   
+                                            @if (strtotime($auctionItem->event->ends_at) < time())   
                                                 This auction is gone
                                             @else
-                                                <a href="{{action('AuctionController@edit', $auction_item->id)}}"><button class="btn btn-primary">Edit</button></a>
-                                                <form action="{{action('AuctionController@destroy', $auction_item->id)}}" method="POST" class="d-inline"> 
+                                                <a href="{{action('AuctionController@edit', $auctionItem->id)}}"><button class="btn btn-primary">Edit</button></a>
+                                                <form action="{{action('AuctionController@destroy', $auctionItem->id)}}" method="POST" class="d-inline"> 
                                                     <input name="_method" type="hidden" value="DELETE">
                                                     <button type="submit" class="btn btn-danger">Delte</button>
                                                     @csrf     

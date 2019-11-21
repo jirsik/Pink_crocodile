@@ -20,13 +20,13 @@ class Event extends Model
         return $this->hasMany('App\Log');
     }
 
-    public function auction_items()
+    public function auctionItems()
     {
-        return $this->hasMany('App\Auction_item');
+        return $this->hasMany('App\AuctionItem');
     }
 
     // public function items()
     // {
-    //     return $this->hasMany('App\Item')->using('App\Auction_item');
+    //     return $this->hasMany('App\Item')->using('App\AuctionItem');
     // }
 }
