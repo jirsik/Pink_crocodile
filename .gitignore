@@ -2,6 +2,7 @@
 /public/hot
 /public/storage
 /public
+/public/js/app.js
 !/public/.htaccess
 !/public/favicon.ico
 !/public/index.php
