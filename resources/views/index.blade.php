@@ -3,7 +3,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="root-container">
 
     <div id="root"></div>
 
