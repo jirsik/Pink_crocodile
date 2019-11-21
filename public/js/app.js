@@ -72155,6 +72155,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+var getItemsInterval;
 
 var App = function App() {
   /////AUTH//////
@@ -72295,7 +72296,13 @@ var App = function App() {
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     getItems('landing');
     setCurrentItemId(0);
+    getItemsInterval = setInterval(function () {
+      getItems('landing');
+    }, 500);
     console.log('Items CompDidMount: ', items);
+    return function () {
+      clearInterval(getItemsInterval);
+    };
   }, []); //////////////////////////////////////////////////////
   // RETURN //
   ///////////////////////////////////////////////////////

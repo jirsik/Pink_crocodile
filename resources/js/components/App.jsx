@@ -5,6 +5,8 @@ import Auction from './Auction/Auction.jsx';
 import ContainerBtns from './ContainerBtns/ContainerBtns.jsx';
 import ItemsList from './ItemsList/ItemsList.jsx';
 
+let getItemsInterval
+
 const App = () => {
 
     /////AUTH//////
@@ -120,7 +122,14 @@ const App = () => {
     useEffect(() => {
         getItems('landing')
         setCurrentItemId(0)
+
+        getItemsInterval = setInterval(() => {
+            getItems('landing')
+        }, 500)
         console.log('Items CompDidMount: ',items)
+        return () => {
+            clearInterval(getItemsInterval)
+        }
     }, [])
     
     //////////////////////////////////////////////////////
