@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FinalRequest;
-use App\Auction_item;
+use App\AuctionItem;
 use App\Item;
 use App\Doner;
 
@@ -51,8 +51,8 @@ class AuctionController extends Controller
      */
     public function show($id)
     {
-        $auction_item = Auction_item::with('item', 'item.doner')->findOrFail($id);
-        return view('auction.show', compact('auction_item'));
+        $auctionItem = AuctionItem::with('item', 'item.doner')->findOrFail($id);
+        return view('auction.show', compact('auctionItem'));
     }
 
     /**
@@ -64,9 +64,9 @@ class AuctionController extends Controller
     public function edit($id)
     {
         $doners = Doner::orderBy('name')->get();
-        $auction_item = Auction_item::with('item')->findOrFail($id);
-        $item = $auction_item->item; //form for auction_item is extending form for items and that one is expecting items on its own!
-        return view('auction.form', compact('auction_item', 'doners', 'item'));
+        $auctionItem = AuctionItem::with('item')->findOrFail($id);
+        $item = $auctionItem->item; //form for auctionItem is extending form for items and that one is expecting items on its own!
+        return view('auction.form', compact('auctionItem', 'doners', 'item'));
     }
 
     /**
@@ -78,18 +78,18 @@ class AuctionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $auction_item = Auction_item::with('item')->findOrFail($id);
-        $item = $auction_item->item;
+        $auctionItem = AuctionItem::with('item')->findOrFail($id);
+        $item = $auctionItem->item;
         if ($request->input('doner_id') !== 'none') {
             $doner_id = $request->input('doner_id');
         } else {
             $doner_id = null;
         }
 
-        $auction_item->minimum_price = $request->input('min_price');
-        $auction_item->starts_at = date("Y-m-d H:i:s", strtotime($request->input('starts_at')));
-        $auction_item->ends_at = date("Y-m-d H:i:s", strtotime($request->input('ends_at')));
-        $auction_item->save();
+        $auctionItem->minimum_price = $request->input('min_price');
+        $auctionItem->starts_at = date("Y-m-d H:i:s", strtotime($request->input('starts_at')));
+        $auctionItem->ends_at = date("Y-m-d H:i:s", strtotime($request->input('ends_at')));
+        $auctionItem->save();
 
         $item->title = $request->input('title');
         $item->description = $request->input('description');
@@ -123,9 +123,9 @@ class AuctionController extends Controller
     public function destroy($id)
     {
         $item = Item::with('itemable')->findOrFail($id);
-        $auction_item = $item->itemable;
+        $auctionItem = $item->itemable;
 
-        $auction_item->delete();
+        $auctionItem->delete();
 
         $item->itemable_id = null;
         $item->itemable_type = null;

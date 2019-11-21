@@ -120,7 +120,7 @@ if (isset($event)) {
                                 </div>
                             </div>
 
-                            @if (isset($event) && count($event->auction_items)>0)
+                            @if (isset($event) && count($event->auctionItems)>0)
                                 
                                 <div id="assigned-items" class="card d-none d-block mb-2">
                                     <div class="card-header">Assigned Items</div>        
@@ -135,15 +135,15 @@ if (isset($event)) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($event->auction_items as $i => $auction_item)
+                                                @foreach ($event->auctionItems as $i => $auctionItem)
                                                     <tr>
-                                                        <td>{{$auction_item->item->title}}</td>
-                                                        <td>{{$auction_item->item->estimated_price ? $auction_item->item->estimated_price . ' ' . $auction_item->item->currency : '??'}}</td>
+                                                        <td>{{$auctionItem->item->title}}</td>
+                                                        <td>{{$auctionItem->item->estimated_price ? $auctionItem->item->estimated_price . ' ' . $auctionItem->item->currency : '??'}}</td>
                                                         <td>
-                                                            <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                                            <img class="index_img" src="{{asset($auctionItem->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                                         </td>
                                                         <td>
-                                                            <input type="hidden" name="item_to_unconnect[{{$i}}]" value="{{$auction_item->id}}">
+                                                            <input type="hidden" name="item_to_unconnect[{{$i}}]" value="{{$auctionItem->id}}">
                                                             <input type="checkbox" name="item_to_unconnect[{{$i}}]" checked value="0"> uncheck to unconnect
                                                         </td>
                                                     </tr>

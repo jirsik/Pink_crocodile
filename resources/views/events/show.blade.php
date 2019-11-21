@@ -30,17 +30,17 @@
                                 <tr>
                                     <th scope="row" colspan="3">Items: <hr></th>
                                 </tr>
-                                @if (count($event->auction_items) > 0)
-                                    @foreach ($event->auction_items as $auction_item)
+                                @if (count($event->auctionItems) > 0)
+                                    @foreach ($event->auctionItems as $auctionItem)
                                         <tr>
-                                            <th>{{$auction_item->item->title}}</th>
+                                            <th>{{$auctionItem->item->title}}</th>
                                             <td>
-                                                <img class="index_img" src="{{asset($auction_item->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
+                                                <img class="index_img" src="{{asset($auctionItem->item->item_photo_path ?? 'uploads/items/item.png')}}" alt="item">  
                                             </td> 
                                             <td>
                                                 {{-- buttons --}}
                                                 <div class="float-right">
-                                                    <a href="{{action('AuctionController@show', $auction_item->id)}}"><button class="btn btn-primary">Details of item</button></a>
+                                                    <a href="{{action('AuctionController@show', $auctionItem->id)}}"><button class="btn btn-primary">Details of item</button></a>
                                                 </div>
                                             </td> 
                                         </tr>

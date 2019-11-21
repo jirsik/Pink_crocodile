@@ -73,10 +73,10 @@ class ItemController extends Controller
         $items = Item::with('doner', 'itemable', 'itemable.event')
             //joining doners to provide the possibility to sort records by doners name
             ->leftjoin('doners', 'doners.id', '=', 'items.doner_id')
-            //joining auction_items to check if the item was allready sold by auction
+            //joining auctionItems to check if the item was allready sold by auction
             ->leftJoin('auction_items', function($q) {
                 $q->on('items.itemable_id', '=', 'auction_items.id');
-                $q->where('items.itemable_type', '=', 'App\Auction_item');
+                $q->where('items.itemable_type', '=', 'App\AuctionItem');
             })
             ->select('items.*')
             //checking if the auction is done, not to display those items

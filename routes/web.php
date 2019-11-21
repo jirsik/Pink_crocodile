@@ -81,5 +81,11 @@ Route::get('/uploads/doners/{file}', function() {
     return response( file_get_contents('./uploads/doners/doner.png') )
         ->header('Content-Type','image/png');
 });
+Route::get('/uploads/items/{file}', function() {
+    return response( file_get_contents('./uploads/items/item.png') )
+        ->header('Content-Type','image/png');
+});
+
+
 Route::get('api/landing', 'api\ItemController@landing');
 

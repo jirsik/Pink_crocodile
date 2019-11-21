@@ -7,7 +7,7 @@ use App\Http\Requests\FinalRequest;
 
 use App\Event;
 use App\Item;
-use App\Auction_item;
+use App\AuctionItem;
 
 class EventController extends Controller
 {
@@ -57,7 +57,7 @@ class EventController extends Controller
         if ($items) {
             foreach ($items as $item_info) {
                 if ($item_info['id'] != 0) {
-                    $auction_item = Auction_item::create([
+                    $auctionItem = AuctionItem::create([
                         'event_id' => $event->id,
                         'starts_at' => $item_info['starts_at'] ?? $event->starts_at,
                         'ends_at' => $item_info['ends_at'] ?? $event->ends_at,
@@ -65,7 +65,7 @@ class EventController extends Controller
                     ]);
         
                     $item = Item::FindOrFail($item_info['id']);
-                    $auction_item->item()->save($item);       
+                    $auctionItem->item()->save($item);       
                 }
             }
         }
@@ -81,7 +81,7 @@ class EventController extends Controller
      */
     public function show($id)
     {
-        $event = Event::with('auction_items', 'auction_items.item')->findOrFail($id);
+        $event = Event::with('auctionItems', 'auctionItems.item')->findOrFail($id);
         
         return view('events/show', compact('event'));
     }
@@ -94,7 +94,7 @@ class EventController extends Controller
      */
     public function edit($id)
     {
-        $event = Event::with('auction_items', 'auction_items.item')->findOrFail($id);
+        $event = Event::with('auctionItems', 'auctionItems.item')->findOrFail($id);
         $available_items = Item::where('itemable_id', null)->get();
         return view('events.form', compact('event', 'available_items'));
     }
@@ -121,7 +121,7 @@ class EventController extends Controller
         if ($items) {
             foreach ($items as $item_info) {
                 if ($item_info['id'] != 0) {
-                    $auction_item = Auction_item::create([
+                    $auctionItem = AuctionItem::create([
                         'event_id' => $event->id,
                         'starts_at' => $item_info['starts_at'] ?? $event->starts_at,
                         'ends_at' => $item_info['ends_at'] ?? $event->ends_at,
@@ -129,7 +129,7 @@ class EventController extends Controller
                     ]);
         
                     $item = Item::FindOrFail($item_info['id']);
-                    $auction_item->item()->save($item);       
+                    $auctionItem->item()->save($item);       
                 }
             }
         }
@@ -137,16 +137,16 @@ class EventController extends Controller
         //removing items
         $items_to_unconnect = $request->input('item_to_unconnect');
         if ($items_to_unconnect) {
-            foreach ($items_to_unconnect as $auction_item_id) {
-                if ($auction_item_id != 0) {
+            foreach ($items_to_unconnect as $auctionItem_id) {
+                if ($auctionItem_id != 0) {
 
 
-                    $auction_item_to_unconnect = Auction_item::with('item')->findOrFail($auction_item_id);
-                    $auction_item_to_unconnect->item->itemable_id = null;
-                    $auction_item_to_unconnect->item->itemable_type = null;
-                    $auction_item_to_unconnect->item->save();
+                    $auctionItem_to_unconnect = AuctionItem::with('item')->findOrFail($auctionItem_id);
+                    $auctionItem_to_unconnect->item->itemable_id = null;
+                    $auctionItem_to_unconnect->item->itemable_type = null;
+                    $auctionItem_to_unconnect->item->save();
 
-                    $auction_item_to_unconnect->delete();
+                    $auctionItem_to_unconnect->delete();
 
                 }
             }
@@ -163,17 +163,17 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::with('auction_items', 'auction_items.item')->findOrFail($id);
+        $event = Event::with('auctionItems', 'auctionItems.item')->findOrFail($id);
 
-        if (count($event->auction_items) > 0) {
-            foreach ($event->auction_items as $auction_item) {
-                $auction_item->item->itemable_id = null;
-                $auction_item->item->itemable_type = null;
-                $auction_item->item->save();
+        if (count($event->auctionItems) > 0) {
+            foreach ($event->auctionItems as $auctionItem) {
+                $auctionItem->item->itemable_id = null;
+                $auctionItem->item->itemable_type = null;
+                $auctionItem->item->save();
             }
         }
 
-        $event->auction_items->each->delete();
+        $event->auctionItems->each->delete();
         $event->delete();
 
         return redirect('/event')->with('success', 'Event deleted!');

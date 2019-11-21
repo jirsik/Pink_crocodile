@@ -71979,6 +71979,8 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+__webpack_require__(/*! ./blade-forms/index.js */ "./resources/js/blade-forms/index.js");
 /**
  * Next, we will create a fresh React component instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -71993,6 +71995,81 @@ __webpack_require__(/*! ../sass/app.scss */ "./resources/sass/app.scss");
 if (document.getElementById('root')) {
   react_dom__WEBPACK_IMPORTED_MODULE_0___default.a.render(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_components_App_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById('root'));
 }
+
+/***/ }),
+
+/***/ "./resources/js/blade-forms/events-form.js":
+/*!*************************************************!*\
+  !*** ./resources/js/blade-forms/events-form.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.querySelector('#item-button')) {
+    var item_button = document.querySelector('#item-button');
+    var item_button_back = document.querySelector('#item-button-back');
+    var add_items = document.querySelector('#add-items');
+    var available_items = document.querySelector('#available-items');
+
+    item_button.onclick = function () {
+      add_items.classList.toggle('d-none');
+      available_items.classList.toggle('d-block');
+    };
+
+    item_button_back.onclick = function () {
+      add_items.classList.toggle('d-none');
+      available_items.classList.toggle('d-block');
+    };
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/blade-forms/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/blade-forms/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ./items-form.js */ "./resources/js/blade-forms/items-form.js");
+
+__webpack_require__(/*! ./events-form.js */ "./resources/js/blade-forms/events-form.js");
+
+/***/ }),
+
+/***/ "./resources/js/blade-forms/items-form.js":
+/*!************************************************!*\
+  !*** ./resources/js/blade-forms/items-form.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.querySelector('#doner-button')) {
+    var doner_button = document.querySelector('#doner-button');
+    var doner_button_back = document.querySelector('#doner-button-back');
+    var old_doner = document.querySelector('#old-doner');
+    var new_doner = document.querySelector('#new-doner');
+    var doner = document.querySelector('#doner_id'); //select element
+
+    var doner_last_value = 'none';
+
+    doner_button.onclick = function () {
+      old_doner.classList.toggle('d-none');
+      new_doner.classList.toggle('d-block');
+      doner_last_value = doner.value;
+      doner.value = 'new';
+    };
+
+    doner_button_back.onclick = function () {
+      old_doner.classList.toggle('d-none');
+      new_doner.classList.toggle('d-block');
+      doner.value = doner_last_value; //doner_name.value = '';
+    };
+  }
+});
 
 /***/ }),
 
@@ -72934,8 +73011,8 @@ var calculateRemainingTime = function calculateRemainingTime(a, b) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\dev\Pink_crocodile\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\dev\Pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

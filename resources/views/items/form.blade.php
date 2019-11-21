@@ -26,10 +26,10 @@ if (isset($item)) {
 }
 
 //for editing auction
-if (isset($auction_item)) {
-    $action = action('AuctionController@update', $auction_item->id);
+if (isset($auctionItem)) {
+    $action = action('AuctionController@update', $auctionItem->id);
     $button_title = 'Edit Item for auction';
-    $back_link = action('AuctionController@show', $auction_item->id);
+    $back_link = action('AuctionController@show', $auctionItem->id);
 }
 
 
@@ -121,7 +121,7 @@ if (count($errors->all()) > 0 ) {
                                     @enderror
                                 </div>
                             </div>
-                            {{-- using this form even for updating auction_item --}}
+                            {{-- using this form even for updating auctionItem --}}
                             @yield('auction')
 
                             @if ($item_photo_path !== '' && $item_photo_path !== null)
