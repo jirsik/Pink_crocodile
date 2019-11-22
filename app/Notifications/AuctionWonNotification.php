@@ -45,15 +45,13 @@ class AuctionWonNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->from('pink@croc.com', 'Pink Crocodile')
-            ->replyTo('pink@croc.com', 'Pink Crocodile')
-            ->subject('Winning with Pink Crocodile')
-            ->greeting('Congratulation '. $notifiable->first_name . '!')
+            ->subject('Pink Crocodile Auction')
+            ->greeting('Congratulations '. $notifiable->first_name . '!')
             ->line('You won the ' . $this->item_name)
             ->line('for ' . $this->price . ' ' . $this->item_currency)
-            ->action('Go to paypal', url('/'))
+            ->action('Go to Paypal', url('/'))
             ->line('Thank you for supporting us!')
-            ->salutation('Notification Subject');
+            ->salutation('The Pink Crocodile Team');
     }
 
     /**

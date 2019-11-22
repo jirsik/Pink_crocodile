@@ -72169,7 +72169,7 @@ var App = function App() {
       loggedIn = _useState4[0],
       setLoggedIn = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(11),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState6 = _slicedToArray(_useState5, 2),
       userId = _useState6[0],
       setUserId = _useState6[1]; /////ITEMS//////
@@ -73066,8 +73066,8 @@ var calculateRemainingTime = function calculateRemainingTime(a, b) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\dev\Pink_crocodile\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\dev\Pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

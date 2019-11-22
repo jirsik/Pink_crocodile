@@ -12,7 +12,7 @@ const App = () => {
     /////AUTH//////
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
-    const [userId, setUserId] = useState(11)
+    const [userId, setUserId] = useState()
     /////ITEMS//////
     const [items, setItems] = useState([])
     const [currentItemId, setCurrentItemId] = useState()

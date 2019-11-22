@@ -165,6 +165,8 @@ class AuctionController extends Controller
                 $this->mail_winner($auctionItem);
             }
         }
+        
+        return 'ok';
     }
 
 
