@@ -19,6 +19,7 @@ const App = () => {
     /////DISPLAY//////
     const [display, setDisplay] = useState(loggedIn ? 'show': null)
     const [infoDisplay, setInfoDisplay] = useState('about')
+    const [popularityIndex, setPopularityIndex] = useState([])
 
 
 
@@ -86,10 +87,11 @@ const App = () => {
         })
         .then((response) => response.json())
         .then((response) => {
-            setItems(response.map(auctionItem => auctionItem))
+            // console.log('RESPONSE: ', response)
             setItems(response)
         })
     }
+
 
     const setDisplayTypeBtn = (e) => {
         const type = e.target.id
@@ -123,15 +125,34 @@ const App = () => {
         getItems('landing')
         setCurrentItemId(0)
 
-        getItemsInterval = setInterval(() => {
-            getItems('landing')
-        }, 500)
-        console.log('Items CompDidMount: ',items)
-        return () => {
-            clearInterval(getItemsInterval)
-        }
+        // getItemsInterval = setInterval(() => {
+        //     getItems('landing')
+        // }, 10000)
+        // console.log('Items CompDidMount: ',items)
+        // return () => {
+        //     clearInterval(getItemsInterval)
+        // }
     }, [])
+
+    useEffect(() => {
+        setPopularityIndex(prevState => {
+            const newState = items.slice(0).sort((a,b) => b.bids.length - a.bids.length)
+            console.log('PREV STATE: ', prevState)
+            if(prevState.length === 0){
+                return newState
+            }else{
+                console.log('NEW STATE: ', newState)
+                return newState.map(item => {
+                    const prevStateIndex = prevState.findIndex(x => x.id === item.id)
+                    const newStateIndex = newState.findIndex(x => x.id === item.id)
+                    prevStateIndex > newStateIndex ? item.color = 'green' : prevStateIndex < newStateIndex ? item.color = 'red' : item.color = 'black'
+                    return item
+                })
+            }
+        })
+    }, [items])
     
+    console.log('POPULARITY INDEX: ', popularityIndex)
     //////////////////////////////////////////////////////
                         // RETURN //
     ///////////////////////////////////////////////////////
@@ -143,7 +164,7 @@ const App = () => {
     
     // console.log('USER_ID: ', userId)
 
-    console.log('ITEMS: ', items)
+    // console.log('ITEMS: ', items)
 
     return (
         <>
@@ -160,7 +181,7 @@ const App = () => {
                 }
                 <div className="display">
                     {!loggedIn && <Login getToken={getToken} />}
-                    {display === 'list' && <ItemsList items={items} handleShow={handleShow}/>}
+                    {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
                     {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} userId={userId} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay}/>}
                 </div>
                 {

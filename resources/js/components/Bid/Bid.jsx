@@ -16,7 +16,7 @@ const Bid = props => {
         }else if(e.target.id === 'minus'){
             price >= baseIncrement && setPrice(price - baseIncrement)
         }
-        console.log('PRICE: ', price)
+        // console.log('PRICE: ', price)
     }
 
     const handlePriceChange = (e) => {
@@ -45,7 +45,7 @@ const Bid = props => {
         })
         .then((response) => response.json())
         .then((response) => {
-            console.log('bid resonse ',response)
+            // console.log('bid resonse ',response)
             if(response.submit === true){
                 setInfoDisplay('bidSuccessMessage')
             }else{
@@ -60,10 +60,10 @@ const Bid = props => {
         getItems('landing')
     }
 
-    console.log('JSON STRINGIFY: ',JSON.stringify({
-        ...bidData,
-        price
-    }))
+    // console.log('JSON STRINGIFY: ',JSON.stringify({
+    //     ...bidData,
+    //     price
+    // }))
 
     //////////////////////////////////////////////////////
                         // RETURN //
