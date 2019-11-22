@@ -16,9 +16,13 @@ class AuctionWonNotification extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($auctionItem, $highestBid)
     {
-        $this->item_name = 'car';
+        $this->item_name = $auctionItem->item->title;
+        $this->price = $highestBid->price;
+        $this->item_currency = $auctionItem->item->currency;
+
+
     }
 
     /**
@@ -46,6 +50,7 @@ class AuctionWonNotification extends Notification
             ->subject('Winning with Pink Crocodile')
             ->greeting('Congratulation '. $notifiable->first_name . '!')
             ->line('You won the ' . $this->item_name)
+            ->line('for ' . $this->price . ' ' . $this->item_currency)
             ->action('Go to paypal', url('/'))
             ->line('Thank you for supporting us!')
             ->salutation('Notification Subject');
