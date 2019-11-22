@@ -87,7 +87,7 @@ Route::get('/uploads/items/{file}', function() {
 });
 
 //mails
-Route::get('/mail/winner', 'AuctionController@mail_winner');
+Route::get('/mail/winner', 'AuctionController@check_for_ending');
 
 
 Route::get('api/landing', 'api\ItemController@landing');

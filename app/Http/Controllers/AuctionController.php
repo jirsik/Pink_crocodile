@@ -135,21 +135,38 @@ class AuctionController extends Controller
 
         return redirect('/item/'.$id)->with('success', 'Item Unassigned!');
     }
-
-    public function mail_winner($auctionItem_id)
+    
+    public function mail_winner($auctionItem)
     {
-        $auctionItem = AuctionItem::with('bids', 'bids.user')->findOrFail($auctionItem_id);
-
+        //$auctionItem = AuctionItem::with('bids', 'bids.user')->findOrFail($auctionItem_id);
         $highestBid = null;
-        foreach ($auctionItem->bids as $bid) {
-            if ($highestBid ==null || $highestBid->price < $bid->price) {
-                $highestBid = $bid;
+
+        if (count($auctionItem->bids) > 0) {
+            foreach ($auctionItem->bids as $bid) {
+                if ($highestBid ==null || $highestBid->price < $bid->price) {
+                    $highestBid = $bid;
+                }
+            }
+            $user = $highestBid->user;
+            $user->notify(new AuctionWonNotification($auctionItem, $highestBid));
+        }
+
+        $auctionItem->winner_notified = true;
+        $auctionItem->save();
+    }
+
+    public function check_for_ending() {
+        //check for passed and not notified auctions
+        $auctionItems = AuctionItem::where('winner_notified', 0)
+            ->where('ends_at', '<', date("Y-m-d H:i:s", time()) )
+            ->get();
+        if (count($auctionItems) > 0) {
+            foreach ($auctionItems as $auctionItem) {
+                $this->mail_winner($auctionItem);
             }
         }
-        $user = $highestBid->user;
-        
-        $user->notify(new AuctionWonNotification());
     }
+
 
 
 }
