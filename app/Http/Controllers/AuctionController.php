@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\FinalRequest;
+use App\Notifications\AuctionWonNotification;
 use App\AuctionItem;
 use App\Item;
 use App\Doner;
@@ -133,6 +134,21 @@ class AuctionController extends Controller
 
 
         return redirect('/item/'.$id)->with('success', 'Item Unassigned!');
+    }
+
+    public function mail_winner($auctionItem_id)
+    {
+        $auctionItem = AuctionItem::with('bids', 'bids.user')->findOrFail($auctionItem_id);
+
+        $highestBid = null;
+        foreach ($auctionItem->bids as $bid) {
+            if ($highestBid ==null || $highestBid->price < $bid->price) {
+                $highestBid = $bid;
+            }
+        }
+        $user = $highestBid->user;
+        
+        $user->notify(new AuctionWonNotification());
     }
 
 

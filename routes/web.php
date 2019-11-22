@@ -86,6 +86,9 @@ Route::get('/uploads/items/{file}', function() {
         ->header('Content-Type','image/png');
 });
 
+//mails
+Route::get('/mail/winner', 'AuctionController@mail_winner');
+
 
 Route::get('api/landing', 'api\ItemController@landing');
 

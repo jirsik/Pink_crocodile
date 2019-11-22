@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
                 'first_name' => $faker->firstName($gender = null),
                 'last_name' => $faker->lastName,
                 'alias' => $faker->userName,
-                'email' => $faker->email,
+                'email' => $faker->userName . '@yopmail.com',
                 'password' => '1234',
                 'phone' => $faker->phoneNumber,
                 'address_street_and_num' => $faker->streetAddress,

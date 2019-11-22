@@ -57,7 +57,7 @@
                                 <form action="{{action('AuctionController@destroy', $item->id)}}"
                                   method="POST" class="d-inline">
                                   <input name="_method" type="hidden" value="delete">
-                                  <button type="submit" class="btn btn-danger">Unassign from auctio</button>
+                                  <button type="submit" class="btn btn-danger">Unassign from auction</button>
                                   @csrf     
                                 </form> 
                               @else

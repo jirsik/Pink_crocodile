@@ -40,7 +40,7 @@
                                 </tr>
                                 <tr>
                                     <th scope="row">Doner:</th>
-                                    <td>{{$auctionItem->item->doner->name}}</td>
+                                    <td>{{$auctionItem->item->doner->name ?? ''}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">About Item:</th>
