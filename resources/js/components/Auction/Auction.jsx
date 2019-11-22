@@ -3,14 +3,13 @@ import Countdown from 'react-countdown-now';
 
 import Info from '../Info/Info.jsx';
 import Bid from '../Bid/Bid.jsx';
-import calculateRemainingTime from '../../helpers/calculateRemainingTime.js'
 
 
 const Auction = props => {
 
     ////////PROPS////////////
     
-    console.log('AUCTION PROPS: ',props)
+    // console.log('AUCTION PROPS: ',props)
     const {item, userId, token, getItems, infoDisplay, setInfoDisplay} = {...props}
     
     let current_price
@@ -19,7 +18,6 @@ const Auction = props => {
     }else{
         current_price = item.minimum_price
     }
-    console.log(current_price)
     
     const bidData = {
         auction_item_id: item.id,
@@ -37,6 +35,7 @@ const Auction = props => {
     //////////////////////////////////////////////////////
                         // DISPLAY //
     ///////////////////////////////////////////////////////
+
 
     const handleAboutBtn = () => {
         setInfoDisplay('about')
@@ -82,8 +81,8 @@ const Auction = props => {
     
     // console.log('ITEM: ', item)
 
-    console.log('END TIME DATE: ', new Date(item.ends_at))
-    console.log('END TIME: ', item.ends_at)
+    // console.log('END TIME DATE: ', new Date(item.ends_at))
+    // console.log('END TIME: ', item.ends_at)
 
     return (
 
