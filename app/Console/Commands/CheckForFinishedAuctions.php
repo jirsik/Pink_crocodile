@@ -14,7 +14,7 @@ class CheckForFinishedAuctions extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'command:CheckForFinishedAuctions';
 
     /**
      * The console command description.
@@ -57,7 +57,7 @@ class CheckForFinishedAuctions extends Command
 
         if (count($auctionItem->bids) > 0) {
             foreach ($auctionItem->bids as $bid) {
-                if ($highestBid ==null || $highestBid->price < $bid->price) {
+                if ($highestBid == null || $highestBid->price < $bid->price) {
                     $highestBid = $bid;
                 }
             }

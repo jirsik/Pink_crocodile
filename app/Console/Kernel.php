@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
+use App\AuctionItem;
+
 
 
 class Kernel extends ConsoleKernel
@@ -26,11 +28,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('CheckForFinishedAuctions')
-                 ->everyFiveMinutes();
+        $schedule->command('command:CheckForFinishedAuctions')
+                 ->everyMinute();
         // $schedule->call(function () {
-        //    //
-        // })->everyFiveMinutes();
+        //     $aii = AuctionItem::findOrFail(3);
+        //     // $this->mail_winner($ai);
+        //     $aii->winner_notified = true;
+        //     $aii->save();
+        // })->everyMinute();
     }
 
     /**
