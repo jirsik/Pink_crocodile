@@ -73066,8 +73066,8 @@ var calculateRemainingTime = function calculateRemainingTime(a, b) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\dev\Pink_crocodile\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\dev\Pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
