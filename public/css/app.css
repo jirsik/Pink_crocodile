@@ -11181,8 +11181,13 @@ a.text-dark:focus {
   -webkit-box-align: center;
           align-items: center;
   text-align: right;
-  height: 60%;
+  height: 80%;
   width: 90%;
+}
+
+.login-form label {
+  font-size: 1rem;
+  margin: 0.5rem;
 }
 
 .login-form input,
@@ -11269,7 +11274,7 @@ label {
 }
 
 .dropdown-menu {
-  height: 9rem;
+  height: 6rem;
   width: 12vw;
   background-color: #D6006E;
   color: white;

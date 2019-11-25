@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 const Nav = props => {
     const {setDisplay, loggedIn, setLoggedIn} = {...props}
@@ -9,9 +9,9 @@ const Nav = props => {
     }
 
     const handleLogOut = (e) => {
-        setLoggedIn(false)
-        setDisplay(null)
         window.localStorage.clear()
+        setLoggedIn(false)
+        setDisplay('shpw')
     }
 
     const showOrHide = loggedIn ? {visibility: 'visible'} : {visibility: 'hidden'}
@@ -22,8 +22,7 @@ const Nav = props => {
             </a>
             
             <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a id="" className="dropdown-item" onClick={handleNavBtn}>My History</a>
-                <a id="" className="dropdown-item" onClick={handleNavBtn}>Account</a>
+                <a id="account" className="dropdown-item" onClick={handleNavBtn}>Account</a>
                 <a id="" className="dropdown-item" onClick={handleLogOut}>Log Out</a>
             </div>
         </div>

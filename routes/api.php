@@ -35,7 +35,7 @@ Route::group([
         'middleware' => 'auth:api'
     ], function () {
         Route::get('logout', 'PassportController@logout');
-        Route::get('user', 'PassportController@checkToken');
+        Route::post('edit', 'PassportController@edit');
         Route::post('bid', 'api\BidController@submitBid');
     });
 });

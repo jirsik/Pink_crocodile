@@ -5,6 +5,7 @@ import Auction from './Auction/Auction.jsx';
 import ContainerBtns from './ContainerBtns/ContainerBtns.jsx';
 import ItemsList from './ItemsList/ItemsList.jsx';
 import MyBidsList from './MyBidsList/MyBidsList.jsx';
+import Edit from './Edit/Edit.jsx';
 
 let getItemsInterval
 
@@ -13,13 +14,13 @@ const App = () => {
     /////AUTH//////
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
-    const [userId, setUserId] = useState(window.localStorage.getItem('_userId')) //Set user_id to local storage!!!!!!!!!!
+    // const [user, setUser] = useState(window.localStorage.getItem('_user')) //Storing user details in local storage or cookie ???
+    const [user, setUser] = useState({id: 0}) 
     /////ITEMS//////
     const [items, setItems] = useState([])
     const [currentItemId, setCurrentItemId] = useState()
-    /////DISPLAY//////
-    const [display, setDisplay] = useState(loggedIn ? 'show': null)
-    // const [display, setDisplay] = useState('show')
+    /////DISPLAY////// [show, list, myBids]
+    const [display, setDisplay] = useState('show')
     const [infoDisplay, setInfoDisplay] = useState('about')
     const [popularityIndex, setPopularityIndex] = useState([])
 
@@ -38,7 +39,6 @@ const App = () => {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json',
-                // 'Authorization': 'Bearer '+ token,
                 'Accept' : 'application/json'
             },
             body: input
@@ -49,29 +49,14 @@ const App = () => {
             if(!response.error){
                 setToken(response.token)
                 window.localStorage.setItem('_token', response.token)
-                setUserId(response.user_id)
-                window.localStorage.setItem('_userId', response.user_id)
+                setUser(response.user)
+                window.localStorage.setItem('_user', response.user)
                 setLoggedIn(true)
                 setDisplay('show')
             }
         })
         .catch((error) => {
             console.log(error)
-        })
-    }
-
-    function checkToken () {
-        fetch(`/api/auth/user`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ token,
-                'Accept' : 'application/json'
-            },
-        })
-        .then((response) => response.json())
-        .then((response) => {
-            // console.log('response ', response)
         })
     }
 
@@ -154,23 +139,21 @@ const App = () => {
     //////////////////////////////////////////////////////
                         // RETURN //
     ///////////////////////////////////////////////////////
-    
-    token && checkToken()
 
     // token && console.log('TOKEN ', token)
         // token && console.log('LOCAL STORAGE: ',window.localStorage.getItem('_token'))
     
-    // console.log('USER_ID: ', userId)
+    // console.log('USER: ', user)
 
     // console.log('ITEMS: ', items)
 
     return (
         <>
-        {<Nav setDisplay={setDisplay} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setDisplay={setDisplay}/>}
+        {<Nav setDisplay={setDisplay} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
         
         <div className="main-container">
             
-            <ContainerBtns setDisplayTypeBtn={loggedIn ? setDisplayTypeBtn : null} display={display} />
+            <ContainerBtns setDisplayTypeBtn={setDisplayTypeBtn} display={display} loggedIn={loggedIn} />
 
             <div className="main">
                 {
@@ -178,10 +161,11 @@ const App = () => {
                         <div id='previous' className="direction-btn direction-btn_left" onClick={changeIndex} >&lt;</div>
                 }
                 <div className="display">
-                    {!loggedIn && <Login getToken={getToken} />}
+                    {display === 'logIn' && <Login getToken={getToken} />}
                     {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
-                    {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} userId={userId} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay}/>}
-                    {display === 'myBids' && <MyBidsList items={items} userId={userId} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
+                    {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} user={user} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay} loggedIn={loggedIn} setDisplay={setDisplay}/>}
+                    {display === 'myBids' && <MyBidsList items={items} userId={user.id} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
+                    {display === 'account' && <Edit user={user} token={token}/>}
                 </div>
                 {
                     display === 'show' &&

@@ -17,24 +17,4 @@ const calculateRemainingTime = (a, b) => {
     return `${hours}:${minutes}:${seconds}`
 }
 
-// const timeCountDown = (endTime) => {
-//     let endTime = new Date(endTime).getTime();
-
-//     const interval = setInterval(() => {
-//         let now = new Date().getTime()
-//         let gap = endTime - now
-
-//         let days = Math.floor(gap / (1000 * 60 * 60 * 24));
-//         let hours = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//         let minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-//         let seconds = Math.floor((gap % (1000 * 60)) / 1000);
-    
-//         if (distance < 0) {
-//             clearInterval(x);
-//             document.getElementById("demo").innerHTML = "EXPIRED";
-//         }
-//     }, 1000)
-// }
-
-// a = "Jan 5, 2021 15:37:25"
 export default calculateRemainingTime;

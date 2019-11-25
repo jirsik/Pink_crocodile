@@ -72142,8 +72142,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ContainerBtns_ContainerBtns_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContainerBtns/ContainerBtns.jsx */ "./resources/js/components/ContainerBtns/ContainerBtns.jsx");
 /* harmony import */ var _ItemsList_ItemsList_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ItemsList/ItemsList.jsx */ "./resources/js/components/ItemsList/ItemsList.jsx");
 /* harmony import */ var _MyBidsList_MyBidsList_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MyBidsList/MyBidsList.jsx */ "./resources/js/components/MyBidsList/MyBidsList.jsx");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _Edit_Edit_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Edit/Edit.jsx */ "./resources/js/components/Edit/Edit.jsx");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -72151,6 +72150,7 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -72171,13 +72171,15 @@ var App = function App() {
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(token ? true : false),
       _useState4 = _slicedToArray(_useState3, 2),
       loggedIn = _useState4[0],
-      setLoggedIn = _useState4[1];
+      setLoggedIn = _useState4[1]; // const [user, setUser] = useState(window.localStorage.getItem('_user')) //Storing user details in local storage or cookie ???
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(window.localStorage.getItem('_userId')),
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    id: 0
+  }),
       _useState6 = _slicedToArray(_useState5, 2),
-      userId = _useState6[0],
-      setUserId = _useState6[1]; //Set user_id to local storage!!!!!!!!!!
-  /////ITEMS//////
+      user = _useState6[0],
+      setUser = _useState6[1]; /////ITEMS//////
 
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
@@ -72188,14 +72190,13 @@ var App = function App() {
   var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
       _useState10 = _slicedToArray(_useState9, 2),
       currentItemId = _useState10[0],
-      setCurrentItemId = _useState10[1]; /////DISPLAY//////
+      setCurrentItemId = _useState10[1]; /////DISPLAY////// [show, list, myBids]
 
 
-  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(loggedIn ? 'show' : null),
+  var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('show'),
       _useState12 = _slicedToArray(_useState11, 2),
       display = _useState12[0],
-      setDisplay = _useState12[1]; // const [display, setDisplay] = useState('show')
-
+      setDisplay = _useState12[1];
 
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('about'),
       _useState14 = _slicedToArray(_useState13, 2),
@@ -72218,7 +72219,6 @@ var App = function App() {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json',
-        // 'Authorization': 'Bearer '+ token,
         'Accept': 'application/json'
       },
       body: input
@@ -72230,27 +72230,13 @@ var App = function App() {
       if (!response.error) {
         setToken(response.token);
         window.localStorage.setItem('_token', response.token);
-        setUserId(response.user_id);
-        window.localStorage.setItem('_userId', response.user_id);
+        setUser(response.user);
+        window.localStorage.setItem('_user', response.user);
         setLoggedIn(true);
         setDisplay('show');
       }
     })["catch"](function (error) {
       console.log(error);
-    });
-  }
-
-  function checkToken() {
-    fetch("/api/auth/user", {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
-        'Accept': 'application/json'
-      }
-    }).then(function (response) {
-      return response.json();
-    }).then(function (response) {// console.log('response ', response)
     });
   } //////////////////////////////////////////////////////
   // DISPLAY //
@@ -72335,21 +72321,21 @@ var App = function App() {
   }, [items]); //////////////////////////////////////////////////////
   // RETURN //
   ///////////////////////////////////////////////////////
-
-  token && checkToken(); // token && console.log('TOKEN ', token)
+  // token && console.log('TOKEN ', token)
   // token && console.log('LOCAL STORAGE: ',window.localStorage.getItem('_token'))
-  // console.log('USER_ID: ', userId)
+  // console.log('USER: ', user)
   // console.log('ITEMS: ', items)
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Nav_Nav_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], _defineProperty({
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Nav_Nav_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
     setDisplay: setDisplay,
     loggedIn: loggedIn,
     setLoggedIn: setLoggedIn
-  }, "setDisplay", setDisplay)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main-container"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ContainerBtns_ContainerBtns_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    setDisplayTypeBtn: loggedIn ? setDisplayTypeBtn : null,
-    display: display
+    setDisplayTypeBtn: setDisplayTypeBtn,
+    display: display,
+    loggedIn: loggedIn
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main"
   }, display === 'show' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72358,25 +72344,30 @@ var App = function App() {
     onClick: changeIndex
   }, "<"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "display"
-  }, !loggedIn && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login_Login_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, display === 'logIn' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Login_Login_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
     getToken: getToken
   }), display === 'list' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ItemsList_ItemsList_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
     popularityIndex: popularityIndex,
     handleShow: handleShow
   }), display === 'show' && items.length > 0 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Auction_Auction_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
     item: items[currentItemId],
-    userId: userId,
+    user: user,
     token: token,
     getItems: getItems,
     infoDisplay: infoDisplay,
-    setInfoDisplay: setInfoDisplay
+    setInfoDisplay: setInfoDisplay,
+    loggedIn: loggedIn,
+    setDisplay: setDisplay
   }), display === 'myBids' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MyBidsList_MyBidsList_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
     items: items,
-    userId: userId,
+    userId: user.id,
     token: token,
     setCurrentItemId: setCurrentItemId,
     setDisplay: setDisplay,
     getItems: getItems
+  }), display === 'account' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Edit_Edit_jsx__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    user: user,
+    token: token
   })), display === 'show' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "next",
     className: "direction-btn direction-btn_right",
@@ -72424,11 +72415,13 @@ var Auction = function Auction(props) {
   // console.log('AUCTION PROPS: ',props)
   var _props = _objectSpread({}, props),
       item = _props.item,
-      userId = _props.userId,
+      user = _props.user,
       token = _props.token,
       getItems = _props.getItems,
       infoDisplay = _props.infoDisplay,
-      setInfoDisplay = _props.setInfoDisplay;
+      setInfoDisplay = _props.setInfoDisplay,
+      loggedIn = _props.loggedIn,
+      setDisplay = _props.setDisplay;
 
   var current_price;
 
@@ -72442,27 +72435,58 @@ var Auction = function Auction(props) {
 
   var bidData = {
     auction_item_id: item.id,
-    user_id: userId,
+    user_id: user.id,
     current_price: current_price
   };
   var highestBidder;
 
-  if (item.user) {
-    highestBidder = item.user.first_name + ' ' + item.user.last_name;
+  if (!item.user) {
+    highestBidder = 'No Bids';
+  } else if (item.user.first_name === user.first_name && item.user.last_name === user.last_name) {
+    highestBidder = 'You are the highest bidder!';
   } else {
-    highestBidder = 'no bids';
+    highestBidder = item.user.first_name + ' ' + item.user.last_name;
   } //////////////////////////////////////////////////////
   // DISPLAY //
   ///////////////////////////////////////////////////////
+  //ABOUT BTN
 
 
   var handleAboutBtn = function handleAboutBtn() {
     setInfoDisplay('about');
   };
 
+  var aboutBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "btn-primary btn",
+    style: {
+      color: 'white'
+    },
+    onClick: handleAboutBtn
+  }, "About"); //BID BTN
+
   var handleBidBtn = function handleBidBtn() {
     setInfoDisplay('bid');
   };
+
+  var bidBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "btn-success btn",
+    style: {
+      color: 'white'
+    },
+    onClick: handleBidBtn
+  }, "Bid Now"); //REGISTER BTN
+
+  var handleRegisterBtn = function handleRegisterBtn() {
+    setDisplay('logIn');
+  };
+
+  var registerBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    className: "btn-primary btn",
+    style: {
+      color: 'white'
+    },
+    onClick: handleRegisterBtn
+  }, "Log in to bid"); //ABOUT
 
   var about = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "list-group-item",
@@ -72495,9 +72519,13 @@ var Auction = function Auction(props) {
   // RETURN //
   ///////////////////////////////////////////////////////
   // console.log('ITEM: ', item)
-  // console.log('END TIME DATE: ', new Date(item.ends_at))
-  // console.log('END TIME: ', item.ends_at)
+  // console.log('USER: ', user)
 
+  var listGroupItemStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  };
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "card",
     style: {
@@ -72521,22 +72549,14 @@ var Auction = function Auction(props) {
     className: "list-group list-group-flush"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "list-group-item",
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
+    style: listGroupItemStyle
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-hourglass-half auction-icon time-icon"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_countdown_now__WEBPACK_IMPORTED_MODULE_1__["default"], {
     date: new Date(item.ends_at)
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "list-group-item",
-    style: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    }
+    style: listGroupItemStyle
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-dollar-sign auction-icon price-icon"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, current_price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "CZK"))), infoDisplay === 'bid' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -72544,19 +72564,7 @@ var Auction = function Auction(props) {
     token: token,
     setInfoDisplay: setInfoDisplay,
     getItems: getItems
-  }) : infoDisplay === 'about' ? about : infoDisplay === 'bidSuccessMessage' ? bidSuccessMessage : bidFailedMessage), infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "btn-primary btn",
-    style: {
-      color: 'white'
-    },
-    onClick: handleAboutBtn
-  }, "About") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "btn-success btn",
-    style: {
-      color: 'white'
-    },
-    onClick: handleBidBtn
-  }, "Bid Now"));
+  }) : infoDisplay === 'about' ? about : infoDisplay === 'bidSuccessMessage' ? bidSuccessMessage : bidFailedMessage), !loggedIn ? registerBtn : infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? aboutBtn : bidBtn);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Auction);
@@ -72574,6 +72582,7 @@ var Auction = function Auction(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _helpers_calculateBidIncrement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/calculateBidIncrement */ "./resources/js/helpers/calculateBidIncrement.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -72590,6 +72599,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var Bid = function Bid(props) {
   ////////PROPS////////////
   var _props = _objectSpread({}, props),
@@ -72599,24 +72609,23 @@ var Bid = function Bid(props) {
       getItems = _props.getItems; ///////PRICING///////////
 
 
-  var baseIncrement = Math.ceil(bidData.current_price / 100) * 10;
+  var currentPrice = bidData.current_price;
+  var baseIncrement = Object(_helpers_calculateBidIncrement__WEBPACK_IMPORTED_MODULE_1__["default"])(currentPrice);
 
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(bidData.current_price),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(currentPrice + baseIncrement),
       _useState2 = _slicedToArray(_useState, 2),
       price = _useState2[0],
       setPrice = _useState2[1];
 
   var handleOperator = function handleOperator(e) {
+    console.log('PRICE CALC: ', price + baseIncrement);
+    console.log('PRICE: ', price);
+
     if (e.target.id === 'plus') {
       setPrice(price + baseIncrement);
-    } else if (e.target.id === 'minus') {
-      price >= baseIncrement && setPrice(price - baseIncrement);
-    } // console.log('PRICE: ', price)
-
-  };
-
-  var handlePriceChange = function handlePriceChange(e) {
-    setPrice(e.target.value); // console.log('SET PRICE: ', price)
+    } else if (e.target.id === 'minus' && price >= currentPrice + baseIncrement * 2) {
+      setPrice(price - baseIncrement);
+    }
   }; //////////////////////////////////////////////////////
   // SUBMIT BID //
   ///////////////////////////////////////////////////////
@@ -72647,6 +72656,9 @@ var Bid = function Bid(props) {
         }, 3000);
       } else {
         setInfoDisplay('bidFailedMessage');
+        setTimeout(function () {
+          setInfoDisplay('about');
+        }, 3000);
       }
     })["catch"](function (error) {
       console.log(error);
@@ -72656,6 +72668,7 @@ var Bid = function Bid(props) {
   }; //////////////////////////////////////////////////////
   // RETURN //
   ///////////////////////////////////////////////////////
+  // console.log('BID DATA: ', bidData)
 
 
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72671,8 +72684,7 @@ var Bid = function Bid(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "bid-amount",
     type: "number",
-    placeholder: "Next Bid:     ".concat(price),
-    onChange: handlePriceChange
+    placeholder: price
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "btn btn-pink operator-btn"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -72706,7 +72718,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var ContainerBtns = function ContainerBtns(props) {
   var setDisplayTypeBtn = props.setDisplayTypeBtn,
-      display = props.display;
+      display = props.display,
+      loggedIn = props.loggedIn;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "container-btns"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72722,15 +72735,178 @@ var ContainerBtns = function ContainerBtns(props) {
     className: "fas fa-chart-line",
     onClick: setDisplayTypeBtn
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "container-btn btn ".concat(display === 'myBids' ? 'current-btn' : 'silent-btn')
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "container-btn btn ".concat(display === 'myBids' || display === 'logIn' ? 'current-btn' : 'silent-btn'),
+    style: {
+      backgroundColor: !loggedIn && '#428bca'
+    }
+  }, loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     id: "myBids",
     className: "fas fa-user-tag",
+    onClick: setDisplayTypeBtn
+  }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    id: "logIn",
+    className: "fas fa-user-alt",
     onClick: setDisplayTypeBtn
   })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ContainerBtns);
+
+/***/ }),
+
+/***/ "./resources/js/components/Edit/Edit.jsx":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Edit/Edit.jsx ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var Edit = function Edit(props) {
+  var _props = _objectSpread({}, props),
+      user = _props.user,
+      token = _props.token;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    email: user.email,
+    password: '',
+    first_name: user.first_name,
+    last_name: user.last_name,
+    id: user.id
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      formInputValues = _useState2[0],
+      setFormInputValues = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      showSuccessMessage = _useState4[0],
+      setShowSuccessMessage = _useState4[1]; ////////////////////////////////////
+  //API CALL//
+  ///////////////////////////////////
+
+
+  function editUser(input) {
+    fetch("/api/auth/edit", {
+      method: 'POST',
+      withCredentials: true,
+      credentials: 'include',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/json'
+      },
+      body: input
+    }).then(function (response) {
+      return response.json();
+    }).then(function (response) {
+      console.log('edit resonse ', response);
+      setShowSuccessMessage(true);
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  } ////////////////////////////////////////
+  //HANDLERS//
+  ////////////////////////////////////////
+
+
+  var handleInputChange = function handleInputChange(e) {
+    setFormInputValues(_objectSpread({}, formInputValues, _defineProperty({}, e.target.id, e.target.value)));
+  };
+
+  var handleSubmitButton = function handleSubmitButton(e) {
+    e.preventDefault();
+    editUser(JSON.stringify(_objectSpread({}, formInputValues)));
+  }; ///////////////////////////////////////
+  //RETURN//
+  ///////////////////////////////////////
+
+
+  var successMessage = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: {
+      border: '1px solid green',
+      padding: '0.5rem'
+    }
+  }, "Your details have been updated");
+  console.log('USER: ', user);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "login-display"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    className: "login-form"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "logo-img"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "email"
+  }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "email",
+    type: "email",
+    placeholder: "Email",
+    value: formInputValues.email,
+    onChange: handleInputChange
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "password"
+  }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "password",
+    type: "password",
+    placeholder: "Password",
+    value: formInputValues.password,
+    onChange: handleInputChange
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "password"
+  }, "Confirm Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "confirm",
+    type: "password",
+    placeholder: "Confirm Password",
+    value: "",
+    onChange: handleInputChange
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "first_name"
+  }, "First Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "first_name",
+    type: "string",
+    placeholder: "First Name",
+    value: formInputValues.first_name,
+    onChange: handleInputChange
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "last_name"
+  }, "Last Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "last_name",
+    type: "string",
+    placeholder: "Last Name",
+    value: formInputValues.last_name,
+    onChange: handleInputChange
+  })), showSuccessMessage && successMessage, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-btn-container",
+    style: {
+      justifyContent: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn-warning btn btn-main",
+    onClick: handleSubmitButton
+  }, "Submit Changes")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Edit);
 
 /***/ }),
 
@@ -72843,12 +73019,6 @@ var ItemsList = function ItemsList(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -72857,10 +73027,17 @@ function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) ||
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var Login = function Login(props) {
-  var getToken = props.getToken;
+  var _props = _objectSpread({}, props),
+      getToken = _props.getToken;
 
   var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     email: '',
@@ -72918,8 +73095,14 @@ var Login = function Login(props) {
     placeholder: "Password",
     value: formInputValues.password,
     onChange: handleInputChange
-  }), register && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "logo-img"
+  }), register && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "confirmPassword"
+  }, "Confirm Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "confirm_password",
+    type: "password",
+    placeholder: "Confirm Password",
+    value: formInputValues.confirm_password,
+    onChange: handleInputChange
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "first_name"
   }, "First Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -72935,14 +73118,6 @@ var Login = function Login(props) {
     type: "string",
     placeholder: "Last Name",
     value: formInputValues.lastName,
-    onChange: handleInputChange
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "phone"
-  }, "Phone"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: "phone",
-    type: "tel",
-    placeholder: "Phone",
-    value: formInputValues.phone,
     onChange: handleInputChange
   }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-btn-container"
@@ -73246,9 +73421,9 @@ var Nav = function Nav(props) {
   };
 
   var handleLogOut = function handleLogOut(e) {
-    setLoggedIn(false);
-    setDisplay(null);
     window.localStorage.clear();
+    setLoggedIn(false);
+    setDisplay('shpw');
   };
 
   var showOrHide = loggedIn ? {
@@ -73272,11 +73447,7 @@ var Nav = function Nav(props) {
     className: "dropdown-menu",
     "aria-labelledby": "dropdownMenuLink"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    id: "",
-    className: "dropdown-item",
-    onClick: handleNavBtn
-  }, "My History"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    id: "",
+    id: "account",
     className: "dropdown-item",
     onClick: handleNavBtn
   }, "Account"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -73287,6 +73458,35 @@ var Nav = function Nav(props) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Nav);
+
+/***/ }),
+
+/***/ "./resources/js/helpers/calculateBidIncrement.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/helpers/calculateBidIncrement.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var calculateBidIncrement = function calculateBidIncrement(currentPrice) {
+  if (currentPrice < 100) {
+    return 10;
+  } else if (currentPrice < 500) {
+    return 20;
+  } else if (currentPrice < 1000) {
+    return 50;
+  } else if (currentPrice < 2000) {
+    return 100;
+  } else if (currentPrice < 5000) {
+    return 200;
+  } else if (currentPrice < 10000) {
+    return 500;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (calculateBidIncrement);
 
 /***/ }),
 

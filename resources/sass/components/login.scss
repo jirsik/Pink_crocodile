@@ -24,8 +24,13 @@
     justify-content: flex-start;
     align-items: center;
     text-align: right;
-    height: 60%;
+    height: 80%;
     width: 90%;
+    
+    label{
+        font-size: 1rem;
+        margin: 0.5rem;
+    }
 }
 .login-form input,label{
     font-size: 1.15rem;
