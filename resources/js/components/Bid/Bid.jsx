@@ -1,27 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState} from 'react'
+import calculateBidIncrement from '../../helpers/calculateBidIncrement'
 
 const Bid = props => {
 
     ////////PROPS////////////
     const {bidData, token, setInfoDisplay, getItems} = {...props}
-    
-    ///////PRICING///////////
-    const baseIncrement = Math.ceil(bidData.current_price / 100) * 10
 
-    const [price, setPrice] = useState(bidData.current_price)
+    ///////PRICING///////////
+    const currentPrice = bidData.current_price
+    const baseIncrement = calculateBidIncrement(currentPrice)
+    const [price, setPrice] = useState(currentPrice + baseIncrement)
 
     const handleOperator = (e) => {
+        console.log('PRICE CALC: ', price + baseIncrement)
+        console.log('PRICE: ', price)
         if(e.target.id === 'plus'){
             setPrice(price + baseIncrement)
-        }else if(e.target.id === 'minus'){
-            price >= baseIncrement && setPrice(price - baseIncrement)
+        }else if(e.target.id === 'minus' && price >= currentPrice + baseIncrement*2){
+            setPrice(price - baseIncrement)
         }
-        // console.log('PRICE: ', price)
-    }
-
-    const handlePriceChange = (e) => {
-        setPrice(e.target.value)
-        // console.log('SET PRICE: ', price)
     }
 
      //////////////////////////////////////////////////////
@@ -51,6 +48,7 @@ const Bid = props => {
                 setTimeout(() => {setInfoDisplay('about')}, 3000)
             }else{
                 setInfoDisplay('bidFailedMessage')
+                setTimeout(() => {setInfoDisplay('about')}, 3000)
             }
         })
         .catch((error) => {
@@ -65,11 +63,13 @@ const Bid = props => {
                         // RETURN //
     ///////////////////////////////////////////////////////
 
+    // console.log('BID DATA: ', bidData)
+
     return (
         <div className="info">
             <div className="info-row bid-row">
-                <button className="btn btn-pink operator-btn"><i id="minus" className="fas fa-minus-circle" onClick={handleOperator}></i></button>
-                <input className="bid-amount" type="number" placeholder={`Next Bid:     ${price}`} onChange={handlePriceChange}/>
+                <button className="btn btn-pink operator-btn" ><i id="minus" className="fas fa-minus-circle" onClick={handleOperator}></i></button>
+                <input className="bid-amount" type="number" placeholder={price}/>
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">

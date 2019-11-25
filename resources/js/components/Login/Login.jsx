@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 const Login = props => {
-    const getToken = props.getToken
+    const {getToken} = {...props}
     const [formInputValues, setFormInputValues] = useState({email: '', password: '', first_name: '', last_name: ''})
     const [register, setRegister] = useState(false)
 
@@ -57,7 +57,14 @@ const Login = props => {
             
                 {register && (
                     <>
-                    <div className="logo-img"/>
+                    <label htmlFor="confirmPassword">Confirm Password</label>
+                    <input
+                        id="confirm_password"
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={formInputValues.confirm_password}
+                        onChange={handleInputChange}
+                    />
                     <label htmlFor="first_name">First Name</label>
                     <input
                         id="first_name"
@@ -75,14 +82,14 @@ const Login = props => {
                         onChange={handleInputChange}
                     />
                     
-                    <label htmlFor="phone">Phone</label>
+                    {/* <label htmlFor="phone">Phone</label>
                     <input
                         id="phone"
                         type="tel"
                         placeholder="Phone"
                         value={formInputValues.phone}
                         onChange={handleInputChange}
-                    />
+                    /> */}
                     
                     </>
                 )}

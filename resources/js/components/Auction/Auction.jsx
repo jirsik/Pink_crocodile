@@ -9,7 +9,7 @@ const Auction = props => {
     ////////PROPS////////////
     
     // console.log('AUCTION PROPS: ',props)
-    const {item, userId, token, getItems, infoDisplay, setInfoDisplay} = {...props}
+    const {item, user, token, getItems, infoDisplay, setInfoDisplay, loggedIn, setDisplay} = {...props}
     
     let current_price
     if(item.bids.length){
@@ -20,29 +20,47 @@ const Auction = props => {
     
     const bidData = {
         auction_item_id: item.id,
-        user_id: userId,
+        user_id: user.id,
         current_price: current_price
     }
 
     let highestBidder
-    if(item.user){
-        highestBidder = item.user.first_name + ' ' + item.user.last_name
+    if(!item.user){
+        highestBidder = 'No Bids'
+    }else if(item.user.first_name === user.first_name && item.user.last_name === user.last_name){
+        highestBidder = 'You are the highest bidder!'
     }else{
-        highestBidder = 'no bids'
+        highestBidder = item.user.first_name + ' ' + item.user.last_name
     }
 
     //////////////////////////////////////////////////////
                         // DISPLAY //
     ///////////////////////////////////////////////////////
 
-
+    //ABOUT BTN
     const handleAboutBtn = () => {
         setInfoDisplay('about')
     }
+    const aboutBtn = (
+        <a className="btn-primary btn" style={{color:'white'}} onClick={handleAboutBtn}>About</a>
+    )
+    //BID BTN
     const handleBidBtn = () => {
         setInfoDisplay('bid')
     }
+    const bidBtn = (
+        <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>
+    )
 
+    //REGISTER BTN
+    const handleRegisterBtn = () => {
+        setDisplay('logIn')
+    }
+    const registerBtn = (
+        <a className="btn-primary btn" style={{color:'white'}} onClick={handleRegisterBtn}>Log in to bid</a>
+    )
+
+    //ABOUT
     const about = (
         <>
         <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -78,11 +96,11 @@ const Auction = props => {
     //////////////////////////////////////////////////////
                         // RETURN //
     ///////////////////////////////////////////////////////
-    
-    // console.log('ITEM: ', item)
 
-    // console.log('END TIME DATE: ', new Date(item.ends_at))
-    // console.log('END TIME: ', item.ends_at)
+    // console.log('ITEM: ', item)
+    // console.log('USER: ', user)
+
+    const listGroupItemStyle = {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}
 
     return (
 
@@ -93,11 +111,11 @@ const Auction = props => {
                 <p className="card-text">{item.item.description}</p>
             </div>
             <ul className="list-group list-group-flush" >
-                <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <div className="list-group-item" style={listGroupItemStyle}>
                     <i className="fas fa-hourglass-half auction-icon time-icon"></i>
                     <Countdown date={new Date(item.ends_at)}/>
                 </div>
-                <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <div className="list-group-item" style={listGroupItemStyle}>
                     <i className="fas fa-dollar-sign auction-icon price-icon"></i>
                     <div>{current_price} <strong>CZK</strong></div>
                 </div>
@@ -106,7 +124,7 @@ const Auction = props => {
                 
             </ul>
 
-            {infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? <a className="btn-primary btn" style={{color:'white'}} onClick={handleAboutBtn}>About</a> : <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>}
+            {!loggedIn ? registerBtn : infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? aboutBtn : bidBtn}
             
         </div>
     )
