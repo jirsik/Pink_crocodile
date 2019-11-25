@@ -16,8 +16,8 @@ class CreateAuctionItemsTable extends Migration
         Schema::create('auction_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('event_id');
-            $table->timestamp('starts_at');
-            $table->timestamp('ends_at');
+            $table->timestamp('starts_at')->default(date('Y-m-d H:i:s'));
+            $table->timestamp('ends_at')->default(date('Y-m-d H:i:s'));
             $table->integer('minimum_price');
         });
     }

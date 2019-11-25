@@ -45,9 +45,10 @@ const Bid = props => {
         })
         .then((response) => response.json())
         .then((response) => {
-            // console.log('bid resonse ',response)
+            console.log('bid resonse ',response)
             if(response.submit === true){
                 setInfoDisplay('bidSuccessMessage')
+                setTimeout(() => {setInfoDisplay('about')}, 3000)
             }else{
                 setInfoDisplay('bidFailedMessage')
             }
@@ -60,11 +61,6 @@ const Bid = props => {
         getItems('landing')
     }
 
-    // console.log('JSON STRINGIFY: ',JSON.stringify({
-    //     ...bidData,
-    //     price
-    // }))
-
     //////////////////////////////////////////////////////
                         // RETURN //
     ///////////////////////////////////////////////////////
@@ -73,7 +69,7 @@ const Bid = props => {
         <div className="info">
             <div className="info-row bid-row">
                 <button className="btn btn-pink operator-btn"><i id="minus" className="fas fa-minus-circle" onClick={handleOperator}></i></button>
-                <input className="bid-amount" type="number" placeholder={price} onChange={handlePriceChange}/>
+                <input className="bid-amount" type="number" placeholder={`Next Bid:     ${price}`} onChange={handlePriceChange}/>
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">
