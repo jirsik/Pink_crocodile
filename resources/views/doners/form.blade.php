@@ -19,7 +19,7 @@ $any_error = (count($errors->all()) > 0 ) ? true : false;
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Register doner</div>
+                <div class="card-header">Register donor</div>
                 <div class="card-body">
                     @can('admin')
                         @if ($any_error)
@@ -47,7 +47,7 @@ $any_error = (count($errors->all()) > 0 ) ? true : false;
                             </div>
                         </form>
                     @else
-                        <p>You are not authrized to register doner. Please contact admin.</p>
+                        <p>You are not authrized to register donor. Please contact admin.</p>
                     @endcan
                 </div>
             </div>

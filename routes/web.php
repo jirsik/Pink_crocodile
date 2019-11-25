@@ -75,6 +75,11 @@ Route::resource('/auction/item', 'AuctionController')->middleware('admin');
 
 Route::get('/log', 'AdminController@logs')->middleware('admin');
 Route::get('/{id}/log', 'AdminController@log_show')->middleware('admin');
+Route::get('/finished/evets', 'AdminController@finished_events')->middleware('admin');
+Route::get('/finished/evets/{id}', 'AdminController@finished_event_info')->middleware('admin');
+
+
+
 
 //image placeholder
 Route::get('/uploads/doners/{file}', function() {

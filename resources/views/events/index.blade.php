@@ -149,7 +149,7 @@
             </div>
         </div>
     @else
-        <p>You are not authrized to see doners. Please contact admin.</p>
+        <p>You are not authrized to see events. Please contact admin.</p>
         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
     @endcan
     

@@ -28,14 +28,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('command:CheckForFinishedAuctions')
+        $schedule->command('check:endAuctions')
                  ->everyMinute();
-        // $schedule->call(function () {
-        //     $aii = AuctionItem::findOrFail(3);
-        //     // $this->mail_winner($ai);
-        //     $aii->winner_notified = true;
-        //     $aii->save();
-        // })->everyMinute();
+        $schedule->command('check:endEvents')
+                 ->everyMinute();
     }
 
     /**

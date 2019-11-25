@@ -14,7 +14,7 @@ class CheckForFinishedAuctions extends Command
      *
      * @var string
      */
-    protected $signature = 'command:CheckForFinishedAuctions';
+    protected $signature = 'check:endAuctions';
 
     /**
      * The console command description.

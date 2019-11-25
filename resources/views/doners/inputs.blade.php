@@ -34,7 +34,7 @@ if (isset($doner)) {
 </div>
 
 <div class="form-group row">
-    <label for="link" class="col-md-4 col-form-label text-md-right">Doner's website</label>
+    <label for="link" class="col-md-4 col-form-label text-md-right">Donor's website</label>
 
     <div class="col-md-6">
         <input id="link" type="text" class="form-control @error('link') is-invalid @enderror" name="link" value="{{ old('link', $link) }}">
@@ -48,7 +48,7 @@ if (isset($doner)) {
 </div>
 
 <div class="form-group row">
-    <label for="about" class="col-md-4 col-form-label text-md-right">About doner:</label>
+    <label for="about" class="col-md-4 col-form-label text-md-right">About donor:</label>
 
     <div class="col-md-6">
         <textarea name="about" id="about" rows="10" class="form-control @error('about') is-invalid @enderror">{{ old('about', $about) }}</textarea>
@@ -112,7 +112,7 @@ if (isset($doner)) {
 </div>
 
 <div class="form-group row">
-    <label for="email" class="col-md-4 col-form-label text-md-right">Doner's Email:</label>
+    <label for="email" class="col-md-4 col-form-label text-md-right">Donor's Email:</label>
 
     <div class="col-md-6">
         <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $email) }}">
