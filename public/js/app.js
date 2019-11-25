@@ -72011,15 +72011,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var item_button_back = document.querySelector('#item-button-back');
     var add_items = document.querySelector('#add-items');
     var available_items = document.querySelector('#available-items');
+    var form_type = document.querySelector('#form');
 
     item_button.onclick = function () {
       add_items.classList.toggle('d-none');
       available_items.classList.toggle('d-block');
+      form_type.value = 'auction';
     };
 
     item_button_back.onclick = function () {
       add_items.classList.toggle('d-none');
       available_items.classList.toggle('d-block');
+      form_type.value = 'event';
     };
   }
 });
@@ -73308,8 +73311,8 @@ var Nav = function Nav(props) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\dev\Pink_crocodile\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\dev\Pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\web\bootcamp\projects\pink_crocodile\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

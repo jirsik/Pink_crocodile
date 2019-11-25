@@ -13,7 +13,7 @@ class AuctionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,12 @@ class AuctionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules()
     {
         return [
-            //
+            'item.*.starts_at' => 'nullable|date',
+            'item.*.ends_at' => 'nullable|date',
+            'item.*.min_price' => 'nullable|integer|min:0',
         ];
     }
 }
