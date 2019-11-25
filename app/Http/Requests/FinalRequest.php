@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\DonerRequest;
 use App\Http\Requests\ItemRequest;
 use App\Http\Requests\EventRequest;
+use App\Http\Requests\AuctionRequest;
+
 
 class FinalRequest extends FormRequest
 {
@@ -37,6 +39,8 @@ class FinalRequest extends FormRequest
             case 'doner': $result = DonerRequest::rules();
                         break;
             case 'event': $result = EventRequest::rules();
+                        break;
+            case 'auction': $result = array_merge(EventRequest::rules(), AuctionRequest::rules());
                         break;
             default: $result = [];
         }

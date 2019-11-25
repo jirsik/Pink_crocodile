@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\FinalRequest;
 
+
 use App\Event;
 use App\Item;
 use App\AuctionItem;
@@ -39,7 +40,7 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FinalRequest $request)
     {
         $items = $request->input('item');
 
@@ -106,7 +107,7 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FinalRequest $request, $id)
     {
         $event = Event::findOrFail($id);
         $event->name = $request->input('name');

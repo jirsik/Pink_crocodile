@@ -19,13 +19,16 @@ class AdminController extends Controller
     }
 
     public function finished_events() {
-        $events = Event::where('ends_at', '<', date("Y-m-d H:i:s", time()) )
+        $events = Event::where('ends_at', '<', date("Y-m-d H:i:s", time()))
+            ->orderBy('ends_at', 'DESC')
             ->get();
         return view('tables.finished_events', compact('events'));
     }
 
     public function finished_event_info($id) {
-        $event = Event::findOrFail($id);
+        $event = Event::with('auctionItems', 'auctionItems.user')->findOrFail($id);
+
+        
         return view('tables.finished_event_info', compact('event'));
     }
 }

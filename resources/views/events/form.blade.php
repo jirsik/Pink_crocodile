@@ -30,12 +30,18 @@ if (isset($event)) {
     $assigned_items = false;
 }
 
-//according to isset($event) show list or available items or assigned items
+//check if add item window was open and open it or close it
+$auction_form = old('form', 'event');
+$auction_error = false;
+
+if (count($errors->all()) > 0 && $auction_form == 'auction') {
+    $auction_error = true;
+}
 
 ?>
 
 @section('admin')
-    <input name="form" type="hidden" value="item"> {{-- tels to FinalRequest.php how to valitade data --}}
+    <input name="form" type="hidden" value="event"> {{-- tels to FinalRequest.php how to valitade data --}}
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -48,7 +54,7 @@ if (isset($event)) {
                                 <input name="_method" type="hidden" value="put">
                             @endif 
 
-                            <input name="form" type="hidden" value="event"> 
+                            <input name="form" id="form" type="hidden" value={{$auction_form}}> 
 
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">* Name:</label>
@@ -122,7 +128,7 @@ if (isset($event)) {
 
                             @if (isset($event) && count($event->auctionItems)>0)
                                 
-                                <div id="assigned-items" class="card d-none d-block mb-2">
+                                <div id="assigned-items" class="card d-block mb-2">
                                     <div class="card-header">Assigned Items</div>        
                                     <div class="card-body">
                                         <table class="table">
@@ -154,7 +160,7 @@ if (isset($event)) {
                                 </div>
                             @endif
                                     
-                            <div id="add-items">
+                            <div id="add-items" class="@if($auction_error) d-none @endif">
                                 <div class="form-group row">
                                     <div class="col-md-6 offset-md-4">
                                         <button id ="item-button" type="button" class="btn btn-secondary">
@@ -164,7 +170,7 @@ if (isset($event)) {
                                 </div>
                             </div>
     
-                            <div id="available-items" class="card d-none mb-2">
+                            <div id="available-items" class="card d-none @if($auction_error) d-block @endif mb-2">
                                     <div class="card-header">Available Items</div>        
                                     <div class="card-body">
 
@@ -196,9 +202,9 @@ if (isset($event)) {
                                                                     <label for="item[{{$i}}][min_price]" class="col-md-4 col-form-label text-md-right">Min. Price ({{$item->currency}}):</label>
                                     
                                                                     <div class="col-md-8">
-                                                                        <input id="item[{{$i}}][min_price]" type="number" class="form-control @error('item[{{$i}}][min_price]') is-invalid @enderror" name="item[{{$i}}][min_price]" value="{{ old('item['.$i.'][min_price]') }}">
+                                                                        <input id="item[{{$i}}][min_price]" type="number" class="form-control @error('item.'. $i .'.min_price') is-invalid @enderror" name="item[{{$i}}][min_price]" value="{{ old('item.'. $i .'.min_price') }}">
                                     
-                                                                        @error('item[{{$i}}][min_price]')
+                                                                        @error('item.'. $i .'.min_price')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>
@@ -209,9 +215,9 @@ if (isset($event)) {
                                                                     <label for="item[{{$i}}][starts_at]" class="col-md-4 col-form-label text-md-right">Starts:</label>
                                     
                                                                     <div class="col-md-8">
-                                                                        <input id="item[{{$i}}][starts_at]" type="datetime-local" class="form-control @error('item[{{$i}}][starts_at]') is-invalid @enderror" name="item[{{$i}}][starts_at]" value="{{ old('item['.$i.'][starts_at]') }}">
+                                                                        <input id="item[{{$i}}][starts_at]" type="datetime-local" class="form-control @error('item.'. $i .'.starts_at') is-invalid @enderror" name="item[{{$i}}][starts_at]" value="{{ old('item.'. $i .'.starts_at') }}">
                                     
-                                                                        @error('item[{{$i}}][starts_at]')
+                                                                        @error('item.'. $i .'.starts_at')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>
@@ -221,9 +227,9 @@ if (isset($event)) {
                                                                 <div class="form-group row">
                                                                     <label for="item[{{$i}}][ends_at]" class="col-md-4 col-form-label text-md-right">Ends:</label>
                                                                     <div class="col-md-8">
-                                                                        <input id="item[{{$i}}][ends_at]" type="datetime-local" class="form-control @error('item[{{$i}}][ends_at]') is-invalid @enderror" name="item[{{$i}}][ends_at]" value="{{ old('item['.$i.'][ends_at]') }}">
+                                                                        <input id="item[{{$i}}][ends_at]" type="datetime-local" class="form-control @error('item.'. $i .'.ends_at') is-invalid @enderror" name="item[{{$i}}][ends_at]" value="{{ old('item.'. $i .'.ends_at') }}">
                                         
-                                                                        @error('item[{{$i}}][ends_at]')
+                                                                        @error('item.'. $i .'.ends_at')
                                                                             <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $message }}</strong>
                                                                             </span>
@@ -236,7 +242,7 @@ if (isset($event)) {
                                                     
                                                 @else
                                                     <tr>
-                                                        <td colspan="4">There are no available items at the moment.</td>
+                                                        <td colspan="4">There are no available items at the moment, but you can add the items later.</td>
                                                     </tr>
                                                 @endif
                                             </tbody>

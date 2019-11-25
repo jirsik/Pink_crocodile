@@ -135,23 +135,4 @@ class AuctionController extends Controller
 
         return redirect('/item/'.$id)->with('success', 'Item Unassigned!');
     }
-    
-    public function check_for_ending() {
-        $events = \App\Event::where('admin_notified', 0)
-            ->where('ends_at', '<', date("Y-m-d H:i:s", time()) )
-            ->get();
-        $content = [];
-        if (count($events) > 0) {
-            foreach ($events as $event) {
-                if (count($event->auctionItems) > 0) {
-                    
-                    foreach ($event->auctionItems as $auctionItem) {
-                        $er = (count($auctionItem->bids) > 0) ? 'sold' : ' not sold';
-                        $content[] = $auctionItem->item->title . ' ... ' . ((count($auctionItem->bids) > 0) ? 'sold' : ' not sold');
-                    }
-                }
-            }
-        }
-        return $content;
-    }
 }
