@@ -91,8 +91,6 @@ Route::get('/uploads/items/{file}', function() {
         ->header('Content-Type','image/png');
 });
 
-//mails
-Route::get('/mail/winner', 'AuctionController@check_for_ending');
 
 
 Route::get('api/landing', 'api\ItemController@landing');

@@ -9,7 +9,8 @@
 
                 <div class="card-body">
                     <a href="{{action('AdminController@finished_events')}}"><button class="btn btn-primary">Show Finished Events</button></a>
-                    <a href="{{action('AdminController@logs')}}"><button class="btn btn-primary">Show User's Logs</button></a>
+                    {{-- action for following link {{action('AdminController@logs')}} --}}
+                    <a href="#"><button class="btn btn-secondary">Show User's Logs</button></a>
                 </div>
             </div>
 
