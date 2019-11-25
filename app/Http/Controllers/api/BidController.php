@@ -46,10 +46,15 @@ class BidController extends Controller
         
     }
     
-    public function bid(Request $request)
+    public function myBids($user_id)
     {
-        $item_bids = Bid::where('auction_item_id', $request->auction_item_id)->orderBy('price', 'desc')->first();
-
-        return $item_bids;
+        $myBids = Bid::where('user_id', $user_id)->with('auctionItem.user')->with('auctionItem.item')->orderBy('created_at', 'desc')->get();
+        if(count($myBids) > 0){
+            return $myBids;
+        }else{
+            return [
+                'message' => 'You haven\'t bid on any items yet'
+            ];
+        }
     }
 }

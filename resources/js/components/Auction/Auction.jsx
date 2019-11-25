@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Countdown from 'react-countdown-now';
 
-import Info from '../Info/Info.jsx';
 import Bid from '../Bid/Bid.jsx';
 
 
@@ -64,13 +63,14 @@ const Auction = props => {
 
     const bidSuccessMessage = (
         <div className='info'>
-            <h2>Success</h2>
+            <h4>You are the highest bidder</h4>
         </div>
     )
     
     const bidFailedMessage = (
         <div className='info'>
-            <h2>Failed</h2>
+            <h5>You have been outbid :( </h5>
+            <h5>Please try again</h5>
         </div>
     )
 
@@ -87,7 +87,7 @@ const Auction = props => {
     return (
 
         <div className="card" style={{maxHeight: '100%', minHeight: '100%'}}>
-            <img src={item.item.photo_path} className="card-img-top" alt="..."/>
+            <img src={item.item.item_photo_path} className="card-img-top" alt="..."/>
             <div className="card-body" style={{padding: "0.5rem"}}>
                 <h5 className="card-title">{item.item.title}</h5>
                 <p className="card-text">{item.item.description}</p>
@@ -95,7 +95,6 @@ const Auction = props => {
             <ul className="list-group list-group-flush" >
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-hourglass-half auction-icon time-icon"></i>
-                    {/* <div>{calculateRemainingTime(item.starts_at, item.ends_at)}</div> */}
                     <Countdown date={new Date(item.ends_at)}/>
                 </div>
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>

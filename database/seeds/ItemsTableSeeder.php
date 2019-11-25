@@ -23,7 +23,7 @@ class ItemsTableSeeder extends Seeder
                 'estimated_price' => $faker->randomDigit * 100,
                 'currency' => 'CZK',
                 'doner_id' => ($i+1),
-                'photo_path' => $faker->imageUrl($width = 640, $height = 480, 'technics'),
+                'item_photo_path' => $faker->imageUrl($width = 640, $height = 480, 'technics'),
                 'itemable_id' => ($i+1),
                 'itemable_type' => 'App\AuctionItem'
             ]);

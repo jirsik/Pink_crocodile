@@ -53,7 +53,7 @@ class PassportController extends Controller
             'last_name' => $request->last_name
         ]);
         $token = $user->createToken('remember_token')->accessToken;
-        return response()->json(['token' => $token], 200);
+        return response()->json(['token' => $token, 'user_id' => $user->id], 200);
     }
 
     public function login(Request $request)
@@ -62,7 +62,7 @@ class PassportController extends Controller
         if (auth()->attempt($credentials)) {
             $token = Auth::user()->createToken('remember_token')->accessToken;
             return response()->json([
-                'id' => Auth::user()->id,
+                'user_id' => Auth::user()->id,
                 'token' => $token,
                 'token_type' => 'Bearer',
                 'message' => 'Authorized'

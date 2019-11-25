@@ -25,8 +25,6 @@ Route::post('/sign-in', function () {
     return ['Login'];
 });
 
-Route::get('/landing', 'api\ItemController@landing');
-Route::get('/bid', 'api\BidController@bid');
 
 Route::group([
     'prefix' => 'auth'
@@ -41,3 +39,9 @@ Route::group([
         Route::post('bid', 'api\BidController@submitBid');
     });
 });
+
+//////////////////////////////////////////////////////////
+/////////////           TEST        /////////////////////
+/////////////////////////////////////////////////////////
+Route::get('/landing', 'api\ItemController@landing');
+Route::get('/myBids/{user}', 'api\BidController@myBids');

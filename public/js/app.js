@@ -72141,6 +72141,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Auction_Auction_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Auction/Auction.jsx */ "./resources/js/components/Auction/Auction.jsx");
 /* harmony import */ var _ContainerBtns_ContainerBtns_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ContainerBtns/ContainerBtns.jsx */ "./resources/js/components/ContainerBtns/ContainerBtns.jsx");
 /* harmony import */ var _ItemsList_ItemsList_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ItemsList/ItemsList.jsx */ "./resources/js/components/ItemsList/ItemsList.jsx");
+/* harmony import */ var _MyBidsList_MyBidsList_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./MyBidsList/MyBidsList.jsx */ "./resources/js/components/MyBidsList/MyBidsList.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -72148,6 +72151,7 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -72169,10 +72173,11 @@ var App = function App() {
       loggedIn = _useState4[0],
       setLoggedIn = _useState4[1];
 
-  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(11),
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(window.localStorage.getItem('_userId')),
       _useState6 = _slicedToArray(_useState5, 2),
       userId = _useState6[0],
-      setUserId = _useState6[1]; /////ITEMS//////
+      setUserId = _useState6[1]; //Set user_id to local storage!!!!!!!!!!
+  /////ITEMS//////
 
 
   var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
@@ -72189,7 +72194,8 @@ var App = function App() {
   var _useState11 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(loggedIn ? 'show' : null),
       _useState12 = _slicedToArray(_useState11, 2),
       display = _useState12[0],
-      setDisplay = _useState12[1];
+      setDisplay = _useState12[1]; // const [display, setDisplay] = useState('show')
+
 
   var _useState13 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('about'),
       _useState14 = _slicedToArray(_useState13, 2),
@@ -72212,7 +72218,7 @@ var App = function App() {
       headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token,
+        // 'Authorization': 'Bearer '+ token,
         'Accept': 'application/json'
       },
       body: input
@@ -72224,8 +72230,9 @@ var App = function App() {
       if (!response.error) {
         setToken(response.token);
         window.localStorage.setItem('_token', response.token);
+        setUserId(response.user_id);
+        window.localStorage.setItem('_userId', response.user_id);
         setLoggedIn(true);
-        setUserId(response.id);
         setDisplay('show');
       }
     })["catch"](function (error) {
@@ -72261,14 +72268,13 @@ var App = function App() {
     }).then(function (response) {
       return response.json();
     }).then(function (response) {
-      // console.log('RESPONSE: ', response)
+      console.log('RESPONSE: ', response);
       setItems(response);
     });
   };
 
   var setDisplayTypeBtn = function setDisplayTypeBtn(e) {
-    var type = e.target.id;
-    setDisplay(type);
+    setDisplay(e.target.id);
   };
 
   var changeIndex = function changeIndex(e) {
@@ -72286,7 +72292,6 @@ var App = function App() {
       });
     }
 
-    console.log('index change');
     setInfoDisplay('about');
   };
 
@@ -72311,12 +72316,10 @@ var App = function App() {
       var newState = items.slice(0).sort(function (a, b) {
         return b.bids.length - a.bids.length;
       });
-      console.log('PREV STATE: ', prevState);
 
       if (prevState.length === 0) {
         return newState;
       } else {
-        console.log('NEW STATE: ', newState);
         return newState.map(function (item) {
           var prevStateIndex = prevState.findIndex(function (x) {
             return x.id === item.id;
@@ -72329,8 +72332,7 @@ var App = function App() {
         });
       }
     });
-  }, [items]);
-  console.log('POPULARITY INDEX: ', popularityIndex); //////////////////////////////////////////////////////
+  }, [items]); //////////////////////////////////////////////////////
   // RETURN //
   ///////////////////////////////////////////////////////
 
@@ -72339,7 +72341,11 @@ var App = function App() {
   // console.log('USER_ID: ', userId)
   // console.log('ITEMS: ', items)
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Nav_Nav_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Nav_Nav_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], _defineProperty({
+    setDisplay: setDisplay,
+    loggedIn: loggedIn,
+    setLoggedIn: setLoggedIn
+  }, "setDisplay", setDisplay)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "main-container"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_ContainerBtns_ContainerBtns_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
     setDisplayTypeBtn: loggedIn ? setDisplayTypeBtn : null,
@@ -72364,6 +72370,13 @@ var App = function App() {
     getItems: getItems,
     infoDisplay: infoDisplay,
     setInfoDisplay: setInfoDisplay
+  }), display === 'myBids' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MyBidsList_MyBidsList_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    items: items,
+    userId: userId,
+    token: token,
+    setCurrentItemId: setCurrentItemId,
+    setDisplay: setDisplay,
+    getItems: getItems
   })), display === 'show' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "next",
     className: "direction-btn direction-btn_right",
@@ -72387,8 +72400,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_countdown_now__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-countdown-now */ "./node_modules/react-countdown-now/dist/index.es.js");
-/* harmony import */ var _Info_Info_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Info/Info.jsx */ "./resources/js/components/Info/Info.jsx");
-/* harmony import */ var _Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Bid/Bid.jsx */ "./resources/js/components/Bid/Bid.jsx");
+/* harmony import */ var _Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Bid/Bid.jsx */ "./resources/js/components/Bid/Bid.jsx");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -72402,7 +72414,6 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -72477,10 +72488,10 @@ var Auction = function Auction(props) {
   }, "donor.org"))));
   var bidSuccessMessage = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "info"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Success"));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "You are the highest bidder"));
   var bidFailedMessage = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "info"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Failed")); //////////////////////////////////////////////////////
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "You have been outbid :( "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Please try again")); //////////////////////////////////////////////////////
   // RETURN //
   ///////////////////////////////////////////////////////
   // console.log('ITEM: ', item)
@@ -72494,7 +72505,7 @@ var Auction = function Auction(props) {
       minHeight: '100%'
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: item.item.photo_path,
+    src: item.item.item_photo_path,
     className: "card-img-top",
     alt: "..."
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -72528,7 +72539,7 @@ var Auction = function Auction(props) {
     }
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-dollar-sign auction-icon price-icon"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, current_price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "CZK"))), infoDisplay === 'bid' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, current_price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "CZK"))), infoDisplay === 'bid' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], {
     bidData: bidData,
     token: token,
     setInfoDisplay: setInfoDisplay,
@@ -72627,9 +72638,13 @@ var Bid = function Bid(props) {
     }).then(function (response) {
       return response.json();
     }).then(function (response) {
-      // console.log('bid resonse ',response)
+      console.log('bid resonse ', response);
+
       if (response.submit === true) {
         setInfoDisplay('bidSuccessMessage');
+        setTimeout(function () {
+          setInfoDisplay('about');
+        }, 3000);
       } else {
         setInfoDisplay('bidFailedMessage');
       }
@@ -72638,11 +72653,7 @@ var Bid = function Bid(props) {
     }); //Refresh items
 
     getItems('landing');
-  }; // console.log('JSON STRINGIFY: ',JSON.stringify({
-  //     ...bidData,
-  //     price
-  // }))
-  //////////////////////////////////////////////////////
+  }; //////////////////////////////////////////////////////
   // RETURN //
   ///////////////////////////////////////////////////////
 
@@ -72660,7 +72671,7 @@ var Bid = function Bid(props) {
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "bid-amount",
     type: "number",
-    placeholder: price,
+    placeholder: "Next Bid:     ".concat(price),
     onChange: handlePriceChange
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "btn btn-pink operator-btn"
@@ -72708,55 +72719,18 @@ var ContainerBtns = function ContainerBtns(props) {
     className: "container-btn btn ".concat(display === 'list' ? 'current-btn' : 'silent-btn')
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     id: "list",
-    className: "fas fa-ellipsis-v",
+    className: "fas fa-chart-line",
+    onClick: setDisplayTypeBtn
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "container-btn btn ".concat(display === 'myBids' ? 'current-btn' : 'silent-btn')
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    id: "myBids",
+    className: "fas fa-user-tag",
     onClick: setDisplayTypeBtn
   })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ContainerBtns);
-
-/***/ }),
-
-/***/ "./resources/js/components/Info/Info.jsx":
-/*!***********************************************!*\
-  !*** ./resources/js/components/Info/Info.jsx ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-
-
-var Info = function Info(props) {
-  var info = props.info;
-  console.log(props);
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "info"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "info-row"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-info-circle about-icon"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, info.description)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "info-row"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-gavel highest-bidder-icon"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Isaac Sackler")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "info-row"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-chart-line bids-icon"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "3rd / 12")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "info-row"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fas fa-hand-holding-heart donor-icon"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, info.donor.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: info.donor.link
-  }, "donor.org"))));
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Info);
 
 /***/ }),
 
@@ -72771,8 +72745,14 @@ var Info = function Info(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _helpers_calculateRemainingTime_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../helpers/calculateRemainingTime.js */ "./resources/js/helpers/calculateRemainingTime.js");
-/* harmony import */ var react_countdown_now__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-countdown-now */ "./node_modules/react-countdown-now/dist/index.es.js");
+/* harmony import */ var react_countdown_now__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-countdown-now */ "./node_modules/react-countdown-now/dist/index.es.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 
 
@@ -72787,7 +72767,9 @@ var ItemsList = function ItemsList(props) {
       id: item.id,
       starts_at: item.starts_at,
       ends_at: item.ends_at,
-      price: item.minimum_price,
+      price: item.bids.length ? Math.max.apply(Math, _toConsumableArray(item.bids.map(function (bid) {
+        return bid.price;
+      }))) : item.minimum_price,
       info: item.item,
       color: item.color
     };
@@ -72809,21 +72791,28 @@ var ItemsList = function ItemsList(props) {
     }
   });
   var staticArrow = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "far fa-dot-circle popularity-icon",
+    className: "fas fa-minus popularity-icon",
     style: {
       color: 'black'
     }
   });
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "items-list"
-  }, items.length && items.map(function (item) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "title-container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "title-img"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "pink"
+  }, "Hot List")), items.length && items.map(function (item) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: item.id,
       className: "item"
     }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "item-title"
     }, item.info.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "item-time-list"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_countdown_now__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_countdown_now__WEBPACK_IMPORTED_MODULE_1__["default"], {
       date: new Date(item.ends_at)
     })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       className: "price-popularity-row"
@@ -72907,11 +72896,13 @@ var Login = function Login(props) {
     setRegister(!register);
   };
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "logo-img"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "login-display"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "login-form"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "logo-img"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
     htmlFor: "email"
   }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     id: "email",
@@ -72927,12 +72918,22 @@ var Login = function Login(props) {
     placeholder: "Password",
     value: formInputValues.password,
     onChange: handleInputChange
-  }), register && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-    htmlFor: "name"
-  }, "Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    id: "name",
+  }), register && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "logo-img"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "first_name"
+  }, "First Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "first_name",
     type: "string",
-    placeholder: "Name",
+    placeholder: "First Name",
+    value: formInputValues.firstName,
+    onChange: handleInputChange
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "last_name"
+  }, "Last Name"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    id: "last_name",
+    type: "string",
+    placeholder: "Last Name",
     value: formInputValues.lastName,
     onChange: handleInputChange
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -72941,20 +72942,276 @@ var Login = function Login(props) {
     id: "phone",
     type: "tel",
     placeholder: "Phone",
-    value: formInputValues.lastName,
+    value: formInputValues.phone,
     onChange: handleInputChange
   }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "form-btn-container"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, !register ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "btn-register btn-pink btn btn-main",
     onClick: handleRegisterShowButton
-  }, "Register"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }, "Register") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn-register btn-warning btn btn-main",
+    onClick: handleRegisterShowButton
+  }, "Back"), !register ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     className: "btn-success btn btn-main",
     onClick: handleLoginButton
-  }, "Login")));
+  }, "Login") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    className: "btn-primary btn btn-main",
+    onClick: handleRegisterButton
+  }, "Submit")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Login);
+
+/***/ }),
+
+/***/ "./resources/js/components/MyBid/MyBid.jsx":
+/*!*************************************************!*\
+  !*** ./resources/js/components/MyBid/MyBid.jsx ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Bid/Bid.jsx */ "./resources/js/components/Bid/Bid.jsx");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var MyBid = function MyBid(props) {
+  var _props = _objectSpread({}, props),
+      item = _props.item,
+      bid = _props.bid,
+      token = _props.token,
+      getItems = _props.getItems,
+      userId = _props.userId,
+      setCurrentItemId = _props.setCurrentItemId,
+      setDisplay = _props.setDisplay;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('about'),
+      _useState2 = _slicedToArray(_useState, 2),
+      infoDisplay = _useState2[0],
+      setInfoDisplay = _useState2[1];
+
+  var handleSeeItemBtn = function handleSeeItemBtn(e) {
+    setCurrentItemId(e.target.id - 1);
+    setDisplay('show');
+  };
+
+  var handleBidBtn = function handleBidBtn(e) {
+    setInfoDisplay('bid');
+  };
+
+  var handleBackBtn = function handleBackBtn(e) {
+    setInfoDisplay('about');
+  };
+
+  var bidSuccessMessage = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "info"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "You are the highest bidder"));
+  var bidFailedMessage = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "info"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "You have been outbid :( "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, "Please try again")); //Check if auction has ended
+
+  if (Date.now() < new Date(item.ends_at)) {
+    showItemBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      id: item.id,
+      className: "btn btn-primary",
+      onClick: handleSeeItemBtn
+    }, "See Item");
+    bidBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+      className: "btn-success btn",
+      style: {
+        color: 'white'
+      },
+      onClick: handleBidBtn
+    }, "Bid Now");
+  } else {
+    showItemBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "Auction has ended"));
+    bidBtn = null;
+  } //Data for Bid
+
+
+  var current_price;
+
+  if (item.bids.length) {
+    current_price = Math.max.apply(Math, _toConsumableArray(item.bids.map(function (bid) {
+      return bid.price;
+    })));
+  } else {
+    current_price = item.minimum_price;
+  }
+
+  var bidData = {
+    auction_item_id: item.id,
+    user_id: userId,
+    current_price: current_price
+  }; //////////////////////////////////////////////////////
+  // RETURN //
+  ///////////////////////////////////////////////////////
+
+  var showItemBtn, bidBtn;
+  var backBtn = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "btn btn-warning",
+    onClick: handleBackBtn
+  }, "Back");
+  var highlight = userId == item.user.id ? {
+    border: '5px solid rgba(0, 128, 0, 0.4)'
+  } : {
+    border: '5px solid rgba(255, 0, 0, 0.4)'
+  };
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    key: bid.id,
+    className: "bid",
+    style: highlight
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "list-group-item",
+    style: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", null, item.item.title)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "list-group-item",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-dollar-sign auction-icon price-icon"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, current_price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "CZK"))), infoDisplay === 'bid' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Bid_Bid_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    bidData: bidData,
+    token: token,
+    setInfoDisplay: setInfoDisplay,
+    getItems: getItems
+  }) : infoDisplay === 'bidSuccessMessage' ? bidSuccessMessage : infoDisplay === 'bidFailedMessage' ? bidFailedMessage : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "list-group-item",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-user-tag auction-icon pink"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, bid.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "CZK"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "list-group-item",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-gavel highest-bidder-icon action-icon"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, item.user.first_name + ' ' + item.user.last_name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "list-group-item",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    className: "fas fa-clock auction-icon"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, bid.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "list-group-item",
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }
+  }, infoDisplay === 'bid' ? backBtn : showItemBtn, infoDisplay !== 'bid' && bidBtn));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (MyBid);
+
+/***/ }),
+
+/***/ "./resources/js/components/MyBidsList/MyBidsList.jsx":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/MyBidsList/MyBidsList.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _MyBid_MyBid_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../MyBid/MyBid.jsx */ "./resources/js/components/MyBid/MyBid.jsx");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var MyBidsList = function MyBidsList(props) {
+  var _props = _objectSpread({}, props),
+      items = _props.items,
+      userId = _props.userId,
+      token = _props.token,
+      setCurrentItemId = _props.setCurrentItemId,
+      setDisplay = _props.setDisplay,
+      getItems = _props.getItems;
+
+  console.log('MY BIDS ITEMS: ', items); //////////////////////////////////////////////////////
+  // RETURN //
+  ///////////////////////////////////////////////////////
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "items-list"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "title-container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "title-img"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+    className: "pink"
+  }, "My Bids")), items.map(function (item, i) {
+    var topBid = item.bids.filter(function (bid) {
+      return bid.user_id == userId;
+    }).sort(function (a, b) {
+      return new Date(b.created_at) - new Date(a.created_at);
+    })[0];
+    return topBid && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MyBid_MyBid_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      key: i,
+      item: item,
+      bid: topBid,
+      token: token,
+      getItems: getItems,
+      userId: userId,
+      setCurrentItemId: setCurrentItemId,
+      setDisplay: setDisplay
+    });
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (MyBidsList);
 
 /***/ }),
 
@@ -72969,10 +73226,39 @@ var Login = function Login(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var Nav = function Nav(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+  var _props = _objectSpread({}, props),
+      setDisplay = _props.setDisplay,
+      loggedIn = _props.loggedIn,
+      setLoggedIn = _props.setLoggedIn;
+
+  var handleNavBtn = function handleNavBtn(e) {
+    console.log('NAV BTN: ', e.target.id);
+    setDisplay(e.target.id);
+  };
+
+  var handleLogOut = function handleLogOut(e) {
+    setLoggedIn(false);
+    setDisplay(null);
+    window.localStorage.clear();
+  };
+
+  var showOrHide = loggedIn ? {
+    visibility: 'visible'
+  } : {
+    visibility: 'hidden'
+  };
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    style: showOrHide
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     className: "nav-dropdown nav-btn btn dropdown-toggle",
     href: "#",
     role: "button",
@@ -72986,65 +73272,21 @@ var Nav = function Nav(props) {
     className: "dropdown-menu",
     "aria-labelledby": "dropdownMenuLink"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    id: "",
     className: "dropdown-item",
-    href: "#"
-  }, "My Bids"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    className: "dropdown-item",
-    href: "#"
+    onClick: handleNavBtn
   }, "My History"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    id: "",
     className: "dropdown-item",
-    href: "#"
+    onClick: handleNavBtn
   }, "Account"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+    id: "",
     className: "dropdown-item",
-    href: "#"
+    onClick: handleLogOut
   }, "Log Out")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Nav);
-
-/***/ }),
-
-/***/ "./resources/js/helpers/calculateRemainingTime.js":
-/*!********************************************************!*\
-  !*** ./resources/js/helpers/calculateRemainingTime.js ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-var calculateRemainingTime = function calculateRemainingTime(a, b) {
-  var start = new Date(a);
-  var end = new Date(b);
-  var diff = (end.getTime() - start.getTime()) / 1000;
-  var hours = Math.floor(diff / (60 * 60));
-  hours < 10 ? hours = "0".concat(hours) : hours;
-  var divisor_mins = diff % (60 * 60);
-  var minutes = Math.floor(divisor_mins / 60);
-  minutes < 10 ? minutes = "0".concat(minutes) : minutes;
-  var divisor_secs = divisor_mins % 60;
-  var seconds = Math.ceil(divisor_secs);
-  seconds < 10 ? seconds = "0".concat(seconds) : seconds;
-  return "".concat(hours, ":").concat(minutes, ":").concat(seconds);
-}; // const timeCountDown = (endTime) => {
-//     let endTime = new Date(endTime).getTime();
-//     const interval = setInterval(() => {
-//         let now = new Date().getTime()
-//         let gap = endTime - now
-//         let days = Math.floor(gap / (1000 * 60 * 60 * 24));
-//         let hours = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//         let minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-//         let seconds = Math.floor((gap % (1000 * 60)) / 1000);
-//         if (distance < 0) {
-//             clearInterval(x);
-//             document.getElementById("demo").innerHTML = "EXPIRED";
-//         }
-//     }, 1000)
-// }
-// a = "Jan 5, 2021 15:37:25"
-
-
-/* harmony default export */ __webpack_exports__["default"] = (calculateRemainingTime);
 
 /***/ }),
 

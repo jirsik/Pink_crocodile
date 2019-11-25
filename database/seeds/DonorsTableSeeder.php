@@ -23,7 +23,7 @@ class DonorsTableSeeder extends Seeder
                 'contact_name' => $faker->name,
                 'phone' => $faker->phoneNumber,
                 'email' => $faker->email,
-                'photo_path' => $faker->imageUrl($width = 640, $height = 480, 'people')
+                'doner_photo_path' => $faker->imageUrl($width = 640, $height = 480, 'people')
             ]);
         }
         

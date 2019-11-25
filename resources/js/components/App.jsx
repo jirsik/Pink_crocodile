@@ -4,6 +4,7 @@ import Login from './Login/Login.jsx';
 import Auction from './Auction/Auction.jsx';
 import ContainerBtns from './ContainerBtns/ContainerBtns.jsx';
 import ItemsList from './ItemsList/ItemsList.jsx';
+import MyBidsList from './MyBidsList/MyBidsList.jsx';
 
 let getItemsInterval
 
@@ -12,12 +13,13 @@ const App = () => {
     /////AUTH//////
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
-    const [userId, setUserId] = useState(11)
+    const [userId, setUserId] = useState(window.localStorage.getItem('_userId')) //Set user_id to local storage!!!!!!!!!!
     /////ITEMS//////
     const [items, setItems] = useState([])
     const [currentItemId, setCurrentItemId] = useState()
     /////DISPLAY//////
     const [display, setDisplay] = useState(loggedIn ? 'show': null)
+    // const [display, setDisplay] = useState('show')
     const [infoDisplay, setInfoDisplay] = useState('about')
     const [popularityIndex, setPopularityIndex] = useState([])
 
@@ -36,7 +38,7 @@ const App = () => {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ token,
+                // 'Authorization': 'Bearer '+ token,
                 'Accept' : 'application/json'
             },
             body: input
@@ -47,8 +49,9 @@ const App = () => {
             if(!response.error){
                 setToken(response.token)
                 window.localStorage.setItem('_token', response.token)
+                setUserId(response.user_id)
+                window.localStorage.setItem('_userId', response.user_id)
                 setLoggedIn(true)
-                setUserId(response.id)
                 setDisplay('show')
             }
         })
@@ -87,15 +90,14 @@ const App = () => {
         })
         .then((response) => response.json())
         .then((response) => {
-            // console.log('RESPONSE: ', response)
+            console.log('RESPONSE: ', response)
             setItems(response)
         })
     }
 
 
     const setDisplayTypeBtn = (e) => {
-        const type = e.target.id
-        setDisplay(type)
+        setDisplay(e.target.id)
     }
 
     const changeIndex = (e) => {
@@ -108,8 +110,6 @@ const App = () => {
         }else if(e.target.id === 'next'){
             setCurrentItemId(i => ++i)
         }
-
-        console.log('index change')
 
         setInfoDisplay('about')
     }
@@ -137,11 +137,9 @@ const App = () => {
     useEffect(() => {
         setPopularityIndex(prevState => {
             const newState = items.slice(0).sort((a,b) => b.bids.length - a.bids.length)
-            console.log('PREV STATE: ', prevState)
             if(prevState.length === 0){
                 return newState
             }else{
-                console.log('NEW STATE: ', newState)
                 return newState.map(item => {
                     const prevStateIndex = prevState.findIndex(x => x.id === item.id)
                     const newStateIndex = newState.findIndex(x => x.id === item.id)
@@ -152,7 +150,7 @@ const App = () => {
         })
     }, [items])
     
-    console.log('POPULARITY INDEX: ', popularityIndex)
+    
     //////////////////////////////////////////////////////
                         // RETURN //
     ///////////////////////////////////////////////////////
@@ -168,7 +166,7 @@ const App = () => {
 
     return (
         <>
-        <Nav/>
+        {<Nav setDisplay={setDisplay} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setDisplay={setDisplay}/>}
         
         <div className="main-container">
             
@@ -183,6 +181,7 @@ const App = () => {
                     {!loggedIn && <Login getToken={getToken} />}
                     {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
                     {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} userId={userId} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay}/>}
+                    {display === 'myBids' && <MyBidsList items={items} userId={userId} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
                 </div>
                 {
                     display === 'show' &&
