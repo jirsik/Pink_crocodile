@@ -147,7 +147,7 @@ if (count($errors->all()) > 0 ) {
                                     <hr>
                                 @endif
                                 <div class="form-group row">
-                                    <label for="doner_id" class="col-md-4 col-form-label text-md-right">Doner:</label>
+                                    <label for="doner_id" class="col-md-4 col-form-label text-md-right">Donor:</label>
                                     <div class="col-md-6">
                                         <select id="doner_id" class="form-control @error('doner_id') is-invalid @enderror" name="doner_id">
                                             <option value="none" {{($doner_id === 'none') ? 'Selected' : ''}}>not defined</option>
@@ -169,7 +169,7 @@ if (count($errors->all()) > 0 ) {
                                     <div class="form-group row">
                                         <div class="col-md-6 offset-md-4">
                                             <button id ="doner-button" type="button" class="btn btn-secondary">
-                                                New Doner
+                                                New Donor
                                             </button>
                                         </div>
                                     </div>
@@ -178,13 +178,13 @@ if (count($errors->all()) > 0 ) {
                             </div>
 
                             <div id="new-doner" class="card d-none @if($doner_error) d-block @endif mb-2">
-                                    <div class="card-header">New Doner</div>        
+                                    <div class="card-header">New Donor</div>        
                                     <div class="card-body">
                                         @include('doners/inputs')
                                         <div class="form-group row">
                                             <div class="col-md-6 offset-md-4">
                                                 <button id ="doner-button-back" type="button" class="btn btn-light">
-                                                    Do not add new doner
+                                                    Do not add new donor
                                                 </button>
                                             </div>
                                         </div>
@@ -209,30 +209,4 @@ if (count($errors->all()) > 0 ) {
             </div>
         </div>
     </div>
-    {{-- <script> // should be elsewhere
-        document.addEventListener('DOMContentLoaded', () => {
-            let doner_button = document.querySelector('#doner-button');
-            let doner_button_back = document.querySelector('#doner-button-back');
-            let old_doner = document.querySelector('#old-doner');
-            let new_doner = document.querySelector('#new-doner');
-            let doner = document.querySelector('#doner_id'); //select element
-            let doner_name = document.querySelector('#name'); //doner name element
-            let doner_last_value = 'none';
-            
-            doner_button.onclick = function () {
-                old_doner.classList.toggle('d-none');
-                new_doner.classList.toggle('d-block');
-                doner_last_value = doner.value;
-                doner.value = 'new';
-            };
-
-            doner_button_back.onclick = function () {
-
-                old_doner.classList.toggle('d-none');
-                new_doner.classList.toggle('d-block');
-                doner.value = doner_last_value;
-                //doner_name.value = '';
-            };
-        });
-    </script> --}}
 @endsection

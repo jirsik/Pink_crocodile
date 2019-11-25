@@ -22,7 +22,7 @@
                                 <td>{{$item->estimated_price . " " . (($item->estimated_price !== null) ? $item->currency : '')}}</td>
                               </tr>
                               <tr>
-                                <th scope="row">Doner's Name:</th>
+                                <th scope="row">Donor's Name:</th>
                                 <td>{{ (($item->doner !== null) ? $item->doner->name : '') }}</td>
                               </tr>
                               <tr>

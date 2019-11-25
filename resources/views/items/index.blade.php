@@ -17,7 +17,7 @@
                                         <a href="{{url('/item?sort=title')}}">Title</a>
                                     </th>
                                     <th scope="col">
-                                        <a href="{{url('/item?sort=doner')}}">Doner</a>
+                                        <a href="{{url('/item?sort=doner')}}">Donor</a>
                                     </th>
                                     <th scope="col">
                                         <a href="{{url('/item?sort=price')}}">Estimated Price</a>
@@ -55,7 +55,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5">There are no doners at the moment</td>
+                                        <td colspan="5">There are no donors at the moment</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -69,7 +69,7 @@
             </div>
         </div>
     @else
-        <p>You are not authrized to see doners. Please contact admin.</p>
+        <p>You are not authrized to see donors. Please contact admin.</p>
         <a href="{{route('admin')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
     @endcan
     

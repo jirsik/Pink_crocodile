@@ -5,6 +5,8 @@
 @include('inc/navbar')
 @include('inc/messages')
 
-@yield('admin')
-
+<div class="container mt-3">
+    @yield('admin')
+</div>
+    
 @endsection

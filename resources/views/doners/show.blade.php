@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <h4 class="card-header">Doner</h4>
+                <h4 class="card-header">Donor</h4>
                 <div class="card-body">
                     @can('admin')
                         <table class="table table-borderless">
