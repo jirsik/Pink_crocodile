@@ -196,7 +196,7 @@ if (count($errors->all()) > 0 && $auction_form == 'auction') {
                                                             <td>
                                                                 <div>
                                                                     <input type="hidden" name="item[{{$i}}][id]" value="0">
-                                                                	<input type="checkbox" name="item[{{$i}}][id]" value="{{$item->id}}" class="text-md-left"> Add To Auction
+                                                                	<input type="checkbox" name="item[{{$i}}][id]" value="{{$item->id}}" class="text-md-left" {{old('item.'. $i .'.id') ? 'checked' : '' }}> Add To Auction
                                                                 </div>
                                                                 <div class="form-group row">
                                                                     <label for="item[{{$i}}][min_price]" class="col-md-4 col-form-label text-md-right">Min. Price ({{$item->currency}}):</label>

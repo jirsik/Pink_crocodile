@@ -26,8 +26,8 @@ class EventRequest extends FormRequest
         return [
             'name' => 'required|string|max:35',
             'location' => 'nullable|string|max:200',
-            'starts_at' => 'required|date',
-            'ends_at' => 'required|date',
+            'starts_at' => 'required|date|after:now',
+            'ends_at' => 'required|date|after:starts_at',
             'coordinator' => 'nullable|string|max:35',
         ];
     }
