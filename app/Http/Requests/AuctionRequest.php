@@ -21,12 +21,19 @@ class AuctionRequest extends FormRequest
      *
      * @return array
      */
-    public static function rules()
+    public static function rules($request)
     {
-        return [
-            'item.*.starts_at' => 'nullable|date',
-            'item.*.ends_at' => 'nullable|date',
-            'item.*.min_price' => 'nullable|integer|min:0',
-        ];
+        $available_items = count($request->input('item', []));
+        
+        $rules = [];
+        for ($i = 0; $i < $available_items; $i++) {
+            if ($request->input('item')[$i]['id'] != 0) {
+                $rules['item.'.$i.'.starts_at'] = 'nullable|date|after_or_equal:starts_at|before:ends_at';
+                $rules['item.'.$i.'.ends_at'] = 'nullable|date|after:item.'.$i.'.starts_at|before_or_equal:ends_at';
+                $rules['item.'.$i.'.min_price'] = 'nullable|integer|min:0';
+            }
+        }
+
+        return $rules;
     }
 }

@@ -40,11 +40,25 @@ class FinalRequest extends FormRequest
                         break;
             case 'event': $result = EventRequest::rules();
                         break;
-            case 'auction': $result = array_merge(EventRequest::rules(), AuctionRequest::rules());
+            case 'auction': $result = array_merge(EventRequest::rules(), AuctionRequest::rules($request));
                         break;
             default: $result = [];
         }
                 
         return $result;
+    }
+    
+    public function messages()
+    {
+        return [
+                'item.*.starts_at.date' => 'Incorrect date format.',
+                'item.*.starts_at.after_or_equal' => 'Auction can not start befor the event starts.',
+                'item.*.starts_at.before' => 'Auction can not start after the end of event.',
+                'item.*.ends_at.date' => 'Incorrect date format.',
+                'item.*.ends_at.after' => 'Auction can not end before it starts.',
+                'item.*.ends_at.before_or_equal' => 'Auction can not last longer then the event.',
+                'item.*.min_price.integer' => 'Price must be a positive number',
+                'item.*.min_price.min' => 'Price must be a positive number',
+            ];
     }
 }
