@@ -1,4 +1,4 @@
-@extends('admin_layout')
+@extends('layouts/admin_layout')
 
 @section('admin')
     @can('admin')

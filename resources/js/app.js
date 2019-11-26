@@ -11,7 +11,6 @@ import App from './components/App.jsx'
  */
 
 require('./bootstrap');
-require('./blade-forms/index.js');
 
 
 /**

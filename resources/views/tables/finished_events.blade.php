@@ -1,4 +1,4 @@
-@extends('admin_layout')
+@extends('layouts/admin_layout')
 
 @section('admin')
     <div class="row justify-content-center">
@@ -12,6 +12,7 @@
                                 <tr>
                                     <th>Event:</th>
                                     <th>Ended at:</th>
+                                    <th>Items (sold / not sold):</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -21,6 +22,17 @@
                                         <tr>
                                             <td>{{$event->name}}</td>
                                             <td>{{$event->ends_at}}</td>
+                                            <td>
+                                                <?php
+                                                    $sold = 0;
+                                                    if (count($event->auctionItems) > 0) {
+                                                        foreach ($event->auctionItems as $auctionItem) {
+                                                            count($auctionItem->bids) > 0 && $sold++;
+                                                        }
+                                                    }
+                                                ?>
+                                                {{$sold . ' / ' . (count($event->auctionItems) - $sold)}}
+                                            </td>
                                             <td>
                                                 <div class="float-right">
                                                     <a href="{{action('AdminController@finished_event_info', $event->id)}}"><button class="btn btn-primary">Details</button></a>
