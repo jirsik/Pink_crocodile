@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import Bid from '../Bid/Bid.jsx';
-
+import Countdown from 'react-countdown-now';
 
 const MyBid = props => {
-    const {item, bid, token, getItems, userId, setCurrentItemId, setDisplay} = {...props}
+    const {item, bid, token, getItems, user, setCurrentItemId, setDisplay} = {...props}
     const [infoDisplay, setInfoDisplay] = useState('about')
 
     
@@ -33,11 +33,18 @@ const MyBid = props => {
     )
 
     //Check if auction has ended
+
     if(Date.now() < new Date(item.ends_at)){
         showItemBtn = <div id={item.id} className="btn btn-primary" onClick={handleSeeItemBtn}>See Item</div>
         bidBtn = <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>
+    }else if(Date.now() > new Date(item.ends_at) && item.user.id === user.id){
+        showItemBtn = <h4>Congrats you won this item!</h4>
+        bidBtn = null
+    }else if(Date.now() > new Date(item.ends_at) && item.user.id !== user.id){
+        showItemBtn = <h4>Sorry, you didn't win this item :(</h4>
+        bidBtn = null
     }else{
-        showItemBtn = <h4><strong>Auction has ended</strong></h4>
+        showItemBtn = null
         bidBtn = null
     }
 
@@ -51,8 +58,15 @@ const MyBid = props => {
 
     const bidData = {
         auction_item_id: item.id,
-        user_id: userId,
+        user_id: user.id,
         current_price: current_price
+    }
+
+    let highestBidder
+    if(item.user.first_name === user.first_name && item.user.last_name === user.last_name){
+        highestBidder = 'You are the highest bidder!'
+    }else{
+        highestBidder = item.user.first_name + ' ' + item.user.last_name
     }
 
     //////////////////////////////////////////////////////
@@ -61,7 +75,7 @@ const MyBid = props => {
 
     let showItemBtn, bidBtn
     const backBtn = <div className="btn btn-warning" onClick={handleBackBtn}>Back</div>
-    const highlight = userId == item.user.id ? {border: '5px solid rgba(0, 128, 0, 0.4)'} : {border: '5px solid rgba(255, 0, 0, 0.4)'}
+    const highlight = user.id == item.user.id ? {border: '5px solid rgba(0, 128, 0, 0.4)'} : {border: '5px solid rgba(255, 0, 0, 0.4)'}
 
     return (
         <div key={bid.id} className="bid" style={highlight}>
@@ -82,11 +96,12 @@ const MyBid = props => {
                 </div>
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-gavel highest-bidder-icon action-icon"></i>
-                    <div>{item.user.first_name + ' ' + item.user.last_name}</div>
+                    <div>{highestBidder}</div>
                 </div>
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-clock auction-icon"></i>
-                    <div>{bid.created_at}</div>
+                    {/* <div>{bid.created_at}</div> */}
+                    <Countdown date={new Date(item.ends_at)}/>
                 </div>
                 </>
             }

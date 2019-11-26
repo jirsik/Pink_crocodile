@@ -14,8 +14,8 @@ const App = () => {
     /////AUTH//////
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
-    // const [user, setUser] = useState(window.localStorage.getItem('_user')) //Storing user details in local storage or cookie ???
-    const [user, setUser] = useState({id: 0}) 
+    const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('_user'))) //Storing user details in local storage or cookie ???
+    // const [user, setUser] = useState({id: 0}) 
     /////ITEMS//////
     const [items, setItems] = useState([])
     const [currentItemId, setCurrentItemId] = useState()
@@ -50,7 +50,7 @@ const App = () => {
                 setToken(response.token)
                 window.localStorage.setItem('_token', response.token)
                 setUser(response.user)
-                window.localStorage.setItem('_user', response.user) ///!!!!!!!!!!!!!!!!!!!!
+                window.localStorage.setItem('_user', JSON.stringify(response.user)) ///!!!!!!!!!!!!!!!!!!!!
                 setLoggedIn(true)
                 setDisplay('show')
             }
@@ -167,7 +167,7 @@ const App = () => {
                     {display === 'logIn' && <Login getToken={getToken} />}
                     {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
                     {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} user={user} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay} loggedIn={loggedIn} setDisplay={setDisplay}/>}
-                    {display === 'myBids' && <MyBidsList items={items} userId={user.id} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
+                    {display === 'myBids' && <MyBidsList items={items} user={user} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
                     {display === 'account' && <Edit user={user} token={token}/>}
                 </div>
                 {

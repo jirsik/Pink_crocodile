@@ -112,7 +112,7 @@ const Edit = props => {
             {showSuccessMessage && successMessage}
 
             <div className="form-btn-container" style={{justifyContent:'center'}}>
-                {<button className="btn-warning btn btn-main" onClick={handleSubmitButton}>Submit Changes</button>}
+                <button className="btn-warning btn btn-main" onClick={handleSubmitButton} style={{width: '90%'}}>Submit Changes</button>
             </div>
 
         </div>

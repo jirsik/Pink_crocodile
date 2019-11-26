@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import MyBid from '../MyBid/MyBid.jsx';
 
 const MyBidsList = props => {
-    const {items, userId, token, setCurrentItemId, setDisplay, getItems} = {...props}
+    const {items, user, token, setCurrentItemId, setDisplay, getItems} = {...props}
 
     console.log('MY BIDS ITEMS: ', items)
 
@@ -21,9 +21,8 @@ const MyBidsList = props => {
 
             {items.map((item, i) => {
                 
-                const topBid = item.bids.filter(bid => bid.user_id == userId).sort((a,b) => new Date(b.created_at) - new Date(a.created_at))[0]
-                return topBid && <MyBid key={i} item={item} bid={topBid} token={token} getItems={getItems} userId={userId} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} />
-
+                const topBid = item.bids.filter(bid => bid.user_id == user.id).sort((a,b) => new Date(b.created_at) - new Date(a.created_at))[0]
+                return topBid && <MyBid key={i} item={item} bid={topBid} token={token} getItems={getItems} user={user} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} />
 
             })}
 
