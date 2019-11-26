@@ -12,8 +12,8 @@ const Bid = props => {
     const [price, setPrice] = useState(currentPrice + baseIncrement)
 
     const handleOperator = (e) => {
-        console.log('PRICE CALC: ', price + baseIncrement)
-        console.log('PRICE: ', price)
+        // console.log('PRICE CALC: ', price + baseIncrement)
+        // console.log('PRICE: ', price)
         if(e.target.id === 'plus'){
             setPrice(price + baseIncrement)
         }else if(e.target.id === 'minus' && price >= currentPrice + baseIncrement*2){

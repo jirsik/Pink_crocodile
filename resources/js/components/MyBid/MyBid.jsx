@@ -38,10 +38,10 @@ const MyBid = props => {
         showItemBtn = <div id={item.id} className="btn btn-primary" onClick={handleSeeItemBtn}>See Item</div>
         bidBtn = <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>
     }else if(Date.now() > new Date(item.ends_at) && item.user.id === user.id){
-        showItemBtn = <h4>Congrats you won this item!</h4>
+        showItemBtn = <h6>Congrats you won this item!</h6>
         bidBtn = null
     }else if(Date.now() > new Date(item.ends_at) && item.user.id !== user.id){
-        showItemBtn = <h4>Sorry, you didn't win this item :(</h4>
+        showItemBtn = <h6>Sorry, you didn't win this item :(</h6>
         bidBtn = null
     }else{
         showItemBtn = null

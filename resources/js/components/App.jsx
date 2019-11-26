@@ -14,7 +14,7 @@ const App = () => {
     /////AUTH//////
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
-    const [user, setUser] = useState(JSON.parse(window.localStorage.getItem('_user'))) //Storing user details in local storage or cookie ???
+    const [user, setUser] = useState(loggedIn ? JSON.parse(window.localStorage.getItem('_user')) : {id:0}) //Storing user details in local storage or cookie ???
     // const [user, setUser] = useState({id: 0}) 
     /////ITEMS//////
     const [items, setItems] = useState([])

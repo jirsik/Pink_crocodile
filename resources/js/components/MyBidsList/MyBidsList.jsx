@@ -4,7 +4,7 @@ import MyBid from '../MyBid/MyBid.jsx';
 const MyBidsList = props => {
     const {items, user, token, setCurrentItemId, setDisplay, getItems} = {...props}
 
-    console.log('MY BIDS ITEMS: ', items)
+    // console.log('MY BIDS ITEMS: ', items)
 
      //////////////////////////////////////////////////////
                         // RETURN //

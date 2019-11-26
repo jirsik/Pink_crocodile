@@ -9,6 +9,10 @@ class Doner extends Model
     protected $table = 'doners';
 
     public $timestamps = false;
+
+    protected $hidden = [
+        'email', 'phone'
+    ];
     
     public function items()
     {

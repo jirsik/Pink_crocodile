@@ -60,6 +60,11 @@ const Auction = props => {
         <a className="btn-primary btn" style={{color:'white'}} onClick={handleRegisterBtn}>Log in to bid</a>
     )
 
+    //BID ENDED BTN
+    const bidEndedBtn = (
+        <a className="btn-danger btn" style={{color:'white'}}>Auction has ended</a>
+    )
+
     //ABOUT
     const about = (
         <>
@@ -124,7 +129,7 @@ const Auction = props => {
                 
             </ul>
 
-            {!loggedIn ? registerBtn : infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? aboutBtn : bidBtn}
+            {Date.now() > new Date(item.ends_at) ? bidEndedBtn : !loggedIn ? registerBtn : infoDisplay === 'bid' || infoDisplay === 'bidSuccessMessage' ? aboutBtn : bidBtn}
             
         </div>
     )

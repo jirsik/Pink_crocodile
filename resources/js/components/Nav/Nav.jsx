@@ -4,7 +4,7 @@ const Nav = props => {
     const {setDisplay, loggedIn, setLoggedIn} = {...props}
 
     const handleNavBtn = (e) => {
-        console.log('NAV BTN: ', e.target.id)
+        // console.log('NAV BTN: ', e.target.id)
         setDisplay(e.target.id)
     }
 
