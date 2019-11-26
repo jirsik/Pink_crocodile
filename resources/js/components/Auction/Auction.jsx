@@ -78,13 +78,13 @@ const Auction = props => {
         </div>
         </>
     )
-
+    //BID SUCCESS
     const bidSuccessMessage = (
         <div className='info'>
             <h4>You are the highest bidder</h4>
         </div>
     )
-    
+    //BID FAILED
     const bidFailedMessage = (
         <div className='info'>
             <h5>You have been outbid :( </h5>

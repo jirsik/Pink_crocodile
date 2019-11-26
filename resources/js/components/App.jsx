@@ -19,7 +19,7 @@ const App = () => {
     /////ITEMS//////
     const [items, setItems] = useState([])
     const [currentItemId, setCurrentItemId] = useState()
-    /////DISPLAY////// [show, list, myBids]
+    /////DISPLAY////// [show, list, myBids, logIn]
     const [display, setDisplay] = useState('show')
     const [infoDisplay, setInfoDisplay] = useState('about')
     const [popularityIndex, setPopularityIndex] = useState([])
@@ -50,7 +50,7 @@ const App = () => {
                 setToken(response.token)
                 window.localStorage.setItem('_token', response.token)
                 setUser(response.user)
-                window.localStorage.setItem('_user', response.user)
+                window.localStorage.setItem('_user', response.user) ///!!!!!!!!!!!!!!!!!!!!
                 setLoggedIn(true)
                 setDisplay('show')
             }
@@ -121,9 +121,12 @@ const App = () => {
 
     useEffect(() => {
         setPopularityIndex(prevState => {
+            //SORT ITEMS BY NUMBER OF BIDS AND CREATE NEW ARRAY
             const newState = items.slice(0).sort((a,b) => b.bids.length - a.bids.length)
+            //IF THERE ARE NO BIDS RETURN NEW ARRAY
             if(prevState.length === 0){
                 return newState
+            //ELSE COMPARE INDEXES AND COLOR CODE
             }else{
                 return newState.map(item => {
                     const prevStateIndex = prevState.findIndex(x => x.id === item.id)

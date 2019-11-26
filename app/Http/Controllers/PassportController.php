@@ -24,7 +24,7 @@ class PassportController extends Controller
             'last_name' => $request->last_name
         ]);
         $token = $user->createToken('remember_token')->accessToken;
-        return response()->json(['token' => $token, 'user_id' => $user->id], 200);
+        return response()->json(['token' => $token, 'user' => $user], 200);
     }
 
     public function login(Request $request)
