@@ -1,16 +1,16 @@
 const calculateBidIncrement = (currentPrice) => {
-    if(currentPrice < 100){
+    if(currentPrice < 150){
         return 10
-    }else if(currentPrice < 500){
+    }else if(currentPrice < 200){
         return 20
-    }else if(currentPrice < 1000){
+    }else if(currentPrice < 300){
+        return 30
+    }else if(currentPrice < 400){
+        return 40
+    }else if(currentPrice < 500){
         return 50
-    }else if(currentPrice < 2000){
+    }else{
         return 100
-    }else if(currentPrice < 5000){
-        return 200
-    }else if(currentPrice < 10000){
-        return 500
     }
 }
 
