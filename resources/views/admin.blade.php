@@ -1,4 +1,4 @@
-@extends('admin_layout')
+@extends('layouts/admin_layout')
 
 @section('admin')
 
@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <a href="{{action('AdminController@finished_events')}}"><button class="btn btn-primary">Show Finished Events</button></a>
                     {{-- action for following link {{action('AdminController@logs')}} --}}
-                    <a href="#"><button class="btn btn-secondary">Show User's Logs</button></a>
+                    <a href="#"><button class="btn btn-secondary">Show User's Logs</button></a>                       
                 </div>
             </div>
 
