@@ -24,10 +24,8 @@ class PassportController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name
         ]);
-        $role = Role::create([
-            'user_id' => $user->id,
-            'role_id' => 0
-        ]);
+        $user->role()->attach(2);
+        $user->save();
 
         $token = $user->createToken('remember_token')->accessToken;
         return response()->json(['token' => $token, 'user' => $user], 200);
