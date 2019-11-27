@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\User;
+use App\Role;
 use App\OauthAccessToken;
 
 class PassportController extends Controller
@@ -23,6 +24,11 @@ class PassportController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name
         ]);
+        $role = Role::create([
+            'user_id' => $user->id,
+            'role_id' => 0
+        ]);
+
         $token = $user->createToken('remember_token')->accessToken;
         return response()->json(['token' => $token, 'user' => $user], 200);
     }
