@@ -103,6 +103,7 @@ const Auction = props => {
     ///////////////////////////////////////////////////////
 
     // console.log('ITEM: ', item)
+    console.log('ITEM ENDS AT: ', item.ends_at)
     // console.log('USER: ', user)
 
     const listGroupItemStyle = {display: 'flex', justifyContent: 'space-between', alignItems: 'center'}

@@ -15,10 +15,9 @@ const App = () => {
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
     const [user, setUser] = useState(loggedIn ? JSON.parse(window.localStorage.getItem('_user')) : {id:0}) //Storing user details in local storage or cookie ???
-    // const [user, setUser] = useState({id: 0}) 
     /////ITEMS//////
     const [items, setItems] = useState([])
-    const [currentItemId, setCurrentItemId] = useState()
+    const [currentItemId, setCurrentItemId] = useState(0)
     /////DISPLAY////// [show, list, myBids, logIn]
     const [display, setDisplay] = useState('show')
     const [infoDisplay, setInfoDisplay] = useState('about')
