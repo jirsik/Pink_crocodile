@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne('App\Role', 'user_id', 'id');
+        return $this->belongsToMany('App\Role', 'user_role');
     }
 
     public function bids()

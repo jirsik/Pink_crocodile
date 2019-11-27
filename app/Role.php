@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    protected $table = 'user_role';
+    protected $table = 'roles';
     
     public $timestamps = false;
 
     public function user()
     {
-        return $this->hasOne('App\User', 'id', 'user_id');
+        return $this->belongsToMany('App\User', 'user_role');
     }
 
     protected $fillable = [
-        'user_id', 'role_id'
+        'role'
     ];
 }
