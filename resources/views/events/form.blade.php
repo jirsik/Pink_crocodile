@@ -163,7 +163,7 @@ if (count($errors->all()) > 0 && $auction_form == 'auction') {
                             <div id="add-items" class="@if($auction_error) d-none @endif">
                                 <div class="form-group row">
                                     <div class="col-md-6 offset-md-4">
-                                        <button id ="item-button" type="button" class="btn btn-secondary">
+                                        <button id ="item-button" type="button" class="btn btn-outline-primary">
                                             Add Items
                                         </button>
                                     </div>
@@ -249,7 +249,7 @@ if (count($errors->all()) > 0 && $auction_form == 'auction') {
                                         </table>
                                         <div class="form-group row">
                                             <div class="col-md-6">
-                                                <button id ="item-button-back" type="button" class="btn btn-secondary">
+                                                <button id ="item-button-back" type="button" class="btn btn-outline-primary">
                                                     Do not add items
                                                 </button>
                                             </div>

@@ -3,22 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Log;
 use App\Event;
 use App\AuctionItem;
+use App\Role;
 
 class AdminController extends Controller
 {
     public function logs()
     {
-        $logs = Log::with('user')->orderBy('created_at')->paginate(15);
-        return view('tables.logs', compact('logs'));
+        $users = User::with('role')->orderBy('created_at')->paginate(15);
+        return view('tables.logs', compact('users'));
     }
 
     public function log_show($id)
     {
         $log = Log::with('user')->findOrFail($id);
         return view('tables.log_show', compact('log'));
+    }
+
+    public function make_admin($id)
+    {
+        $user = User::findOrFail($id);
+        $user->role()->attach(1);
+        $user->save();
+
+        return redirect('/log')->with('success', 'You have a new admin!');
     }
 
     public function finished_events()

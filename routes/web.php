@@ -78,6 +78,8 @@ Route::get('/{id}/log', 'AdminController@log_show')->middleware('admin');
 Route::get('/finished/events', 'AdminController@finished_events')->middleware('admin');
 Route::get('/finished/events/{id}', 'AdminController@finished_event_info')->middleware('admin');
 Route::post('finished/confirm_payment/{id}', 'AdminController@confirm_payment')->middleware('admin');
+Route::post('make/admin/{id}', 'AdminController@make_admin')->middleware('admin');
+
 
 
 //image placeholder

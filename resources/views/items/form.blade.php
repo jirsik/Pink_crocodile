@@ -168,7 +168,7 @@ if (count($errors->all()) > 0 ) {
                                 @if (!isset($item))
                                     <div class="form-group row">
                                         <div class="col-md-6 offset-md-4">
-                                            <button id ="doner-button" type="button" class="btn btn-secondary">
+                                            <button id ="doner-button" type="button" class="btn btn-outline-primary">
                                                 New Donor
                                             </button>
                                         </div>
@@ -183,7 +183,7 @@ if (count($errors->all()) > 0 ) {
                                         @include('doners/inputs')
                                         <div class="form-group row">
                                             <div class="col-md-6 offset-md-4">
-                                                <button id ="doner-button-back" type="button" class="btn btn-light">
+                                                <button id ="doner-button-back" type="button" class="btn btn-outline-primary">
                                                     Do not add new donor
                                                 </button>
                                             </div>
