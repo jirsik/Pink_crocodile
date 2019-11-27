@@ -7,7 +7,6 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Role;
 
 class RegisterController extends Controller
 {
@@ -84,7 +83,8 @@ class RegisterController extends Controller
             'address_country' => $data['address_country'],
         ]);
 
-        $role = Role::create(['user_id' => $user->id,]);
+        $user->role()->attach(2);
+        $user->save();
 
         return $user;
     }
