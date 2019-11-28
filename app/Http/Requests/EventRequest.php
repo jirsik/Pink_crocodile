@@ -21,14 +21,28 @@ class EventRequest extends FormRequest
      *
      * @return array
      */
-    public static function rules()
+    public static function rules($request)
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:35',
             'location' => 'nullable|string|max:200',
-            'starts_at' => 'required|date|after:now',
-            'ends_at' => 'required|date|after:starts_at',
+            'ends_at' => 'required|date|after:starts_at|after:now',
             'coordinator' => 'nullable|string|max:35',
         ];
+
+        if ($request->input('id') == 0) {
+            $rules['starts_at'] = 'required|date|after:now';
+        }
+        
+        return $rules;
+
+
+        // return [
+        //     'name' => 'required|string|max:35',
+        //     'location' => 'nullable|string|max:200',
+        //     'starts_at' => 'required|date|after:now',
+        //     'ends_at' => 'required|date|after:starts_at',
+        //     'coordinator' => 'nullable|string|max:35',
+        // ];
     }
 }

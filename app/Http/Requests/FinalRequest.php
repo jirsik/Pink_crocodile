@@ -38,9 +38,9 @@ class FinalRequest extends FormRequest
                         break;
             case 'doner': $result = DonerRequest::rules();
                         break;
-            case 'event': $result = EventRequest::rules();
+            case 'event': $result = EventRequest::rules($request);
                         break;
-            case 'auction': $result = array_merge(EventRequest::rules(), AuctionRequest::rules($request));
+            case 'auction': $result = array_merge(EventRequest::rules($request), AuctionRequest::rules($request));
                         break;
             default: $result = [];
         }
