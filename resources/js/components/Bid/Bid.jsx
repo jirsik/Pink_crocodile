@@ -80,7 +80,7 @@ const Bid = props => {
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">
-                <button disabled={disabled} className="btn btn-success" onClick={submitBid}>Submit Bid</button>
+                <button disabled={disabled} className="btn btn-success submit-bid-btn" onClick={submitBid}>Submit Bid</button>
             </div>
         </div>
     )
