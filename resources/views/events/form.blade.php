@@ -50,8 +50,11 @@ if (count($errors->all()) > 0 && $auction_form == 'auction') {
                     @can('admin')
                         <form method="POST" action={{$action}}>
                             @csrf
+                            <input name="id" type="hidden" value="0">
                             @if (isset($event))
                                 <input name="_method" type="hidden" value="put">
+                                <input name="id" type="hidden" value={{$event->id}}>
+
                             @endif 
 
                             <input name="form" id="form" type="hidden" value={{$auction_form}}> 

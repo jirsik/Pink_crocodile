@@ -32,11 +32,11 @@
             </div>
             
             <div class="card mb-2">
-                <h5 class="card-header">Doners</h5>
+                <h5 class="card-header">Donors</h5>
 
                 <div class="card-body">
-                    <a href="{{action('DonerController@index')}}"><button class="btn btn-primary">Show Doners</button></a>
-                    <a href="{{action('DonerController@create')}}"><button class="btn btn-outline-primary">Register New Doner</button></a>
+                    <a href="{{action('DonerController@index')}}"><button class="btn btn-primary">Show Donors</button></a>
+                    <a href="{{action('DonerController@create')}}"><button class="btn btn-outline-primary">Register New Donor</button></a>
                 </div>
             </div>
 

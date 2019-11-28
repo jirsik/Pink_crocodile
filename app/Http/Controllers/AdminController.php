@@ -43,8 +43,7 @@ class AdminController extends Controller
 
     public function finished_event_info($id)
     {
-        $event = Event::with('auctionItems', 'auctionItems.user')->findOrFail($id);
-
+        $event = Event::with('auctionItems', 'auctionItems.user', 'auctionItems.bids')->findOrFail($id);
         
         return view('tables.finished_event_info', compact('event'));
     }

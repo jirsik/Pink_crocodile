@@ -40,7 +40,7 @@
                                             <td>
                                                 {{-- buttons --}}
                                                 <div class="float-right">
-                                                    <a href="{{action('AuctionController@show', $auctionItem->id)}}"><button class="btn btn-primary">Details of item</button></a>
+                                                    <a href="{{action('AuctionController@show', $auctionItem->id)}}"><button class="btn btn-outline-primary">Details of item</button></a>
                                                 </div>
                                             </td> 
                                         </tr>
