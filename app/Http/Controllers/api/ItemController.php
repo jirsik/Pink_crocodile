@@ -13,7 +13,7 @@ class ItemController extends Controller
 {
     public function landing()
     {
-        $items = AuctionItem::with('bids')->with('item.doner')->with('user')->where('event_id', 1)->get();
+        $items = AuctionItem::with('bids')->with('item.doner')->with('user')->get();
 
         return $items;
     }
