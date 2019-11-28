@@ -31,15 +31,15 @@
 html{
     margin: 0;
     padding: 0;
-    font-size: 16px;
+    font-size: 15px;
     font-family: 'Roboto', sans-serif;
 }
-@media only screen and (min-width: 451px){
+@media only screen and (max-width: 400px){
     html{
-        font-size: 12px;
+        font-size: 13px;
     }
 }
-.root-container{
+#root-container{
     height: 100vh;
     width: 100vw;
     margin: 0;
@@ -48,6 +48,7 @@ html{
     background-size: 75%;
     background-position: center;
     background-repeat: no-repeat;
+    overflow-y: scroll;
 }
 #root{
     height: 100%;
@@ -57,7 +58,7 @@ html{
     background-color: rgba(0,0,0,0.2);
 }
 @media only screen and (min-width: 451px){
-    .root-container{
+    #root-container{
         display: flex;
         justify-content: center;
         background: #1e1e1e;

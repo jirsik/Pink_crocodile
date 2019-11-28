@@ -109,13 +109,13 @@ const App = () => {
         getItems('landing')
         setCurrentItemId(0)
 
-        // getItemsInterval = setInterval(() => {
-        //     getItems('landing')
-        // }, 10000)
-        // console.log('Items CompDidMount: ',items)
-        // return () => {
-        //     clearInterval(getItemsInterval)
-        // }
+        getItemsInterval = setInterval(() => {
+            getItems('landing')
+        }, 1000)
+        console.log('Items CompDidMount: ',items)
+        return () => {
+            clearInterval(getItemsInterval)
+        }
     }, [])
 
     useEffect(() => {
@@ -145,7 +145,7 @@ const App = () => {
     // token && console.log('TOKEN ', token)
         // token && console.log('LOCAL STORAGE: ',window.localStorage.getItem('_token'))
     
-    // console.log('USER: ', user)
+    console.log('USER: ', user)
 
     // console.log('ITEMS: ', items)
 
