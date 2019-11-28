@@ -43,7 +43,9 @@ const Login = props => {
 
 
             <form className="login-form">
-                <div className="logo-img"/>
+                <div className="logo-img-container">
+                    <div className="logo-img"/>
+                </div>
                 <label htmlFor="email">Email</label>
                 <input
                     id="email"

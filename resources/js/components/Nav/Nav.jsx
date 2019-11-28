@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Nav = props => {
-    const {setDisplay, loggedIn, setLoggedIn} = {...props}
+    const {setDisplay, loggedIn, setLoggedIn, loading} = {...props}
 
     const handleNavBtn = (e) => {
         // console.log('NAV BTN: ', e.target.id)

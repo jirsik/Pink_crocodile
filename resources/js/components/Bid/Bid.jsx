@@ -69,7 +69,7 @@ const Bid = props => {
         <div className="info">
             <div className="info-row bid-row">
                 <button className="btn btn-pink operator-btn" ><i id="minus" className="fas fa-minus-circle" onClick={handleOperator}></i></button>
-                <input className="bid-amount" type="number" placeholder={price}/>
+                <div className="bid-amount" type="number">{price}</div>
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">
