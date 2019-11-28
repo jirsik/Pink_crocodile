@@ -49,15 +49,16 @@
     justify-content: space-between;
     width: 100%;
 
-    .bids-icon, .popularity-icon{
-        font-size: 2rem;
-        margin-right: 0.5rem;
-    }
-    // .popularity-icon{
-    //     color: black;
-    // }
     .bids-icon{
+        font-size: 2rem;
+        margin-right: 1rem;
+    }
+    .popularity-icon{
+        font-size: 1.5rem;
         color: rgba(214, 0, 110, 1);
+    }
+    .bids-icon{
+        color: rgba(214, 0, 110, 0.4);
     }
     &--icons{
         display: flex;

@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import Bid from '../Bid/Bid.jsx';
 import Countdown from 'react-countdown-now';
 
+import formatNumber from '../../helpers/formatNumber';
+
+
 const MyBid = props => {
     const {item, bid, token, getItems, user, setCurrentItemId, setDisplay} = {...props}
     const [infoDisplay, setInfoDisplay] = useState('about')
@@ -81,18 +84,18 @@ const MyBid = props => {
         <div key={bid.id} className="bid" style={highlight}>
             {/* HEAD */}
             <div className="list-group-item" style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
-                <h5>{item.item.title}</h5>
+                <h4>{item.item.title}</h4>
             </div>
             <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <i className="fas fa-dollar-sign auction-icon price-icon"></i>
-                <div>{current_price} <strong>CZK</strong></div>
+                <div>{formatNumber(current_price)} <strong>CZK</strong></div>
             </div>
             {/* INFO DISPLAY */}
             {infoDisplay === 'bid' ? <Bid bidData={bidData} token={token} setInfoDisplay={setInfoDisplay} getItems={getItems}/> : infoDisplay === 'bidSuccessMessage' ? bidSuccessMessage : infoDisplay === 'bidFailedMessage' ? bidFailedMessage :
                 <>
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-user-tag auction-icon pink"></i>
-                    <div>{bid.price} <strong>CZK</strong></div>
+                    <div>{formatNumber(bid.price)} <strong>CZK</strong></div>
                 </div>
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-gavel highest-bidder-icon action-icon"></i>

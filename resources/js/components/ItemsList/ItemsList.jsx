@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import Countdown from 'react-countdown-now';
 
+import formatNumber from '../../helpers/formatNumber';
+import findOrdinalSuffix from '../../helpers/findOrdinalSuffix';
+
 const ItemsList = props => {
     
     ////////PROPS////////////
@@ -37,17 +40,18 @@ const ItemsList = props => {
                 <h1 className="pink">Hot List</h1>
             </div>
 
-            {items.length && items.map((item) => (
+            {items.length && items.map((item, i) => (
 
-                <div key={item.id} className="item">
+                <div key={i} className="item">
                     <div className="item-title">{item.info.title}</div>
                     <div className="item-time-list"><Countdown date={new Date(item.ends_at)}/></div>
                     <div className="price-popularity-row">
                         <div className="price-popularity-row--icons">
                             <i className="fas fa-chart-line bids-icon"></i>
-                            {item.color === 'green' ? upArrow : item.color === 'red' ? downArrow : staticArrow}
+                            {/* {item.color === 'green' ? upArrow : item.color === 'red' ? downArrow : staticArrow} */}
+                            <div className="popularity-icon">{findOrdinalSuffix(i+1)}</div>
                         </div>
-                        <div>{item.price} <strong>CZK</strong></div>
+                        <div>{formatNumber(item.price)} <strong>CZK</strong></div>
                     </div>
                     <div id={item.id} className="item-show-btn btn-primary btn" onClick={handleShow}>See Item</div>
                 </div>

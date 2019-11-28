@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
+import React, {useState} from 'react';
 
 import App from './components/App.jsx'
 
@@ -24,5 +24,7 @@ require('./components/App');
 require('../sass/app.scss');
 
 if (document.getElementById('root')) {
-    ReactDOM.render(<App />, document.getElementById('root'));
+    setTimeout( () => {
+        return ReactDOM.render(<App />, document.getElementById('root'))
+    }, 0)
 }

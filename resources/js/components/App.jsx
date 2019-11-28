@@ -9,9 +9,9 @@ import Edit from './Edit/Edit.jsx';
 
 let getItemsInterval
 
-const App = () => {
+const App = props => {
 
-    /////AUTH//////
+        /////AUTH//////
     const [token, setToken] = useState(window.localStorage.getItem('_token'))
     const [loggedIn, setLoggedIn] = useState(token ? true : false)
     const [user, setUser] = useState(loggedIn ? JSON.parse(window.localStorage.getItem('_user')) : {id:0}) //Storing user details in local storage or cookie ???
@@ -23,6 +23,7 @@ const App = () => {
     const [infoDisplay, setInfoDisplay] = useState('about')
     const [popularityIndex, setPopularityIndex] = useState([])
     const [message, setMessage] = useState(null)
+    const [loading, setLoading] = useState(true)
 
 
 
@@ -122,14 +123,18 @@ const App = () => {
     useEffect(() => {
         getItems('landing')
         setCurrentItemId(0)
+        console.log('LOADED')
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000)
 
-        getItemsInterval = setInterval(() => {
-            getItems('landing')
-        }, 10000)
-        console.log('Items CompDidMount: ',items)
-        return () => {
-            clearInterval(getItemsInterval)
-        }
+        // getItemsInterval = setInterval(() => {
+        //     getItems('landing')
+        // }, 10000)
+        // console.log('Items CompDidMount: ',items)
+        // return () => {
+        //     clearInterval(getItemsInterval)
+        // }
     }, [])
 
     useEffect(() => {
@@ -159,9 +164,9 @@ const App = () => {
     // token && console.log('TOKEN ', token)
         // token && console.log('LOCAL STORAGE: ',window.localStorage.getItem('_token'))
     
-    console.log('USER: ', user)
+    // console.log('USER: ', user)
 
-    console.log('ITEMS: ', items)
+    // console.log('ITEMS: ', items)
     
     let messageDiv
     if(message === 'invalid'){
@@ -177,35 +182,37 @@ const App = () => {
             </div>
         )
     }
+    console.log('LOADING: ',loading)
+    const showOrHide = loading ? {visibility: 'hidden'} : {visibility: 'visible'}
 
     return (
-        <>
-        {<Nav setDisplay={setDisplay} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
-        
-        <div className="main-container">
+        <div style={showOrHide}>
+            {!loading && <Nav setDisplay={setDisplay} loggedIn={loggedIn} setLoggedIn={setLoggedIn} loading={loading} />}
             
-            <ContainerBtns setDisplayTypeBtn={setDisplayTypeBtn} display={display} loggedIn={loggedIn} />
+            <div className="main-container">
+                
+                <ContainerBtns setDisplayTypeBtn={setDisplayTypeBtn} display={display} loggedIn={loggedIn} />
 
-            <div className="main">
-                {
-                    display === 'show' && 
-                        <div id='previous' className="direction-btn direction-btn_left" onClick={changeIndex} >&lt;</div>
-                }
-                <div className="display">
-                    {display === 'logIn' && <Login getToken={getToken} messageDiv={messageDiv} setMessage={setMessage}/>}
-                    {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
-                    {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} user={user} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay} loggedIn={loggedIn} setDisplay={setDisplay}/>}
-                    {display === 'myBids' && <MyBidsList items={items} user={user} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
-                    {display === 'account' && <Edit user={user} token={token}/>}
+                <div className="main">
+                    {
+                        display === 'show' && 
+                            <div id='previous' className="direction-btn direction-btn_left" onClick={changeIndex} >&lt;</div>
+                    }
+                    <div className="display">
+                        {display === 'logIn' && <Login getToken={getToken} messageDiv={messageDiv} setMessage={setMessage}/>}
+                        {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
+                        {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} user={user} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay} loggedIn={loggedIn} setDisplay={setDisplay}/>}
+                        {display === 'myBids' && <MyBidsList items={items} user={user} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}
+                        {display === 'account' && <Edit user={user} token={token}/>}
+                    </div>
+                    {
+                        display === 'show' &&
+                            <div id='next' className="direction-btn direction-btn_right" onClick={changeIndex}>&gt;</div>
+                    }
+
                 </div>
-                {
-                    display === 'show' &&
-                        <div id='next' className="direction-btn direction-btn_right" onClick={changeIndex}>&gt;</div>
-                }
-
             </div>
         </div>
-        </>
     )
 }
 

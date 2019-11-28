@@ -3,6 +3,8 @@ import Countdown from 'react-countdown-now';
 
 import Bid from '../Bid/Bid.jsx';
 
+import formatNumber from '../../helpers/formatNumber';
+
 
 const Auction = props => {
 
@@ -77,8 +79,10 @@ const Auction = props => {
                 <i className="fas fa-hand-holding-heart donor-icon action-icon"></i>
             </div>
             <div className="donor-info">
-                <div>{item.item.doner.name}</div>
-                <a href={item.item.doner.link}>donor.org</a>
+                {/* <div>{item.item.doner.name}</div> */}
+                <div>{item.item.doner ? item.item.doner.name : 'Anonymous'}</div>
+                <a href={item.item.doner ? item.item.doner.link : null}>{item.item.doner ? item.item.doner.link.replace(/^(https?:\/\/)?(www\.)?/i, '') : null}</a>
+
             </div>
         </div>
         </>
@@ -113,7 +117,7 @@ const Auction = props => {
         <div className="card" style={{maxHeight: '100%', minHeight: '100%'}}>
             <img src={item.item.item_photo_path} className="card-img-top" alt="..."/>
             <div className="card-body" style={{padding: "0.5rem"}}>
-                <h5 className="card-title">{item.item.title}</h5>
+                <h3 className="card-title auction-item-title">{item.item.title}</h3>
                 <p className="card-text">{item.item.description}</p>
             </div>
             <ul className="list-group list-group-flush" >
@@ -123,7 +127,7 @@ const Auction = props => {
                 </div>
                 <div className="list-group-item" style={listGroupItemStyle}>
                     <i className="fas fa-dollar-sign auction-icon price-icon"></i>
-                    <div>{current_price} <strong>CZK</strong></div>
+                    <div>{formatNumber(current_price)} <strong>CZK</strong></div>
                 </div>
                 
                 {infoDisplay === 'bid' ? <Bid bidData={bidData} token={token} setInfoDisplay={setInfoDisplay} getItems={getItems}/> : infoDisplay === 'about' ? about : infoDisplay === 'bidSuccessMessage' ? bidSuccessMessage : bidFailedMessage}
