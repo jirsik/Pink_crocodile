@@ -22,6 +22,7 @@ const App = () => {
     const [display, setDisplay] = useState('show')
     const [infoDisplay, setInfoDisplay] = useState('about')
     const [popularityIndex, setPopularityIndex] = useState([])
+    const [message, setMessage] = useState(null)
 
 
 
@@ -30,6 +31,8 @@ const App = () => {
     ///////////////////////////////////////////////////////
 
     function getToken (type, input) {
+
+        console.log('LOGIN INPUT: ', input)
 
         fetch(`/api/auth/${type}`, {
             method: 'POST',
@@ -52,6 +55,8 @@ const App = () => {
                 window.localStorage.setItem('_user', JSON.stringify(response.user)) ///!!!!!!!!!!!!!!!!!!!!
                 setLoggedIn(true)
                 setDisplay('show')
+            }else{
+                setMessage('invalid')
             }
         })
         .catch((error) => {
@@ -75,7 +80,16 @@ const App = () => {
         .then((response) => response.json())
         .then((response) => {
             console.log('RESPONSE: ', response)
-            setItems(response)
+            // console.log('MAP: ', response.map(item => item.item.item_photo_path ? item.item.item_photo_path = item.item.item_photo_path : item.item.item_photo_path = '../img/logo.svg'))
+            // setItems(response.map(item => item.item.item_photo_path ? item.item.item_photo_path = item.item.item_photo_path : item.item.item_photo_path = '../img/logo.svg'))
+            setItems(response.map(object => {
+                if(object.item.item_photo_path){
+                    return object
+                }else{
+                    object.item.item_photo_path = './images/logo.png'
+                    return object
+                }
+            }))
         })
     }
 
@@ -111,7 +125,7 @@ const App = () => {
 
         getItemsInterval = setInterval(() => {
             getItems('landing')
-        }, 1000)
+        }, 10000)
         console.log('Items CompDidMount: ',items)
         return () => {
             clearInterval(getItemsInterval)
@@ -147,7 +161,22 @@ const App = () => {
     
     console.log('USER: ', user)
 
-    // console.log('ITEMS: ', items)
+    console.log('ITEMS: ', items)
+    
+    let messageDiv
+    if(message === 'invalid'){
+        messageDiv = (
+            <div style={{border: '1px solid rgba(214, 0, 110, 0.6)', width:'100%', padding:'0.5rem', margin:'0.5rem', color: 'red'}}>
+                <h6 style={{fontWeight: '600'}}>Log in credentials invalid, please try again</h6>
+            </div>
+        )
+    }else if(message ==='password-mismatch'){
+        messageDiv = (
+            <div style={{border: '1px solid rgba(214, 0, 110, 0.6)', width:'100%', padding:'0.5rem', margin:'0.5rem', color: 'red'}}>
+                <h6 style={{fontWeight: '600'}}>Passwords do not match, please try again</h6>
+            </div>
+        )
+    }
 
     return (
         <>
@@ -163,7 +192,7 @@ const App = () => {
                         <div id='previous' className="direction-btn direction-btn_left" onClick={changeIndex} >&lt;</div>
                 }
                 <div className="display">
-                    {display === 'logIn' && <Login getToken={getToken} />}
+                    {display === 'logIn' && <Login getToken={getToken} messageDiv={messageDiv} setMessage={setMessage}/>}
                     {display === 'list' && <ItemsList popularityIndex={popularityIndex} handleShow={handleShow}/>}
                     {display === 'show' && items.length > 0 && <Auction item={items[currentItemId]} user={user} token={token} getItems={getItems} infoDisplay={infoDisplay} setInfoDisplay={setInfoDisplay} loggedIn={loggedIn} setDisplay={setDisplay}/>}
                     {display === 'myBids' && <MyBidsList items={items} user={user} token={token} setCurrentItemId={setCurrentItemId} setDisplay={setDisplay} getItems={getItems} />}

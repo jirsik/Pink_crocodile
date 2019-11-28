@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 const Login = props => {
-    const {getToken} = {...props}
+    const {getToken, messageDiv, setMessage} = {...props}
     const [formInputValues, setFormInputValues] = useState({email: '', password: '', first_name: '', last_name: ''})
     const [register, setRegister] = useState(false)
 
@@ -20,8 +20,14 @@ const Login = props => {
    
     const handleRegisterButton = (e) => {
         e.preventDefault()
+        if(formInputValues.password === formInputValues.confirm_password){
+            getToken('register', JSON.stringify({...formInputValues}))
+        }else{
+            console.log('PASSWORD MISMATCH')
+            setMessage('password-mismatch')
+        }
 
-        getToken('register', JSON.stringify({...formInputValues}))
+
     }
 
     const handleRegisterShowButton = (e) => {
@@ -96,6 +102,7 @@ const Login = props => {
                 
                 
             </form>
+            {messageDiv}
             <div className="form-btn-container">
                 {!register ? <button className="btn-register btn-pink btn btn-main" onClick={handleRegisterShowButton}>Register</button> :  <button className="btn-register btn-warning btn btn-main" onClick={handleRegisterShowButton}>Back</button>}
                 {!register ? <button className="btn-success btn btn-main" onClick={handleLoginButton}>Login</button> : <button className="btn-primary btn btn-main" onClick={handleRegisterButton}>Submit</button>}

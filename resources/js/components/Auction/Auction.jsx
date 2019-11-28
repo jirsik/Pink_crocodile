@@ -8,7 +8,7 @@ const Auction = props => {
 
     ////////PROPS////////////
     
-    // console.log('AUCTION PROPS: ',props)
+    console.log('AUCTION PROPS: ',props)
     const {item, user, token, getItems, infoDisplay, setInfoDisplay, loggedIn, setDisplay} = {...props}
     
     let current_price
