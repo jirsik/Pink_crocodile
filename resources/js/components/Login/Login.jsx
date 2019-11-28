@@ -14,13 +14,14 @@ const Login = props => {
 
     const handleLoginButton = (e) => {
         e.preventDefault()
-
+        delete formInputValues.confirm_password
         getToken('login', JSON.stringify({...formInputValues}))
     }
    
     const handleRegisterButton = (e) => {
         e.preventDefault()
         if(formInputValues.password === formInputValues.confirm_password){
+            delete formInputValues.confirm_password
             getToken('register', JSON.stringify({...formInputValues}))
         }else{
             console.log('PASSWORD MISMATCH')
