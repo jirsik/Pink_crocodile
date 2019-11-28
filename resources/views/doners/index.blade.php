@@ -29,7 +29,7 @@
                                             <td>{{$doner->name}}</td>
                                             <td>{{$doner->contact_name}}</td>
                                             <td>
-                                                <img class="index_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="doner">
+                                                <img class="index_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="donor">
 
                                             </td>
                                             <td>

@@ -38,7 +38,7 @@
                                 <th scope="row">Photo:</th>
                                 {{-- need to be changed --}}
                                 <td>
-                                  <img class="show_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="doner">
+                                  <img class="show_img" src="{{asset($doner->doner_photo_path ?? 'uploads/doners/doner.png')}}" alt="donor">
                                 </td> 
                               </tr>
                             </tbody>
