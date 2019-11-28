@@ -81,7 +81,7 @@ const Auction = props => {
             <div className="donor-info">
                 {/* <div>{item.item.doner.name}</div> */}
                 <div>{item.item.doner ? item.item.doner.name : 'Anonymous'}</div>
-                <a href={item.item.doner ? item.item.doner.link : null}>{item.item.doner ? item.item.doner.link.replace(/^(https?:\/\/)?(www\.)?/i, '') : null}</a>
+                <a href={item.item.doner.link ? item.item.doner.link : null}>{item.item.doner.link ? item.item.doner.link.replace(/^(https?:\/\/)?(www\.)?/i, '') : null}</a>
 
             </div>
         </div>

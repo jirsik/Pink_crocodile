@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import Nav from './Nav/Nav.jsx';
 import Login from './Login/Login.jsx';
 import Auction from './Auction/Auction.jsx';
@@ -87,7 +88,7 @@ const App = props => {
                 if(object.item.item_photo_path){
                     return object
                 }else{
-                    object.item.item_photo_path = './images/logo.png'
+                    object.item.item_photo_path = './uploads/items/item.png'
                     return object
                 }
             }))
