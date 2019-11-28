@@ -10,6 +10,7 @@ const Bid = props => {
     const currentPrice = bidData.current_price
     const baseIncrement = calculateBidIncrement(currentPrice)
     const [price, setPrice] = useState(currentPrice + baseIncrement)
+    const [disabled, setDisabled] = useState(false)
 
     const handleOperator = (e) => {
         // console.log('PRICE CALC: ', price + baseIncrement)
@@ -26,6 +27,9 @@ const Bid = props => {
     ///////////////////////////////////////////////////////
 
     const submitBid = () => {
+        setDisabled(true)
+        console.log('DISABLED')
+        
         console.log('SUBMIT BID: ')
         fetch(`/api/auth/bid`, {
             method: 'POST',
@@ -44,8 +48,11 @@ const Bid = props => {
         .then((response) => {
             console.log('bid resonse ',response)
             if(response.submit === true){
+                getItems('landing')
                 setInfoDisplay('bidSuccessMessage')
                 setTimeout(() => {setInfoDisplay('about')}, 3000)
+                setTimeout(() => {setDisabled(false)}, 5000)
+                console.log('ENABLED')
             }else{
                 setInfoDisplay('bidFailedMessage')
                 setTimeout(() => {setInfoDisplay('about')}, 3000)
@@ -56,7 +63,7 @@ const Bid = props => {
         })
         
         //Refresh items
-        getItems('landing')
+        // getItems('landing')
     }
 
     //////////////////////////////////////////////////////
@@ -73,7 +80,7 @@ const Bid = props => {
                 <button className="btn btn-pink operator-btn"><i id="plus" className="fas fa-plus-circle" onClick={handleOperator}></i></button>
             </div>
             <div className="submit-btns">
-                <div className="btn btn-success" onClick={submitBid}>Submit Bid</div>
+                <button disabled={disabled} className="btn btn-success" onClick={submitBid}>Submit Bid</button>
             </div>
         </div>
     )
