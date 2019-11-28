@@ -35,19 +35,25 @@
                                     <tbody>
                                         <tr>
                                             <td>{{$auctionItem->item->title}}</td>
-                                            <td>{{$highestBid->price}}</td>
+                                            <td>{{$highestBid->price ?? ''}}</td>
                                             <td>{{$auctionItem->user ? $auctionItem->user->first_name . ' ' . $auctionItem->user->last_name : ''}}</td>
                                             <td>{{$auctionItem->user ? $auctionItem->user->email : ''}}</td>
-                                            <td>{{$auctionItem->winner_notified ? 'Yes' : 'Not yet'}}</td>
                                             <td>
-                                                @if ($auctionItem->payed)
+                                                @if ($auctionItem->user)
+                                                    {{$auctionItem->winner_notified ? 'Yes' : 'Not yet'}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($auctionItem->user)  
+                                                    @if ($auctionItem->payed)
                                                     Paid
-                                                @else
+                                                    @else
                                                     <form action="{{action('AdminController@confirm_payment', $auctionItem->id)}}"
-                                                        method="POST" class="d-inline" onsubmit="return confirm('Do you really want to confirm the payment?');">
-                                                        <button type="submit" class="btn btn-success">Confirm payment</button>
-                                                        @csrf     
-                                                    </form>
+                                                            method="POST" class="d-inline" onsubmit="return confirm('Do you really want to confirm the payment?');">
+                                                            <button type="submit" class="btn btn-success">Confirm payment</button>
+                                                            @csrf     
+                                                        </form>
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr> 
