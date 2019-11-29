@@ -104,7 +104,7 @@ const MyBid = props => {
                 <div className="list-group-item" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <i className="fas fa-clock auction-icon"></i>
                     {/* <div>{bid.created_at}</div> */}
-                    <Countdown date={new Date(item.ends_at)}/>
+                    {Date.now() < new Date(item.ends_at) ? <Countdown date={new Date(item.ends_at)}/> : 'Auction has ended'}
                 </div>
                 </>
             }
