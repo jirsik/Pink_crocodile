@@ -96,3 +96,9 @@ Route::get('/uploads/items/{file}', function() {
 
 Route::get('api/landing', 'api\ItemController@landing');
 
+//trigger for mail - instead of cron
+Route::get('/api/mail', function () {
+    Artisan::queue('check:endAuctions');
+    Artisan::queue('check:endEvents');
+    return 'ok';
+});
