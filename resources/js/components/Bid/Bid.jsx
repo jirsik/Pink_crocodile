@@ -50,12 +50,12 @@ const Bid = props => {
             if(response.submit === true){
                 getItems('landing')
                 setInfoDisplay('bidSuccessMessage')
-                setTimeout(() => {setInfoDisplay('bid')}, 3000)
+                setTimeout(() => {setInfoDisplay('about')}, 3000)
                 setTimeout(() => {setDisabled(false)}, 5000)
                 console.log('ENABLED')
             }else{
                 setInfoDisplay('bidFailedMessage')
-                setTimeout(() => {setInfoDisplay('about')}, 5000)
+                setTimeout(() => {setInfoDisplay('bid')}, 5000)
             }
         })
         .catch((error) => {
