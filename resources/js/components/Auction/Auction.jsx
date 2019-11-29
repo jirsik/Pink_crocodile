@@ -36,7 +36,7 @@ const Auction = props => {
     }
 
     //////////////////////////////////////////////////////
-                        // DISPLAY //
+                        // BTNS //
     ///////////////////////////////////////////////////////
 
     //ABOUT BTN
@@ -44,14 +44,14 @@ const Auction = props => {
         setInfoDisplay('about')
     }
     const aboutBtn = (
-        <a className="btn-primary btn" style={{color:'white'}} onClick={handleAboutBtn}>About</a>
+        <a className="btn-primary btn main-btn" style={{color:'white'}} onClick={handleAboutBtn}>About</a>
     )
     //BID BTN
     const handleBidBtn = () => {
         setInfoDisplay('bid')
     }
     const bidBtn = (
-        <a className="btn-success btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>
+        <a className="btn-success btn main-btn" style={{color:'white'}} onClick={handleBidBtn}>Bid Now</a>
     )
 
     //REGISTER BTN
@@ -59,13 +59,17 @@ const Auction = props => {
         setDisplay('logIn')
     }
     const registerBtn = (
-        <a className="btn-primary btn" style={{color:'white'}} onClick={handleRegisterBtn}>Log in to bid</a>
+        <a className="btn-primary btn main-btn" style={{color:'white'}} onClick={handleRegisterBtn}>Log in to bid</a>
     )
 
     //BID ENDED BTN
     const bidEndedBtn = (
         <a className="btn-danger btn" style={{color:'white'}}>Auction has ended</a>
     )
+
+    //////////////////////////////////////////////////////
+                        // DISPLAY //
+    ///////////////////////////////////////////////////////
 
     //ABOUT
     const about = (
@@ -82,7 +86,6 @@ const Auction = props => {
                 {/* <div>{item.item.doner.name}</div> */}
                 <div>{item.item.doner ? item.item.doner.name : 'Anonymous'}</div>
                 <a href={item.item.doner && item.item.doner.link ? item.item.doner.link : null}>{item.item.doner && item.item.doner.link ? item.item.doner.link.replace(/^(https?:\/\/)?(www\.)?/i, '') : null}</a>
-
             </div>
         </div>
         </>
