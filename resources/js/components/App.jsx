@@ -71,6 +71,8 @@ const App = props => {
     ///////////////////////////////////////////////////////
 
     const getItems = (url) => {
+        console.log('BID GET ITEMS');
+
         fetch(`/api/${url}`, {
             method: 'GET',
             headers: {
@@ -129,13 +131,13 @@ const App = props => {
             setLoading(false)
         }, 1000)
 
-        // getItemsInterval = setInterval(() => {
-        //     getItems('landing')
-        // }, 10000)
-        // console.log('Items CompDidMount: ',items)
-        // return () => {
-        //     clearInterval(getItemsInterval)
-        // }
+        getItemsInterval = setInterval(() => {
+            getItems('landing')
+        }, 10000)
+        console.log('Items CompDidMount: ',items)
+        return () => {
+            clearInterval(getItemsInterval)
+        }
     }, [])
 
     useEffect(() => {

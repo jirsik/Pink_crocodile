@@ -45,10 +45,10 @@ const Bid = props => {
             console.log('bid resonse ',response)
             if(response.submit === true){
                 setInfoDisplay('bidSuccessMessage')
-                setTimeout(() => {setInfoDisplay('about')}, 3000)
+                setTimeout(() => {setInfoDisplay('about')}, 5000)
             }else{
                 setInfoDisplay('bidFailedMessage')
-                setTimeout(() => {setInfoDisplay('about')}, 3000)
+                setTimeout(() => {setInfoDisplay('about')}, 5000)
             }
         })
         .catch((error) => {
@@ -56,7 +56,7 @@ const Bid = props => {
         })
         
         //Refresh items
-        getItems('landing')
+        getItems('landing');
     }
 
     //////////////////////////////////////////////////////

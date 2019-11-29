@@ -35,7 +35,10 @@
 
     @include('inc/navbar')
     @include('inc/messages')
-    @yield('admin')
+    <div class="mt-3"></div>
+    <div class="container">
+        @yield('admin')
+    </div>
     
 </body>
 </html>

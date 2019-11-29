@@ -1,3 +1,14 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background-image: url('/images/boy.jpg');
+    background-repeat: no-repeat;
+    background-size: cover
+}
+
 .show_img {
     width: 9rem;
 

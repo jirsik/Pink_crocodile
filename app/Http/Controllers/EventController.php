@@ -52,8 +52,11 @@ class EventController extends Controller
             'coordinator' => $request->input('coordinator'),
             'code' =>  '..',
         ]);
+        
         $event->code = 'event' . $event->id;
         $event->save();
+
+
         
         if ($items) {
             foreach ($items as $item_info) {
