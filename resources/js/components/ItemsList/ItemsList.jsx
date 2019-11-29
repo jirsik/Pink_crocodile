@@ -30,8 +30,7 @@ const ItemsList = props => {
     const upArrow = <i className="far fa-arrow-alt-circle-up popularity-icon" style={{color: 'green'}}></i>
     const downArrow = <i className="far fa-arrow-alt-circle-down popularity-icon" style={{color: 'red'}}></i>
     const staticArrow = <i className="fas fa-minus popularity-icon" style={{color: 'black'}}></i>
-
-
+    
     return (
         <div className="items-list">
             <div className="title-container">
@@ -44,7 +43,7 @@ const ItemsList = props => {
 
                 <div key={i} className="item">
                     <div className="item-title">{item.info.title}</div>
-                    <div className="item-time-list"><Countdown date={new Date(item.ends_at)}/></div>
+                    <div className="item-time-list" style={Date.now() > new Date(item.ends_at) ? {color: 'red'} : {color:'green'}}><Countdown date={new Date(item.ends_at)}/></div>
                     <div className="price-popularity-row">
                         <div className="price-popularity-row--icons">
                             <i className="fas fa-chart-line bids-icon"></i>

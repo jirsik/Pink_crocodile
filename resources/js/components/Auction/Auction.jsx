@@ -64,7 +64,7 @@ const Auction = props => {
 
     //BID ENDED BTN
     const bidEndedBtn = (
-        <a className="btn-danger btn" style={{color:'white'}}>Auction has ended</a>
+        <a className="btn-danger btn main-btn" style={{color:'white'}}>Auction has ended</a>
     )
 
     //////////////////////////////////////////////////////
