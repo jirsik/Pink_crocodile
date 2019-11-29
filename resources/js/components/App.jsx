@@ -128,11 +128,11 @@ const App = props => {
         console.log('LOADED')
         setTimeout(() => {
             setLoading(false)
-        }, 1000)
+        }, 500)
 
         getItemsInterval = setInterval(() => {
             getItems('landing')
-        }, 10000)
+        }, 1000)
         console.log('Items CompDidMount: ',items)
         return () => {
             clearInterval(getItemsInterval)

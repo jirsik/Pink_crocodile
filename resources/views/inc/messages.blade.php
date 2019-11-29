@@ -1,5 +1,4 @@
-<div class="row justify-content-center">
-    <div class="col-md-8">
+
         {{-- @if (count($errors)>0)
             @foreach ($errors->all() as $error)
                 <div class="alert alert-danger">
@@ -20,5 +19,3 @@
                 {{session('error')}}
             </div>
         @endif
-    </div>
-</div>

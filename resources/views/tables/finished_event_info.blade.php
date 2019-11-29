@@ -7,6 +7,19 @@
             @can('admin')
                 <h6>Ended at: {{$event->ends_at}}</h6>
                 @if (count($event->auctionItems)>0)
+                    <h6>Items:</h6>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Title of Item:</th>
+                                <th>Winning bid:</th>
+                                <th>Winner:</th>
+                                <th>Winner's email:</th>
+                                <th>Winner notified:</th>
+                                <th>Paid:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                     @foreach ($event->auctionItems as $auctionItem)
                         <?php 
                             $highestBid = null;
@@ -18,19 +31,7 @@
                                 }
                             }
                         ?>
-                        <h6>Items:</h6>
-                        <table class="table table-borderless">
-                            <thead>
-                                <tr>
-                                    <th>Title of Item:</th>
-                                    <th>Winning bid:</th>
-                                    <th>Winner:</th>
-                                    <th>Winner's email:</th>
-                                    <th>Winner notified:</th>
-                                    <th>Paid:</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        
                                 <tr>
                                     <td>{{$auctionItem->item->title}}</td>
                                     <td>{{$highestBid->price ?? ''}}</td>
@@ -55,12 +56,13 @@
                                         @endif
                                     </td>
                                 </tr> 
-                            </tbody>
-                        </table> 
-                    @endforeach  
+                            @endforeach  
+                        </tbody>
+                    </table> 
                 @endif
             @else
                 <p>You are not authrized to see this content. Please contact admin.</p>
+            @endif
             @endcan
             <a href="{{action('AdminController@finished_events')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
         </div>
