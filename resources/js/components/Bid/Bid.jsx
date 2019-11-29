@@ -55,7 +55,7 @@ const Bid = props => {
                 console.log('ENABLED')
             }else{
                 setInfoDisplay('bidFailedMessage')
-                setTimeout(() => {setInfoDisplay('about')}, 5000)
+                setTimeout(() => {setInfoDisplay('bid')}, 5000)
             }
         })
         .catch((error) => {
