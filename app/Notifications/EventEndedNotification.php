@@ -44,9 +44,9 @@ class EventEndedNotification extends Notification
         return (new MailMessage)
             ->subject('Pink Crocodile Event')
             ->greeting('Hello '. $notifiable->first_name . ' ')
-            ->line('Event named "' . $this->event->name . '" is over and here is short recapitulation of auction:')
-            ->line($this->items)
-            ->action('Check it out', config('app.url') . '/finished/events/' . $this->event->id)
+            ->line('Event named "' . $this->event->name . '" is over.')
+            // ->line($this->items)
+            ->action('Here is short recapitulation of auction:', config('app.url') . '/finished/events/' . $this->event->id)
             ->line('Have a great day!')
             ->salutation('The Pink Crocodile Team');
     }
