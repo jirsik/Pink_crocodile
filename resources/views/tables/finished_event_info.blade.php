@@ -48,10 +48,10 @@
                                             Paid
                                             @else
                                             <form action="{{action('AdminController@confirm_payment', $auctionItem->id)}}"
-                                                    method="POST" class="d-inline" onsubmit="return confirm('Do you really want to confirm the payment?');">
-                                                    <button type="submit" class="btn btn-success">Confirm payment</button>
-                                                    @csrf     
-                                                </form>
+                                                method="POST" class="d-inline" onsubmit="return confirm('Do you really want to confirm the payment?');">
+                                                <button type="submit" class="btn btn-success">Confirm payment</button>
+                                                @csrf     
+                                            </form>
                                             @endif
                                         @endif
                                     </td>
@@ -62,7 +62,6 @@
                 @endif
             @else
                 <p>You are not authrized to see this content. Please contact admin.</p>
-            @endif
             @endcan
             <a href="{{action('AdminController@finished_events')}}"><button type="button" class="btn btn-secondary">Go Back</button></a>
         </div>

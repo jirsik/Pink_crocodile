@@ -47,6 +47,7 @@ class AuctionWonNotification extends Notification
         return (new MailMessage)
             ->subject('Pink Crocodile Auction')
             ->greeting('Congratulations '. $notifiable->first_name . '!')
+            ->line('')
             ->line('You won the ' . $this->item_name . ' for ' . $this->price . ' ' . $this->item_currency)
             ->line('See Sam, Mike or Jan to pick up your item.')
             // ->action('Go to Paypal', url('/'))
