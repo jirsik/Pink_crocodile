@@ -13,19 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
 Route::get('/login', function () {
     return view('index');
 });
-// Route::post('/sign-in', 'api/LoginController@authenticate');
 Route::post('/sign-in', function () {
     return ['Login'];
 });
-
-
 Route::group([
     'prefix' => 'auth'
 ], function () {
@@ -39,9 +33,5 @@ Route::group([
         Route::post('bid', 'api\BidController@submitBid');
     });
 });
-
-//////////////////////////////////////////////////////////
-/////////////           TEST        /////////////////////
-/////////////////////////////////////////////////////////
 Route::get('/landing', 'api\ItemController@landing');
 Route::get('/myBids/{user}', 'api\BidController@myBids');
